@@ -1,6 +1,11 @@
-- MotionX name is taken, find a better one
+- MotionX name is taken, find a better one -.. "one to rule them all" ? :D
 - http://en.wikipedia.org/wiki/List_of_motion_and_gesture_file_formats
 - http://ruby-opengl.rubyforge.org/index.html
 - http://www.linux.org/docs/ldp/howto/Linux-Gamers-HOWTO/x130.html
 - Consider Skeleton
--
+- Generate Template code for Yaml reader/writer so that we can easily add functions if necessary.
+  (API stays the same only code gets generated)
+  Build a nifty DSL for this. S-Multi ?
+- Define a fixed API for the YAML interface.
+- VRML
+- Build Outputters for $formats but also for $database
