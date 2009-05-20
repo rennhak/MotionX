@@ -31,6 +31,7 @@
 #     contact: [ <NAME AND $ADDRESS> ]                                        # e.g. [ "Max Mueller", "mueller@danceschool.co.jp", "Warabi-za Co. Ltd.", ... ]
 #   capture:
 #     device: <CAPTURE DEVICE>                                                # e.g. Vicon WS Motion Capture System
+#     type: <CAPTURE DEVICE METHOD>                                           # e.g. "Magnetic" or.. "Infrared".. or..
 #     sensors: <NUMBER OF SENSORS USED>                                       # e.g. 33
 #     area: [ <APPROXIMATE CAPTURE AREA> ]                                    # e.g. [ 4, 4, "meter" ]
 #     placement: <EXPLANATION OF THE SENSOR PLACEMENT>                        # e.g. "One sensor was placed on the... . The next one called XYZ was placed on... "
