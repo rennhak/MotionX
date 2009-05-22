@@ -1,0 +1,733 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Title: /home/br/Tokyo_U/MotionX/documentation/big_picture/YAML_to_Ruby_Interface_Generator.dia
+%%Creator: Dia v0.96.1
+%%CreationDate: Fri May 22 15:12:54 2009
+%%For: br
+%%Orientation: Portrait
+%%Magnification: 1.0000
+%%BoundingBox: 0 0 1766 718
+%%BeginSetup
+%%EndSetup
+%%EndComments
+%%BeginProlog
+[ /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /space /exclam /quotedbl /numbersign /dollar /percent /ampersand /quoteright
+/parenleft /parenright /asterisk /plus /comma /hyphen /period /slash /zero /one
+/two /three /four /five /six /seven /eight /nine /colon /semicolon
+/less /equal /greater /question /at /A /B /C /D /E
+/F /G /H /I /J /K /L /M /N /O
+/P /Q /R /S /T /U /V /W /X /Y
+/Z /bracketleft /backslash /bracketright /asciicircum /underscore /quoteleft /a /b /c
+/d /e /f /g /h /i /j /k /l /m
+/n /o /p /q /r /s /t /u /v /w
+/x /y /z /braceleft /bar /braceright /asciitilde /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/space /exclamdown /cent /sterling /currency /yen /brokenbar /section /dieresis /copyright
+/ordfeminine /guillemotleft /logicalnot /hyphen /registered /macron /degree /plusminus /twosuperior /threesuperior
+/acute /mu /paragraph /periodcentered /cedilla /onesuperior /ordmasculine /guillemotright /onequarter /onehalf
+/threequarters /questiondown /Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla
+/Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis /Eth /Ntilde
+/Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply /Oslash /Ugrave /Uacute /Ucircumflex
+/Udieresis /Yacute /Thorn /germandbls /agrave /aacute /acircumflex /atilde /adieresis /aring
+/ae /ccedilla /egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis
+/eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide /oslash /ugrave
+/uacute /ucircumflex /udieresis /yacute /thorn /ydieresis] /isolatin1encoding exch def
+/cp {closepath} bind def
+/c {curveto} bind def
+/f {fill} bind def
+/a {arc} bind def
+/ef {eofill} bind def
+/ex {exch} bind def
+/gr {grestore} bind def
+/gs {gsave} bind def
+/sa {save} bind def
+/rs {restore} bind def
+/l {lineto} bind def
+/m {moveto} bind def
+/rm {rmoveto} bind def
+/n {newpath} bind def
+/s {stroke} bind def
+/sh {show} bind def
+/slc {setlinecap} bind def
+/slj {setlinejoin} bind def
+/slw {setlinewidth} bind def
+/srgb {setrgbcolor} bind def
+/rot {rotate} bind def
+/sc {scale} bind def
+/sd {setdash} bind def
+/ff {findfont} bind def
+/sf {setfont} bind def
+/scf {scalefont} bind def
+/sw {stringwidth pop} bind def
+/tr {translate} bind def
+
+/ellipsedict 8 dict def
+ellipsedict /mtrx matrix put
+/ellipse
+{ ellipsedict begin
+   /endangle exch def
+   /startangle exch def
+   /yrad exch def
+   /xrad exch def
+   /y exch def
+   /x exch def   /savematrix mtrx currentmatrix def
+   x y tr xrad yrad sc
+   0 0 1 startangle endangle arc
+   savematrix setmatrix
+   end
+} def
+
+/mergeprocs {
+dup length
+3 -1 roll
+dup
+length
+dup
+5 1 roll
+3 -1 roll
+add
+array cvx
+dup
+3 -1 roll
+0 exch
+putinterval
+dup
+4 2 roll
+putinterval
+} bind def
+/Times-Roman-latin1
+    /Times-Roman findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Times-Italic-latin1
+    /Times-Italic findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Times-Bold-latin1
+    /Times-Bold findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Times-BoldItalic-latin1
+    /Times-BoldItalic findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/AvantGarde-Book-latin1
+    /AvantGarde-Book findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/AvantGarde-BookOblique-latin1
+    /AvantGarde-BookOblique findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/AvantGarde-Demi-latin1
+    /AvantGarde-Demi findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/AvantGarde-DemiOblique-latin1
+    /AvantGarde-DemiOblique findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Bookman-Light-latin1
+    /Bookman-Light findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Bookman-LightItalic-latin1
+    /Bookman-LightItalic findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Bookman-Demi-latin1
+    /Bookman-Demi findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Bookman-DemiItalic-latin1
+    /Bookman-DemiItalic findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Courier-latin1
+    /Courier findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Courier-Oblique-latin1
+    /Courier-Oblique findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Courier-Bold-latin1
+    /Courier-Bold findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Courier-BoldOblique-latin1
+    /Courier-BoldOblique findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Helvetica-latin1
+    /Helvetica findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Helvetica-Oblique-latin1
+    /Helvetica-Oblique findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Helvetica-Bold-latin1
+    /Helvetica-Bold findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Helvetica-BoldOblique-latin1
+    /Helvetica-BoldOblique findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Helvetica-Narrow-latin1
+    /Helvetica-Narrow findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Helvetica-Narrow-Oblique-latin1
+    /Helvetica-Narrow-Oblique findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Helvetica-Narrow-Bold-latin1
+    /Helvetica-Narrow-Bold findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Helvetica-Narrow-BoldOblique-latin1
+    /Helvetica-Narrow-BoldOblique findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/NewCenturySchoolbook-Roman-latin1
+    /NewCenturySchoolbook-Roman findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/NewCenturySchoolbook-Italic-latin1
+    /NewCenturySchoolbook-Italic findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/NewCenturySchoolbook-Bold-latin1
+    /NewCenturySchoolbook-Bold findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/NewCenturySchoolbook-BoldItalic-latin1
+    /NewCenturySchoolbook-BoldItalic findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Palatino-Roman-latin1
+    /Palatino-Roman findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Palatino-Italic-latin1
+    /Palatino-Italic findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Palatino-Bold-latin1
+    /Palatino-Bold findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Palatino-BoldItalic-latin1
+    /Palatino-BoldItalic findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/Symbol-latin1
+    /Symbol findfont
+definefont pop
+/ZapfChancery-MediumItalic-latin1
+    /ZapfChancery-MediumItalic findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+/ZapfDingbats-latin1
+    /ZapfDingbats findfont
+    dup length dict begin
+	{1 index /FID ne {def} {pop pop} ifelse} forall
+	/Encoding isolatin1encoding def
+    currentdict end
+definefont pop
+28.346000 -28.346000 scale
+17.850000 -36.931200 translate
+%%EndProlog
+
+
+0.100000 slw
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n 4.225000 23.250000 m 4.725000 22.750000 l 12.150000 22.750000 l 12.150000 28.550000 l 11.650000 29.050000 l 4.225000 29.050000 l 4.225000 23.250000 l ef
+0.000000 0.000000 0.000000 srgb
+n 4.225000 23.250000 m 4.725000 22.750000 l 12.150000 22.750000 l 12.150000 28.550000 l 11.650000 29.050000 l 4.225000 29.050000 l 4.225000 23.250000 l cp s
+n 4.225000 23.250000 m 11.650000 23.250000 l s
+n 11.650000 23.250000 m 12.150000 22.750000 l s
+n 11.650000 23.250000 m 11.650000 29.050000 l s
+/Helvetica-latin1 ff 0.840000 scf sf
+(YAML) 4.725000 24.355000 m 
+dup sw 2.307500 exch sub 
+4 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(Specification) 4.725000 25.555000 m 
+dup sw 5.610000 exch sub 
+13 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(File of MotionX) 4.725000 26.755000 m 
+dup sw 6.425000 exch sub 
+15 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(Data format) 4.725000 27.955000 m 
+dup sw 5.282500 exch sub 
+11 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+0.050000 slw
+n 4.725000 24.770000 m 7.032500 24.770000 l s
+n 4.725000 25.970000 m 10.335000 25.970000 l s
+n 4.725000 27.170000 m 11.150000 27.170000 l s
+n 4.725000 28.370000 m 10.007500 28.370000 l s
+0.100000 slw
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n 31.587500 20.637500 m 32.087500 20.137500 l 44.387500 20.137500 l 44.387500 24.737500 l 43.887500 25.237500 l 31.587500 25.237500 l 31.587500 20.637500 l ef
+0.000000 0.000000 0.000000 srgb
+n 31.587500 20.637500 m 32.087500 20.137500 l 44.387500 20.137500 l 44.387500 24.737500 l 43.887500 25.237500 l 31.587500 25.237500 l 31.587500 20.637500 l cp s
+n 31.587500 20.637500 m 43.887500 20.637500 l s
+n 43.887500 20.637500 m 44.387500 20.137500 l s
+n 43.887500 20.637500 m 43.887500 25.237500 l s
+/Helvetica-latin1 ff 0.840000 scf sf
+(Auto-generated) 32.087500 21.742500 m 
+dup sw 6.877500 exch sub 
+14 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(Ruby ) 32.087500 22.942500 m 
+dup sw 2.472500 exch sub 
+5 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(Interface) 32.087500 24.142500 m 
+dup sw 3.912500 exch sub 
+9 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+0.050000 slw
+n 32.087500 22.157500 m 38.965000 22.157500 l s
+n 32.087500 23.357500 m 34.560000 23.357500 l s
+n 32.087500 24.557500 m 36.000000 24.557500 l s
+0.100000 slw
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n 16.650000 20.950000 m 17.150000 20.450000 l 26.345000 20.450000 l 26.345000 25.050000 l 25.845000 25.550000 l 16.650000 25.550000 l 16.650000 20.950000 l ef
+0.000000 0.000000 0.000000 srgb
+n 16.650000 20.950000 m 17.150000 20.450000 l 26.345000 20.450000 l 26.345000 25.050000 l 25.845000 25.550000 l 16.650000 25.550000 l 16.650000 20.950000 l cp s
+n 16.650000 20.950000 m 25.845000 20.950000 l s
+n 25.845000 20.950000 m 26.345000 20.450000 l s
+n 25.845000 20.950000 m 25.845000 25.550000 l s
+/Helvetica-latin1 ff 0.840000 scf sf
+(YAML Specification) 17.150000 22.055000 m 
+dup sw 8.195000 exch sub 
+18 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(Reader and Ruby) 17.150000 23.255000 m 
+dup sw 7.487500 exch sub 
+15 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(Interface Builder) 17.150000 24.455000 m 
+dup sw 7.282500 exch sub 
+17 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+0.050000 slw
+n 17.150000 22.470000 m 25.345000 22.470000 l s
+n 17.150000 23.670000 m 24.637500 23.670000 l s
+n 17.150000 24.870000 m 24.432500 24.870000 l s
+0.100000 slw
+[] 0 sd
+[] 0 sd
+0 slc
+0 slj
+0.100000 slw
+0 slc
+0 slj
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n 13.012500 23.668700 m 14.012500 23.668700 l 14.012500 23.168700 l 15.012500 24.168700 l 14.012500 25.168700 l 14.012500 24.668700 l 13.012500 24.668700 l 13.512500 24.168700 l ef
+0.000000 0.000000 0.000000 srgb
+n 13.012500 23.668700 m 14.012500 23.668700 l 14.012500 23.168700 l 15.012500 24.168700 l 14.012500 25.168700 l 14.012500 24.668700 l 13.012500 24.668700 l 13.512500 24.168700 l cp s
+0.010000 slw
+0 slc
+0 slj
+[] 0 sd
+n 13.012500 23.668700 m 14.012500 23.668700 l 14.012500 23.168700 l 15.012500 24.168700 l 14.012500 25.168700 l 14.012500 24.668700 l 13.012500 24.668700 l 13.512500 24.168700 l cp s
+0.100000 slw
+[] 0 sd
+[] 0 sd
+0 slc
+0 slj
+0.100000 slw
+0 slc
+0 slj
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n 28.127000 22.277000 m 29.127000 22.277000 l 29.127000 21.777000 l 30.127000 22.777000 l 29.127000 23.777000 l 29.127000 23.277000 l 28.127000 23.277000 l 28.627000 22.777000 l ef
+0.000000 0.000000 0.000000 srgb
+n 28.127000 22.277000 m 29.127000 22.277000 l 29.127000 21.777000 l 30.127000 22.777000 l 29.127000 23.777000 l 29.127000 23.277000 l 28.127000 23.277000 l 28.627000 22.777000 l cp s
+0.010000 slw
+0 slc
+0 slj
+[] 0 sd
+n 28.127000 22.277000 m 29.127000 22.277000 l 29.127000 21.777000 l 30.127000 22.777000 l 29.127000 23.777000 l 29.127000 23.277000 l 28.127000 23.277000 l 28.627000 22.777000 l cp s
+0.100000 slw
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n 13.700000 13.106300 m 19.687500 13.106300 l 20.287500 13.706300 l 20.287500 17.006300 l 13.700000 17.006300 l ef
+0.000000 0.000000 0.000000 srgb
+n 13.700000 13.106300 m 19.687500 13.106300 l 20.287500 13.706300 l 20.287500 17.006300 l 13.700000 17.006300 l cp s
+0.050000 slw
+n 19.687500 13.106300 m 19.687500 13.706300 l 20.287500 13.706300 l s
+/Helvetica-Oblique-latin1 ff 0.700000 scf sf
+(Invoked by) 14.050000 14.261300 m 
+dup sw 4.020000 exch sub 
+10 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(rake checkspec) 14.050000 15.261300 m 
+dup sw 5.687500 exch sub 
+14 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(rake genspec) 14.050000 16.261300 m 
+dup sw 4.922500 exch sub 
+12 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+0.100000 slw
+[] 0 sd
+[] 0 sd
+0 slc
+n 18.028100 17.048700 m 19.543805 19.968348 l s
+[] 0 sd
+0 slj
+0 slc
+n 19.716586 20.301171 m 19.264328 19.972595 l 19.543805 19.968348 l 19.708093 19.742219 l ef
+n 19.716586 20.301171 m 19.264328 19.972595 l 19.543805 19.968348 l 19.708093 19.742219 l cp s
+0.100000 slw
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n 16.493800 26.393700 m 16.993800 25.893700 l 29.613800 25.893700 l 29.613800 30.493700 l 29.113800 30.993700 l 16.493800 30.993700 l 16.493800 26.393700 l ef
+0.000000 0.000000 0.000000 srgb
+n 16.493800 26.393700 m 16.993800 25.893700 l 29.613800 25.893700 l 29.613800 30.493700 l 29.113800 30.993700 l 16.493800 30.993700 l 16.493800 26.393700 l cp s
+n 16.493800 26.393700 m 29.113800 26.393700 l s
+n 29.113800 26.393700 m 29.613800 25.893700 l s
+n 29.113800 26.393700 m 29.113800 30.993700 l s
+/Helvetica-latin1 ff 0.840000 scf sf
+(YAML Specification) 16.993800 27.498700 m 
+dup sw 8.195000 exch sub 
+18 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(Reader and XYZ Language) 16.993800 28.698700 m 
+dup sw 11.620000 exch sub 
+23 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(Interface Builder) 16.993800 29.898700 m 
+dup sw 7.282500 exch sub 
+17 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+0.050000 slw
+n 16.993800 27.913700 m 25.188800 27.913700 l s
+n 16.993800 29.113700 m 28.613800 29.113700 l s
+n 16.993800 30.313700 m 24.276300 30.313700 l s
+0.100000 slw
+[] 0 sd
+[] 0 sd
+0 slc
+0 slj
+0.100000 slw
+0 slc
+0 slj
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n 12.877000 27.152000 m 13.877000 27.152000 l 13.877000 26.652000 l 14.877000 27.652000 l 13.877000 28.652000 l 13.877000 28.152000 l 12.877000 28.152000 l 13.377000 27.652000 l ef
+0.000000 0.000000 0.000000 srgb
+n 12.877000 27.152000 m 13.877000 27.152000 l 13.877000 26.652000 l 14.877000 27.652000 l 13.877000 28.652000 l 13.877000 28.152000 l 12.877000 28.152000 l 13.377000 27.652000 l cp s
+0.010000 slw
+0 slc
+0 slj
+[] 0 sd
+n 12.877000 27.152000 m 13.877000 27.152000 l 13.877000 26.652000 l 14.877000 27.652000 l 13.877000 28.652000 l 13.877000 28.152000 l 12.877000 28.152000 l 13.377000 27.652000 l cp s
+0.100000 slw
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n 9.762500 33.981200 m 25.022500 33.981200 l 25.622500 34.581200 l 25.622500 36.881200 l 9.762500 36.881200 l ef
+0.000000 0.000000 0.000000 srgb
+n 9.762500 33.981200 m 25.022500 33.981200 l 25.622500 34.581200 l 25.622500 36.881200 l 9.762500 36.881200 l cp s
+0.050000 slw
+n 25.022500 33.981200 m 25.022500 34.581200 l 25.622500 34.581200 l s
+/Courier-Oblique-latin1 ff 0.700000 scf sf
+(Other Language binding for MotionX) 10.112500 35.136200 m 
+dup sw 14.960000 exch sub 
+34 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(format) 10.112500 36.136200 m 
+dup sw 2.640000 exch sub 
+6 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+0.100000 slw
+[] 0 sd
+[] 0 sd
+0 slc
+n 18.820600 33.944300 m 20.726983 31.431332 l s
+[] 0 sd
+0 slj
+0 slc
+n 20.953628 31.132573 m 20.850608 31.682015 l 20.726983 31.431332 l 20.452262 31.379823 l ef
+n 20.953628 31.132573 m 20.850608 31.682015 l 20.726983 31.431332 l 20.452262 31.379823 l cp s
+0.100000 slw
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n -0.675000 17.481300 m 10.185000 17.481300 l 10.785000 18.081300 l 10.785000 19.381300 l -0.675000 19.381300 l ef
+0.000000 0.000000 0.000000 srgb
+n -0.675000 17.481300 m 10.185000 17.481300 l 10.785000 18.081300 l 10.785000 19.381300 l -0.675000 19.381300 l cp s
+0.050000 slw
+n 10.185000 17.481300 m 10.185000 18.081300 l 10.785000 18.081300 l s
+/Courier-Oblique-latin1 ff 0.700000 scf sf
+(Maintained by Programmer) -0.325000 18.636300 m 
+dup sw 10.560000 exch sub 
+24 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+0.100000 slw
+[] 0 sd
+[] 0 sd
+0 slc
+n 5.428330 19.431000 m 6.479004 22.244459 l s
+[] 0 sd
+0 slj
+0 slc
+n 6.610196 22.595762 m 6.201071 22.214820 l 6.479004 22.244459 l 6.669475 22.039897 l ef
+n 6.610196 22.595762 m 6.201071 22.214820 l 6.479004 22.244459 l 6.669475 22.039897 l cp s
+/Helvetica-latin1 ff 2.100000 scf sf
+(...) 30.637500 28.213700 m 
+dup sw 2.085000 exch sub 
+3 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+0.100000 slw
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n 31.700000 16.856300 m 32.200000 16.356300 l 44.362500 16.356300 l 44.362500 19.756300 l 43.862500 20.256300 l 31.700000 20.256300 l 31.700000 16.856300 l ef
+0.000000 0.000000 0.000000 srgb
+n 31.700000 16.856300 m 32.200000 16.356300 l 44.362500 16.356300 l 44.362500 19.756300 l 43.862500 20.256300 l 31.700000 20.256300 l 31.700000 16.856300 l cp s
+n 31.700000 16.856300 m 43.862500 16.856300 l s
+n 43.862500 16.856300 m 44.362500 16.356300 l s
+n 43.862500 16.856300 m 43.862500 20.256300 l s
+/Helvetica-latin1 ff 0.840000 scf sf
+(Migration patches for) 32.200000 17.961300 m 
+dup sw 9.340000 exch sub 
+21 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(generated Ruby interface) 32.200000 19.161300 m 
+dup sw 11.162500 exch sub 
+24 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+0.050000 slw
+n 32.200000 18.376300 m 41.540000 18.376300 l s
+n 32.200000 19.576300 m 43.362500 19.576300 l s
+0.100000 slw
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n 26.825000 11.668800 m 42.085000 11.668800 l 42.685000 12.268800 l 42.685000 13.568800 l 26.825000 13.568800 l ef
+0.000000 0.000000 0.000000 srgb
+n 26.825000 11.668800 m 42.085000 11.668800 l 42.685000 12.268800 l 42.685000 13.568800 l 26.825000 13.568800 l cp s
+0.050000 slw
+n 42.085000 11.668800 m 42.085000 12.268800 l 42.685000 12.268800 l s
+/Courier-Oblique-latin1 ff 0.700000 scf sf
+(This should be avoided if possible) 27.175000 12.823800 m 
+dup sw 14.960000 exch sub 
+34 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+0.100000 slw
+[] 0 sd
+[] 0 sd
+0 slc
+n 35.264100 13.617500 m 36.413346 15.872380 l s
+[] 0 sd
+0 slj
+0 slc
+n 36.583631 16.206488 m 36.133846 15.874534 l 36.413346 15.872380 l 36.579323 15.647488 l ef
+n 36.583631 16.206488 m 36.133846 15.874534 l 36.413346 15.872380 l 36.579323 15.647488 l cp s
+0.100000 slw
+[] 0 sd
+[] 0 sd
+0 slc
+0 slj
+0.100000 slw
+0 slc
+0 slj
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n 3.350710 25.585700 m 2.350710 25.585700 l 2.350710 25.085700 l 1.350710 26.085700 l 2.350710 27.085700 l 2.350710 26.585700 l 3.350710 26.585700 l 2.850710 26.085700 l ef
+0.000000 0.000000 0.000000 srgb
+n 3.350710 25.585700 m 2.350710 25.585700 l 2.350710 25.085700 l 1.350710 26.085700 l 2.350710 27.085700 l 2.350710 26.585700 l 3.350710 26.585700 l 2.850710 26.085700 l cp s
+0.010000 slw
+0 slc
+0 slj
+[] 0 sd
+n 3.350710 25.585700 m 2.350710 25.585700 l 2.350710 25.085700 l 1.350710 26.085700 l 2.350710 27.085700 l 2.350710 26.585700 l 3.350710 26.585700 l 2.850710 26.085700 l cp s
+0.100000 slw
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n -11.470000 23.815000 m -10.970000 23.315000 l 0.605000 23.315000 l 0.605000 29.115000 l 0.105000 29.615000 l -11.470000 29.615000 l -11.470000 23.815000 l ef
+0.000000 0.000000 0.000000 srgb
+n -11.470000 23.815000 m -10.970000 23.315000 l 0.605000 23.315000 l 0.605000 29.115000 l 0.105000 29.615000 l -11.470000 29.615000 l -11.470000 23.815000 l cp s
+n -11.470000 23.815000 m 0.105000 23.815000 l s
+n 0.105000 23.815000 m 0.605000 23.315000 l s
+n 0.105000 23.815000 m 0.105000 29.615000 l s
+/Helvetica-latin1 ff 0.840000 scf sf
+(YAML Specification) -10.970000 24.920000 m 
+dup sw 8.195000 exch sub 
+18 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(Reader and Human) -10.970000 26.120000 m 
+dup sw 8.447500 exch sub 
+16 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(readable Text document) -10.970000 27.320000 m 
+dup sw 10.575000 exch sub 
+22 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(generator.) -10.970000 28.520000 m 
+dup sw 4.515000 exch sub 
+10 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+0.050000 slw
+n -10.970000 25.335000 m -2.775000 25.335000 l s
+n -10.970000 26.535000 m -2.522500 26.535000 l s
+n -10.970000 27.735000 m -0.395000 27.735000 l s
+n -10.970000 28.935000 m -6.455000 28.935000 l s
+0.100000 slw
+[] 0 sd
+1.000000 1.000000 1.000000 srgb
+n -17.800000 32.800000 m -7.350000 32.800000 l -6.750000 33.400000 l -6.750000 35.300000 l -17.800000 35.300000 l ef
+0.000000 0.000000 0.000000 srgb
+n -17.800000 32.800000 m -7.350000 32.800000 l -6.750000 33.400000 l -6.750000 35.300000 l -17.800000 35.300000 l cp s
+0.050000 slw
+n -7.350000 32.800000 m -7.350000 33.400000 l -6.750000 33.400000 l s
+/Courier-latin1 ff 0.560000 scf sf
+(Documentation in a very clear) -17.450000 33.852500 m 
+dup sw 10.150000 exch sub 
+29 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+(presentation for the Human.) -17.450000 34.652500 m 
+dup sw 9.450000 exch sub 
+27 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+0.100000 slw
+[] 0 sd
+[] 0 sd
+0 slc
+n -11.108100 32.751700 m -8.659145 30.026863 l s
+[] 0 sd
+0 slj
+0 slc
+n -8.408475 29.747954 m -8.556762 30.286945 l -8.659145 30.026863 l -8.928640 29.952719 l ef
+n -8.408475 29.747954 m -8.556762 30.286945 l -8.659145 30.026863 l -8.928640 29.952719 l cp s
+/Helvetica-latin1 ff 0.700000 scf sf
+1.000000 0.000000 0.000000 srgb
+(1.\)) 8.322451 21.877500 m 
+dup sw 0.982500 exch sub 
+3 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+/Helvetica-latin1 ff 0.700000 scf sf
+(2.\)) 16.572451 19.377500 m 
+dup sw 0.982500 exch sub 
+3 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+/Helvetica-latin1 ff 0.700000 scf sf
+(3.\)) -2.277549 22.227500 m 
+dup sw 0.982500 exch sub 
+3 div exch 0.0 exch 
+ gs 1 -1 sc ashow gr
+showpage

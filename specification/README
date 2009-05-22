@@ -5,3 +5,64 @@ Ruby interface. This should allow us to change the YAML specification if we ever
 
 Of course code generation is tricky and this might lead to trouble if you want to extend the
 interface. Consult the README in the top directory or the TROUBLESHOOTING for further guides.
+
+
+The Idea:
+---------
+
+We already work on YAML right? So we'll also use it to generate a interface. We could switch to
+something build with S-Multi and things but that's maybe overkill. If you want to build a YAML
+specfile that its probably more natural to use YAML for that too.
+
+
+Remarks:
+--------
+
+I absolutely have to code something in the output file of the YAML gen. Hm, ok. Please overload the
+methods in another file so that your changes don't get lost.
+
+
+Specification File:
+-------------------
+
+This specicifation file has two purposes. Firstly, it contains the information for the YAML parser
+of the structure, the naming and the description of the fields and values. This is used to
+generate a Ruby interface for the MotionX format but could also be used to generate all kind of
+other MotionX format interfaces in other languages using a simple YAML parser. Secondly, this
+specification contains a lot of descriptive information which is extracted and presented in a
+better human readable format.
+
+
+To generate the Ruby specficiation Ruby Rake (a Make-like buildtool) is used:
+-----------------------------------------------------------------------------
+
+  o rake checkspec      # => This will check the specification file for YAML syntax correctness and if it contains enough meta information.
+  o rake genspec        # => This will backup old Ruby spec interface files and generate new ones.
+
+
+
+Programmer flow for modifications:
+----------------------------------
+
+
+1         |- Think throughly which feature is missing and if it makes sense to add it 
+2         \______
+          | ..   |- Add the new structure to the Specification.yaml including good meta information.
+          | ..   |- Run, "rake checkspec"
+3         | ..   |____________________________________________
+          | ..   |- Error, recheck                            | Works, run "rake genspec"
+          | ..   |- In doubt "git revert.. "                  |------------------------------,
+          | ..   \- ( Bad_Day? ) ? ( Goto 4 ) : ( Goto 3 )    |- Error, recheck              |- Yay, write tests be happy.
+          | ..                                                \- Goto 4                      |- Commit and send me a message.
+          | ..                                                                               \- m(_._)m Thank you.
+4         | Work on some other TODO items ^^
+
+
+
+Hints:
+------
+
+  o Empty values get a "nil" value
+  o Frame time in one file may NOT vary, this is used for an integrety check.
+
+

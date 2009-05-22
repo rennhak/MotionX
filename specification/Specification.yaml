@@ -1,0 +1,91 @@
+####
+#
+# File: Specification.yaml
+#
+# YAML Specification file for the MotionX format.
+# (c) 2009, Bjoern Rennhak, The University of Tokyo
+#
+# This specicifation file has two purposes. Firstly, it contains the information for the YAML parser
+# of the structure, the naming and the description of the fields and values. This is used to
+# generate a Ruby interface for the MotionX format but could also be used to generate all kind of
+# other MotionX format interfaces in other languages using a simple YAML parser. Secondly, this
+# specification contains a lot of descriptive information which is extracted and presented in a
+# better human readable format.
+#
+# WARNING: This file MUST only contain valid YAML syntax.
+#
+########
+
+---
+
+
+
+####
+# metadata:
+#   motion:
+#     name: <DANCE NAME>                                                      # e.g. Aizu Ban Daisan ; BUT it could also be a simple motion ; e.g. "Walking two meters casually"
+#     type: <TYPE OF DANCE>                                                   # e.g. Japanese Folk Dance
+#     by: <PERSON WHO DANCED NAME>                                            # e.g. Max Mueller
+#     gender: <GENDER>                                                        # Either "Male" or "Female"
+#     capturedTime: <DATETIME>                                                # when the original .VPM was captured
+#     capturedBy: [ <NAMES AND GROUPS WHO CAPTURED THIS> ]                    # Array; e.g. [ "Warabi-za Co. Ltd., Japan", "Computer Vision Laboratory, Tokyo University, Japan",.. ]
+#     clothes: <COMMENT ABOUT THE CLOTHES USED>                               # e.g. traditional japanese xyz clothing
+#     utils: <COMMENT ABOUT THE UTILITIES USED>                               # e.g. Traditional Fan XY
+#     contact: [ <NAME AND $ADDRESS> ]                                        # e.g. [ "Max Mueller", "mueller@danceschool.co.jp", "Warabi-za Co. Ltd.", ... ]
+#   capture:
+#     device: <CAPTURE DEVICE>                                                # e.g. Vicon WS Motion Capture System
+#     type: <CAPTURE DEVICE METHOD>                                           # e.g. "Magnetic" or.. "Infrared".. or..
+#     sensors: <NUMBER OF SENSORS USED>                                       # e.g. 33
+#     area: [ <APPROXIMATE CAPTURE AREA> ]                                    # e.g. [ 4, 4, "meter" ]
+#     placement: <EXPLANATION OF THE SENSOR PLACEMENT>                        # e.g. "One sensor was placed on the... . The next one called XYZ was placed on... "
+#   sound:
+#   format:
+#     file:
+#       before: <FILE FORMAT BEFORE>                                          # e.g. VPM + VERSION
+#       now: <FILE FORMAT NOW>                                                # e.g. YAML + VERSION
+#     data:
+#       segments: [ <AN ORDERED LIST OF ALL SEGMENTS - 1...X>  ]              # Array; e.g. RFWT,...a
+#       category:                                                             # Array of groups (this is useful to determine the order of the sensors, Nr. 1 .. x
+#         [ [ <GROUP>, <UNIT> ], .... ]                                       # e.g. [ [ "XTRAN", "INCHES" ], ... ] etc.
+#       frames:
+#         perSecond: <FRAMES PER ONE SECOND>                                  # framespersecond = 1 / frametime ; e.g. 1 / 0.008333 = 120 frames/s
+#         time: <TIME OF RAW CAPTURE PER FRAME>                               # Raw frametime which was used during capture; e.g. 0.008333
+#         amount: <TOTAL AMOUNT OF FRAMES>                                    # e.g. Frames -> 2400
+#   maintenance:
+#     contact:   [ <NAME AND $ADDRESS> ]                                      # e.g. [ "Bjoern Rennhak", "br@cvl.iis.u-tokyo.ac.jp", "The University of Tokyo", ... ]
+#     convertedtime: <DATETIME>                                               # when it was converted from .VPM -> .YAML
+#     motionCaptureConverterVersion: <VERSION NR OF THIS SOFTWARE>            # e.g. 0.0.1a
+#
+#
+# sensorPlacementGraphicData:
+#   encoding: <ENCODING FORMAT>                                               # e.g. Base64
+#   subEncoding: <SUBENCODING OF FILE>                                        # e.g. "JPG"
+#   data: <DATA HERE>                                                         # ..
+#
+#
+# sound:
+#   type: <TYPE OF SOUND>                                                     # e.g. "Music" or "Voice" or "Noise...
+#   subType: [ <SUBTYPE OF SOUND> ]                                           # e.g. [ "$CATEGORY", "Japanese Folk Dance", "..." ]
+#   encoding: <ENCODING>                                                      # e.g. Base64
+#   subEncoding: <SUBENCODING>                                                # e.g. MP3
+#   title: <NAME OF THE MUSIC>                                                # e.g. Aizu Ban Daisan ...
+#   bpm: <VALUE OF BEATS PER MINUTE>                                          # e.g. 85
+#   speed: <VALUE OF SPEED ; RELATIVE>                                        # e.g. 1.0
+#   data: <DATA HERE>                                                         # ...
+#
+#
+# motion:
+#     <SENSOR>:                                                               # e.g. RFWT:
+#       <CATEGORY>: <VALUE>                                                   # e.g XTRAN: -4.864795
+#       <CATEGORY>: <VALUE>                                                   # ...
+#       ...
+#     <SEGMENT>:
+#       ...
+#
+#############
+
+
+
+
+
+
