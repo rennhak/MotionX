@@ -5,6 +5,7 @@ MotionX: Motion Capture Media Storage Format and Converter
 I called this package "Motion X" because there are too many formats out there.
 This tool is intended to provide means to convert between those formats easily.
 
+If you want to understand how this codebase works see documentation/Big_picture for details.
 
 
 FAQ
