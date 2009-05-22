@@ -1,0 +1,22 @@
+
+
+- Goal:
+    A interface to load a
+      o Skeletal model
+      o Sound file
+      o Video file
+      o Motion Capture file
+      o Graphic depicting the motion capture marker points
+      o Tons of metadata
+
+    then store it in a intermedia format (YAML) but also be able to dump it to various other
+    formats.
+    
+    Generally MotionX should be flexible to read all kinds of formats using a plugin interface, then
+    convert the data to it's internal YAML format for various data processing and experimentation in
+    e.g. Ruby. Finally then, it should let me convert the YAML data to a format of my choosing.
+    The plugins should support reading and writing.
+
+    Plugins should not only support standard formats but also allow direct interface to a Database.
+    e.g. $mocap data + $misc data -(to yaml)-> MotionX -(to $db via plugin)-> $DB (Storage)
+
