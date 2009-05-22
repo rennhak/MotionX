@@ -38,6 +38,10 @@ To generate the Ruby specficiation Ruby Rake (a Make-like buildtool) is used:
 
   o rake checkspec      # => This will check the specification file for YAML syntax correctness and if it contains enough meta information.
   o rake genspec        # => This will backup old Ruby spec interface files and generate new ones.
+  o rake tests          # => This will run RSpec tests to see if the generated code is ok or not. Do add tests here if you extended the XYAML spec.
+  
+  You should have have now a XYAML.rb file. The main file for the project cli/gui is
+  MotionX.rb.
 
 
 
@@ -47,7 +51,7 @@ Programmer flow for modifications:
 
 1         |- Think throughly which feature is missing and if it makes sense to add it 
 2         \______
-          | ..   |- Add the new structure to the Specification.yaml including good meta information.
+          | ..   |- Add the new structure to the XYAMLSpecification.yaml including good meta information.
           | ..   |- Run, "rake checkspec"
 3         | ..   |____________________________________________
           | ..   |- Error, recheck                            | Works, run "rake genspec"
