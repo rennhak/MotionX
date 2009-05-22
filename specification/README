@@ -1,0 +1,7 @@
+
+In this directory you can find the specification file which is used to generate the YAML interface
+for this project. The specification file itself is a internal Ruby DSL which is used to generate a
+Ruby interface. This should allow us to change the YAML specification if we ever need extend it.
+
+Of course code generation is tricky and this might lead to trouble if you want to extend the
+interface. Consult the README in the top directory or the TROUBLESHOOTING for further guides.
