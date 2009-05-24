@@ -1,4 +1,15 @@
 
+Testing
+-------
+
+All testing is done via Rakefile from the MotionX/src/ directory, *not* from the testing directory.
+Testing is invoked by e.g. 
+
+  % spec --format specdoc $SomeFile_spec.rb
+
+
+
+
 Source Structure:
 -----------------
 

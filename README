@@ -8,6 +8,14 @@ This tool is intended to provide means to convert between those formats easily.
 If you want to understand how this codebase works see documentation/Big_picture for details.
 
 
+
+Dependencies
+------------
+
+o gem install rspec
+o yaml
+
+
 FAQ
 ---
 
