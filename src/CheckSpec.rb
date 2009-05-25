@@ -77,7 +77,6 @@ class CheckSpec
   end
 
 
-
   #### === Meta Magic
 
   attr_reader :file

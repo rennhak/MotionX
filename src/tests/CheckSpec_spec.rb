@@ -28,8 +28,12 @@ describe CheckSpec do
     checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).loadLibrary!( "yaml" )
   end
 
-  it "should validate YAML standard" do
+  it "should validate XYAML Specification as YAML standard" do
     checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).valid?
+  end
+
+  it "should have valid top level categories in the XYAML Spec. file" do
+    checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).
   end
 
 
