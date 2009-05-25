@@ -1,0 +1,73 @@
+purpose    : Logging Configuration for the MotionX Project.
+description: This logging configuration provided as yaml format defines multiple logging levels used for the MotionX project.
+say        : Start
+
+---
+# *** Start of YAML Configuation file ***
+log4r_config:
+
+  # Pre-Config definitions
+  pre_config:
+    custom_levels:
+      - DEBUG
+      - INFO
+      - WARN
+      - ERROR
+      - FATAL
+
+    global:
+      level: DEBUG
+
+    root  :
+      level: DEBUG
+
+  # Logger definitions
+  loggers:
+    - name      : MotionX
+      level     : DEBUG
+      additive  : 'false'
+      trace     : 'false'
+      outputters:
+        - logfile 
+#        - stderr
+#        - email
+
+  # Definition of Outputter and Formatters 
+  outputters:
+    - type     : StderrOutputter
+      name     : stderr 
+      level    : DEBUG
+      only_at  :
+        - INFO
+        - WARN
+        - FATAL
+      formatter:
+        date_pattern: '%d.%m.%Y %H:%M:%S'
+        pattern     : '%d | %l: %m '
+        type        : PatternFormatter
+
+    - type        : DateFileOutputter
+      name        : logfile
+      level       : DEBUG
+      date_pattern: '%d.%m.%Y'
+      trunc       : 'false'
+      dirname     : "#{HOME}/logs"
+      formatter   :
+        date_pattern: '%d.%m.%Y %H:%M:%S'
+        pattern     : '%d %l: %m'
+        type        : PatternFormatter
+
+#    - type        : EmailOutputter
+#      name        : email
+#      level       : FATAL
+#      server      : localhost
+#      subject     : 'Message from #{PN}:'
+#      from        : jukebox@localhost
+#      to          : bj@rennhak.de
+#      immediate_at: FATAL
+#      formatfirst : 'true'
+#      formatter   :
+#        date_pattern: '%d.%m.%Y %H:%M:%S'
+#        pattern     : '%d | %l: %m'
+#        type        : PatternFormatter
+#

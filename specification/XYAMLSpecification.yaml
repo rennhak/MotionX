@@ -43,7 +43,7 @@ metadata:
     data:
       segments: [ "AN ORDERED LIST OF ALL SEGMENTS - 1...X"  ]              # Array; e.g. RFWT,...a
       category:                                                             # Array of groups (this is useful to determine the order of the sensors, Nr. 1 .. x
-        [ [ "GROUP", "UNIT" ], .... ]                                       # e.g. [ [ "XTRAN", "INCHES" ], ... ] etc.
+        [ [ "GROUP", "UNIT" ], ... ]                                       # e.g. [ [ "XTRAN", "INCHES" ], ... ] etc.
       frames:
         perSecond: "FRAMES PER ONE SECOND"                                  # framespersecond = 1 / frametime ; e.g. 1 / 0.008333 = 120 frames/s
         time: "TIME OF RAW CAPTURE PER FRAME"                               # Raw frametime which was used during capture; e.g. 0.008333

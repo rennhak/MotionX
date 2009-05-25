@@ -1,0 +1,3 @@
+--- 
+#WinampStreamURL: http://www.winamp.com/media/radio
+#WinampStreamHpricotXPath: div[@class=box_body]//strong//a
