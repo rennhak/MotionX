@@ -29,7 +29,7 @@ class CheckSpec
   # @param path Needs a string which describes the location (path) where the spec file is. (w/o trailing slash)
   # @param filename Needs a string which is the filename of the XYAML spec file. (w/o slashes)
   # @param libraries Add here the names of the require libraries you want to add. Spaces speparate the entries.
-  def initialize path, filename, libraries = %[yaml]
+  def initialize path, filename, libraries = %w[yaml ostruct Extensions.rb]
 
     @file       = "#{path}/#{filename}"
     @libraries  = libraries
@@ -39,14 +39,25 @@ class CheckSpec
     self.readable?
 
     # Load all libraries as defined in 'libraries'
-    @libraries.each do |lib|
-      loadLibrary! lib
-    end
+    @libraries.each { |lib| loadLibrary! lib }
 
+    # Load the XYAML Spec file and map it into a Ostruct
+    data = load!
+  
+    p data.methods
+
+    @template = OpenStruct.new( data ).remap!
+    
   end
 
 
   #### === Helper Methods
+
+  # == Loads the XYAML Specification file
+  def load! file = @file
+    File.open( @file, "r" ) { |file| YAML.load( file ) }                 # return proc which is in this case a hash
+  end
+
 
   # = Checks if the XYAML Spec file exists.
   def exist? file = @file
@@ -71,6 +82,8 @@ class CheckSpec
     # end
   end
 
+  
+
   # = Checks wheather the XYAML Specification file contains only valid YAML.
   def valid? file = @file
       File.open( @file ) { |f| YAML::load( f ) }
@@ -86,7 +99,7 @@ end
 
 # = Direct invocation, not loaded as a library
 if __FILE__ == $0
-  # c = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).loadLibraries!
+  c = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" )
 end
 
 

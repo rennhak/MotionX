@@ -28,13 +28,23 @@ describe CheckSpec do
     checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).loadLibrary!( "yaml" )
   end
 
+  it "should be able to require the OSTUCT library" do
+    checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).loadLibrary!( "ostruct" )
+  end
+
+  it "should be able to require the Extensions.rb hacks" do
+    checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).loadLibrary!( "Extensions.rb" )
+  end
+
   it "should validate XYAML Specification as YAML standard" do
     checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).valid?
   end
 
-  it "should have valid top level categories in the XYAML Spec. file" do
-    checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).
-  end
+
+
+  #it "should have valid top level categories in the XYAML Spec. file" do
+  #  checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).
+  #end
 
 
 end # describe

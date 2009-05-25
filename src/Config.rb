@@ -12,15 +12,6 @@ require 'ostruct'
 
 
 
-# Override some default YAML Behavior and create OpenStructs instead of Hashes when called
-# http://rubyquiz.com/quiz81.html
-class << YAML::DefaultResolver
-    alias_method :_node_import, :node_import
-    def node_import(node)
-        o = _node_import(node)
-        o.is_a?(Hash) ? OpenStruct.new(o) : o
-    end
-end
 
 # Loads / Stores given config 
 class Config
