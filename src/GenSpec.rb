@@ -29,7 +29,7 @@ class GenSpec
   # @param path Needs a string which describes the location (path) where the spec file is. (w/o trailing slash)
   # @param filename Needs a string which is the filename of the XYAML spec file. (w/o slashes)
   # @param libraries Add here the names of the require libraries you want to add. Spaces speparate the entries.
-  def initialize path, filename, targetPath = ".", targetFilenameWithExtension = "XYAML.rb", libraries = %w[yaml ostruct Extensions.rb]
+  def initialize path, filename, targetPath = ".", targetFilenameWithExtension = "XYAML.rb", libraries = %w[yaml ostruct erb Extensions.rb]
 
     @file       = "#{path}/#{filename}"
     @libraries  = libraries
@@ -53,7 +53,7 @@ class GenSpec
   def output path, file
     #begin
       extension = file.to_s.split(".").pop
-      call = "generate#{extension.to_s.upcase}( '#{path}', '#{File.basename( file, '.'+extension.to_s ) }' )"
+      call = "generate#{extension.to_s.upcase}( '#{path}', '#{File.basename( file, '.#{extension.to_s}' )}' )"
       eval( call.to_s )
     #rescue
     #  raise ArgumentError, "The provided filename contains an invalid extension which is either spelled wrong or not supported."
@@ -61,17 +61,25 @@ class GenSpec
   end
 
   # = The generateRB function (d'oh) of course pumps out a Ruby Class file to a provided filename
+  # @param path Needs a sane path without trailing slash (string)
   # @param name Needs a string without the desired extension, e.g. "XYAML" will output "XYAML.rb"
-  def generateRB path, name
+  # @param templatePath Needs a string which holds the path to the Ruby template without trailing slash
+  # @param templateFile Needs a string which holds the filename to the Ruby template (ext: .erb)
+  def generateRB path, name, templatePath = "template", templateFile = "Ruby.erb"
     target    = "#{path}/#{name}"
     rbFile    = target + ".rb"
+    template  = templatePath + "/" + templateFile
 
-    raise ArgumentError, "Not implemented yet error."
-    # FIXME
+    p template
+    # FIXME: Haml?
+    erb       = ERB.new( template )
+    puts erb.to_yaml
+
   end
 
 
   # = The generateC function (d'oh) of course pumps out a C file (.c) to a provided filename (and also a .h)
+  # @param path Needs a sane path without trailing slash (string)
   # @param name Needs a string without the desired extension, e.g. "XYAML" will output "XYAML.c" and "XYAML.h"
   def generateC path, name
     target    = "#{path}/#{name}"

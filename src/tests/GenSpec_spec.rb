@@ -24,6 +24,10 @@ describe GenSpec do
     genSpec = GenSpec.new( "../specification", "XYAMLSpecification.yaml" ).loadLibrary!( "ostruct" )
   end
 
+  it "should be able to require the ERB library" do
+    genSpec = GenSpec.new( "../specification", "XYAMLSpecification.yaml" ).loadLibrary!( "erb" )
+  end
+
   it "should be able to require the Extensions.rb hacks" do
     genSpec = GenSpec.new( "../specification", "XYAMLSpecification.yaml" ).loadLibrary!( "Extensions.rb" )
   end
@@ -35,6 +39,14 @@ describe GenSpec do
       raise ArgumentError, "Don't have a ,generate#{extension.to_s.upcase}' method" unless genSpec.methods.include?( "generate#{extension.to_s.upcase}" )
     end
   end
+
+  it "should find a Ruby template -?-> template/Ruby.erb" do
+    raise ArgumentError, "Couldn't find a Ruby.erb template in template/.. " unless File.exist?( "templates/Ruby.erb" )
+  end
+
+
+  # FIXME: Missing test for "GenSpec.output"
+
 
 end # describe
 
