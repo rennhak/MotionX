@@ -66,6 +66,11 @@ class CheckSpec
     raise ArgumentError, "XYAML Specification file not readable." unless File.readable?( file )
   end
 
+  # = Returns the version of the XYAML Spec file
+  def version?
+    @data.version
+  end
+
   # = Loads a given Library, e.g. 'yaml'
   # @warning Requires without check. This method needs repairing.
   def loadLibrary! name
@@ -78,6 +83,42 @@ class CheckSpec
     #   raise ArgumentError, "Can't load the #{name.to_s} library. Please install it, e.g. via gem." unless require "#{name.to_s}"
     # end
   end
+
+  # = Extracts the given section from the XYAML Spec file and returns them as an Array
+  # @param name Expects a valid section and returns the subsections, e.g. name = "metadata" returns
+  # "["motion", "sound", "capture", "maintenance"]"
+  # This is a helper function for getAllXYAMLSections
+  def getXYAMLSection name
+    return nil if( eval("@data.#{name.to_s}.class").to_s == "String" )
+    value = ( eval("@data.#{name.to_s}.methods").to_a \
+        - YAML.load( "" ).methods \
+        - %w[marshal_dump method_missing table marshal_load delete_field new_ostruct_member] ).collect! { |m| m unless m =~ %r{=}i  }.compact!
+  end
+
+  # = Extracts the sections from the XYAML Spec file and returns them as an Array
+  # FIXME: Construct a proper recursion to capture all sections with a proper test
+  def getXYAMLSections
+    sections = []
+
+    # e.g. metadata, ...
+    top = ( @data.methods \
+            - YAML.load( "" ).methods \
+            - %w[marshal_dump method_missing table marshal_load delete_field new_ostruct_member] ).collect! { |m| m unless m =~ %r{=}i  }.compact!
+
+    sections << top
+
+    # get all subsections and so on - FIXME
+    top.each do |s|
+      subset = ( getXYAMLSection( s ) ).to_a.collect { |n| "#{s.to_s}.#{n.to_s}" }
+      subset.each do |ss|
+        sections << ( getXYAMLSection( ss ) ).to_a.collect { |nn| "#{ss.to_s}.#{nn.to_s}" }
+      end
+      sections << subset
+    end
+
+    sections.flatten
+  end
+
 
   # = Checks wheather a given name is a existing section of the XYAML spec
   # @returns Boolean, true if it exists false if not.
@@ -92,14 +133,14 @@ class CheckSpec
 
 
   #### === Meta Magic
-  attr_reader :file
-
+  attr_reader :file, :data
 end
 
 
 # = Direct invocation, not loaded as a library
 if __FILE__ == $0
-  c = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" )
+  #c = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" )
+  #p c.getXYAMLSections
 end
 
 

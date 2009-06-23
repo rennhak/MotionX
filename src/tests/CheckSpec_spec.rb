@@ -13,16 +13,59 @@
 require 'CheckSpec.rb'
 
 
-# CheckSpec expects a certain set of sections in the XYAML Spec file.
+# You need to match this version number to the XYAML Spec file version number, otherwise tests WILL fail.
+@@version = "0.0.1"
+
+# = CheckSpec expects a certain set of sections in the XYAML Spec file.
 # This is necessary to give plugin developers a stable development environment they can use to
 # work on. If you change the XYAML spec file at section level you NEED to change it here to otherwise the
-# tests *WILL* break.
+# tests *WILL* break. With this we want to ensure test spec file and spec file match in case you
+# plan to do something fancy.
 @@sections = %w[
                   version
+                  
                   metadata
+                  
+                  metadata.motion
+                  metadata.motion.name
+                  metadata.motion.category
+                  metadata.motion.by
+                  metadata.motion.gender
+                  metadata.motion.capturedTime
+                  metadata.motion.capturedBy
+                  metadata.motion.clothes
+                  metadata.motion.utils
+                  metadata.motion.contact
+                  
+                  metadata.capture
+                  metadata.capture.device
+                  metadata.capture.way
+                  metadata.capture.sensors
+                  metadata.capture.area
+                  metadata.capture.placement
+                  
+                  metadata.sound
+                  metadata.sound.format
+                  metadata.sound.format.file
+                  metadata.sound.format.file.before
+                  metadata.sound.format.file.now
+                  metadata.sound.format.data
+                  metadata.sound.format.data.segments
+                  metadata.sound.format.data.category
+                  metadata.sound.format.data.frames
+                  metadata.sound.format.data.frames.perSecond
+                  metadata.sound.format.data.frames.time
+                  metadata.sound.format.data.frames.amount
+                  
+                  metadata.maintenance
+                  metadata.maintenance.contact
+                  metadata.maintenance.convertedtime
+                  metadata.maintenance.motionCaptureConverterVersion
+                  
                   motion
+                  motion.mySensor
+                  motion.mySensor.myCategory
                ]
-
 
 
 # Lets describe what the object can and can't do.
@@ -53,6 +96,11 @@ describe CheckSpec do
     checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).valid?
   end
 
+  it "should have matching version between RSpec Tests and XYAML Spec" do
+    checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" )
+    raise ArgumentError, "This test file (CheckSpec_spec.rb) is for XYAML Spec file (Version: #{@@version}) but the supplied XYAML Spec file is different (Version: #{checkSpec.version?})." unless ( @@version == checkSpec.version? )
+  end
+
   # To ensure that driver developers have a certain fixed interface we will check the XYAML spec file for certain sections.
   @@sections.each do |section|
     it "should find a ,#{section.to_s}' section in the Specification XYAML specification file" do
@@ -60,15 +108,17 @@ describe CheckSpec do
     end
   end
 
+  # FIXME - recursion doesn't work properly, we are missing some sections
+  # it "should have matching sections between test spec file and spec file" do
+  #   checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" )
+  #   unless( @@sections == checkSpec.getXYAMLSections )
+  #     d1 = @@sections - checkSpec.getXYAMLSections
+  #     d2 = checkSpec.getXYAMLSections - @@sections
+  #     raise ArgumentError, "This test file (CheckSpec_spec.rb) has different (missing?) @@sections than contained in the XYAML Spec file
+  #                           \n(\n\t(\n\t\t#{d1.join(",\n\t\t")}),\n\t(#{d2.join(",\n\t\t")}\n\t)\n\n)"
+  #   end
+  # end
 
-  #it "should find a ,motion' section in the Specification XYAML specification file" do
-  #  checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).section?( "motion" )
-  #end
-
-
-  #it "should have valid top level categories in the XYAML Spec. file" do
-  #  checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).
-  #end
 
 
 end # describe
