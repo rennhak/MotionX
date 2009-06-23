@@ -13,6 +13,15 @@
 # better human readable format.
 #
 # WARNING: This file MUST only contain valid YAML syntax.
+#             o Don't use Ruby Keywords for the definition here. We call values like
+#             metadata.motion.name etc. so it is a tad ambigious if you e.g. use a "type" field.
+#
+#             Not allowed:
+#               o class
+#               o type
+#               o method
+#
+#             As you can see we gain convenience but lose exactness.
 #
 ########
 
@@ -31,54 +40,47 @@ metadata:
     contact: [ "NAME AND $ADDRESS" ]                                        # e.g. [ "Max Mueller", "mueller@danceschool.co.jp", "Warabi-za Co. Ltd.", ... ]
   capture:
     device: "CAPTURE DEVICE"                                                # e.g. Vicon WS Motion Capture System
-    type: "CAPTURE DEVICE METHOD"                                           # e.g. "Magnetic" or.. "Infrared".. or..
+    way: "CAPTURE DEVICE METHOD"                                            # e.g. "Magnetic" or.. "Infrared".. or..
     sensors: "NUMBER OF SENSORS USED"                                       # e.g. 33
     area: [ "APPROXIMATE CAPTURE AREA" ]                                    # e.g. [ 4, 4, "meter" ]
     placement: "EXPLANATION OF THE SENSOR PLACEMENT"                        # e.g. "One sensor was placed on the... . The next one called XYZ was placed on... "
   sound:
-  format:
-    file:
-      before: "FILE FORMAT BEFORE"                                          # e.g. VPM + VERSION
-      now: "FILE FORMAT NOW"                                                # e.g. YAML + VERSION
-    data:
-      segments: [ "AN ORDERED LIST OF ALL SEGMENTS - 1...X"  ]              # Array; e.g. RFWT,...a
-      category:                                                             # Array of groups (this is useful to determine the order of the sensors, Nr. 1 .. x
-        [ [ "GROUP", "UNIT" ], ... ]                                       # e.g. [ [ "XTRAN", "INCHES" ], ... ] etc.
-      frames:
-        perSecond: "FRAMES PER ONE SECOND"                                  # framespersecond = 1 / frametime ; e.g. 1 / 0.008333 = 120 frames/s
-        time: "TIME OF RAW CAPTURE PER FRAME"                               # Raw frametime which was used during capture; e.g. 0.008333
-        amount: "TOTAL AMOUNT OF FRAMES"                                    # e.g. Frames -" 2400
+    format:
+      file:
+        before: "FILE FORMAT BEFORE"                                          # e.g. VPM + VERSION
+        now: "FILE FORMAT NOW"                                                # e.g. YAML + VERSION
+      data:
+        segments: [ "AN ORDERED LIST OF ALL SEGMENTS - 1...X"  ]              # Array; e.g. RFWT,...a
+        category:                                                             # Array of groups (this is useful to determine the order of the sensors, Nr. 1 .. x
+          [ [ "GROUP", "UNIT" ], .... ]                                       # e.g. [ [ "XTRAN", "INCHES" ], ... ] etc.
+        frames:
+          perSecond: "FRAMES PER ONE SECOND"                                  # framespersecond = 1 / frametime ; e.g. 1 / 0.008333 = 120 frames/s
+          time: "TIME OF RAW CAPTURE PER FRAME"                               # Raw frametime which was used during capture; e.g. 0.008333
+          amount: "TOTAL AMOUNT OF FRAMES"                                    # e.g. Frames -" 2400
   maintenance:
     contact:   [ "NAME AND $ADDRESS" ]                                      # e.g. [ "Bjoern Rennhak", "br@cvl.iis.u-tokyo.ac.jp", "The University of Tokyo", ... ]
     convertedtime: "DATETIME"                                               # when it was converted from .VPM -" .YAML
     motionCaptureConverterVersion: "VERSION NR OF THIS SOFTWARE"            # e.g. 0.0.1a
 
-
-sensorPlacementGraphicData:
-  encoding: "ENCODING FORMAT"                                               # e.g. Base64
-  subEncoding: "SUBENCODING OF FILE"                                        # e.g. "JPG"
-  data: "DATA HERE"                                                         # ..
-
-
-sound:
-  type: "TYPE OF SOUND"                                                     # e.g. "Music" or "Voice" or "Noise...
-  subType: [ "SUBTYPE OF SOUND" ]                                           # e.g. [ "$CATEGORY", "Japanese Folk Dance", "..." ]
-  encoding: "ENCODING"                                                      # e.g. Base64
-  subEncoding: "SUBENCODING"                                                # e.g. MP3
-  title: "NAME OF THE MUSIC"                                                # e.g. Aizu Ban Daisan ...
-  bpm: "VALUE OF BEATS PER MINUTE"                                          # e.g. 85
-  speed: "VALUE OF SPEED ; RELATIVE"                                        # e.g. 1.0
-  data: "DATA HERE"                                                         # ...
-
+#sensorPlacementGraphicData:
+#  encoding: "ENCODING FORMAT"                                               # e.g. Base64
+#  subEncoding: "SUBENCODING OF FILE"                                        # e.g. "JPG"
+#  data: "DATA HERE"                                                         # ..
+#
+#
+#sound:
+#  type: "TYPE OF SOUND"                                                     # e.g. "Music" or "Voice" or "Noise...
+#  subType: [ "SUBTYPE OF SOUND" ]                                           # e.g. [ "$CATEGORY", "Japanese Folk Dance", "..." ]
+#  encoding: "ENCODING"                                                      # e.g. Base64
+#  subEncoding: "SUBENCODING"                                                # e.g. MP3
+#  title: "NAME OF THE MUSIC"                                                # e.g. Aizu Ban Daisan ...
+#  bpm: "VALUE OF BEATS PER MINUTE"                                          # e.g. 85
+#  speed: "VALUE OF SPEED ; RELATIVE"                                        # e.g. 1.0
+#  data: "DATA HERE"                                                         # ...
+#
 
 motion:
     "SENSOR":                                                               # e.g. RFWT:
       "CATEGORY": "VALUE"                                                   # e.g XTRAN: -4.864795 and repeats
-    "SEGMENT":
-      "CATEGORY": "VALUE"                                                   # and repeats
-
-
-
-
 
 

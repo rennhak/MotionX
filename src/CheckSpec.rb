@@ -42,12 +42,9 @@ class CheckSpec
     @libraries.each { |lib| loadLibrary! lib }
 
     # Load the XYAML Spec file and map it into a Ostruct
-    data = load!
-  
-    p data.methods
+    @data = load!
+    # @template = OpenStruct.new( data ).remap!
 
-    @template = OpenStruct.new( data ).remap!
-    
   end
 
 
@@ -82,7 +79,12 @@ class CheckSpec
     # end
   end
 
-  
+  # = Checks wheather a given name is a existing section of the XYAML spec
+  # @returns Boolean, true if it exists false if not.
+  def section? name
+    raise ArgumentError, "XYAML Specification does not contain the section ,#{name.to_s}'" if eval("@data.#{name.to_s}.nil?")
+  end
+
 
   # = Checks wheather the XYAML Specification file contains only valid YAML.
   def valid? file = @file

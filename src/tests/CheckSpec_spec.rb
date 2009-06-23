@@ -13,7 +13,7 @@
 require 'CheckSpec.rb'
 
 # Lets describe what the object can and can't do.
-describe CheckSpec do 
+describe CheckSpec do
 
 
   it "should find the XYAML specification file" do 
@@ -40,6 +40,13 @@ describe CheckSpec do
     checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).valid?
   end
 
+  it "should find a ,metadata' section in the Specification XYAML specification file" do
+    checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).section?( "metadata" )
+  end
+
+  it "should find a ,motion' section in the Specification XYAML specification file" do
+    checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).section?( "motion" )
+  end
 
 
   #it "should have valid top level categories in the XYAML Spec. file" do
@@ -48,3 +55,5 @@ describe CheckSpec do
 
 
 end # describe
+
+
