@@ -12,6 +12,19 @@
 
 require 'CheckSpec.rb'
 
+
+# CheckSpec expects a certain set of sections in the XYAML Spec file.
+# This is necessary to give plugin developers a stable development environment they can use to
+# work on. If you change the XYAML spec file at section level you NEED to change it here to otherwise the
+# tests *WILL* break.
+@@sections = %w[
+                  version
+                  metadata
+                  motion
+               ]
+
+
+
 # Lets describe what the object can and can't do.
 describe CheckSpec do
 
@@ -40,13 +53,17 @@ describe CheckSpec do
     checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).valid?
   end
 
-  it "should find a ,metadata' section in the Specification XYAML specification file" do
-    checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).section?( "metadata" )
+  # To ensure that driver developers have a certain fixed interface we will check the XYAML spec file for certain sections.
+  @@sections.each do |section|
+    it "should find a ,#{section.to_s}' section in the Specification XYAML specification file" do
+      checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).section?( section.to_s )
+    end
   end
 
-  it "should find a ,motion' section in the Specification XYAML specification file" do
-    checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).section?( "motion" )
-  end
+
+  #it "should find a ,motion' section in the Specification XYAML specification file" do
+  #  checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" ).section?( "motion" )
+  #end
 
 
   #it "should have valid top level categories in the XYAML Spec. file" do

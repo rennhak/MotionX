@@ -85,7 +85,6 @@ class CheckSpec
     raise ArgumentError, "XYAML Specification does not contain the section ,#{name.to_s}'" if eval("@data.#{name.to_s}.nil?")
   end
 
-
   # = Checks wheather the XYAML Specification file contains only valid YAML.
   def valid? file = @file
       File.open( @file ) { |f| YAML::load( f ) }
@@ -93,9 +92,8 @@ class CheckSpec
 
 
   #### === Meta Magic
-
   attr_reader :file
-  
+
 end
 
 
