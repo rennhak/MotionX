@@ -55,7 +55,6 @@ class CheckSpec
     File.open( @file, "r" ) { |file| YAML.load( file ) }                 # return proc which is in this case a hash
   end
 
-
   # = Checks if the XYAML Spec file exists.
   def exist? file = @file
     raise ArgumentError, "XYAML Specification file not found." unless File.exist?( file )
@@ -139,8 +138,7 @@ end
 
 # = Direct invocation, not loaded as a library
 if __FILE__ == $0
-  #c = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" )
-  #p c.getXYAMLSections
+  c = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" )
 end
 
 

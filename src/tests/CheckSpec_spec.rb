@@ -119,8 +119,6 @@ describe CheckSpec do
   #   end
   # end
 
-
-
 end # describe
 
 
