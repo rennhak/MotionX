@@ -70,10 +70,10 @@ class GenSpec
     rbFile    = target + ".rb"
     template  = templatePath + "/" + templateFile
 
-    p template
     # FIXME: Haml?
-    erb       = ERB.new( template )
-    puts erb.to_yaml
+    #erb       = ERB.new( template )
+    #erb.display( template )
+    #puts erb.to_yaml
 
   end
 
