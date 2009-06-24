@@ -31,6 +31,7 @@ class GenSpec
   # @param libraries Add here the names of the require libraries you want to add. Spaces speparate the entries.
   def initialize path, filename, targetPath = ".", targetFilenameWithExtension = "XYAML.rb", libraries = %w[yaml ostruct erb Extensions.rb]
 
+    @specPath, @specFile  = path, filename
     @file       = "#{path}/#{filename}"
     @libraries  = libraries
 
@@ -64,25 +65,37 @@ class GenSpec
   # = The getBindingClass function returns a binding object which holds all the data we need for the
   # templating engine (ERB) e.g. for templates/Ruby.erb which generates a XYAML ruby interface.
   # This is a helper method.
+  # @param data Data is a XYAMLSpecification which is loaded with the OStruct Hack. By this we can
+  # access everything by openstruct access. e.g. data.metadata.sound.... (r/w)
   # @returns Binding class object (~proc) with all the data extracted from the XYAMLSpecification.rb file.
   # Please see "generateRB" to get an idea of how to use this function.
-  def getBindingClass
+  def getBindingClass data = @data
 
     # Let's use a anonymous class instead of creating a named one
     klass = Class.new do
-      def initialize
-        @filename, @version   = nil, nil
-        @specPath, @specFile  = nil, nil
+      def initialize data
+        @data = data    # this is our YAMLOStruct
+      end
+
+      # Learn stuff on the fly
+      def learn method, code
+          code = code.to_s.gsub( /"/, "" )
+          eval <<-EOS
+              class << self
+                  def #{method}; "#{code}"; end
+              end
+          EOS
       end
 
       def get_binding
         binding
       end
 
-      attr_accessor :filename, :version, :specPath, :specFile
+      attr_accessor :data
+      alias :d :data
     end
 
-    return klass.new
+    return klass.new( data )
   end
 
   # = The generateRB function (d'oh) of course pumps out a Ruby Class file to a provided filename
@@ -100,10 +113,11 @@ class GenSpec
 
     # Assign template data to binding class
     klass = getBindingClass
-    klass.filename = name
-    klass.specPath = "../specification"
-    klass.specFile = "XYAMLSpecification.yaml"
-    klass.version  = "0.0.1"
+    klass.instance_variable_set( "@filename", name )
+    klass.instance_variable_set( "@specPath", @specPath )
+    klass.instance_variable_set( "@specFile", @specFile )
+
+
 
     # ERB output
     result    = rb.result( klass.get_binding )

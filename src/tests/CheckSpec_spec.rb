@@ -108,9 +108,19 @@ describe CheckSpec do
     end
   end
 
-  # FIXME - recursion doesn't work properly, we are missing some sections
-  # I wonder if this test makes sense. If we hardcode the XYAML spec, then this test is useless.
-  # Also if we need to have templates to generate ruby/c/cpp code then again it makes no sense.
+
+
+  #  commit 3843aa3b38b2d7e6802485e81f3110883a262173
+  #  Author: br <br@omega.omega>
+  #  Date:   Wed Jun 24 19:49:42 2009 +0900
+  #  
+  #      - Abandoning my idea of writing a test function which parses the spec file and then checks if YAML
+  #      generated correctly. First, this is useless (even though its a funny hack). Second, this makes no
+  #      sense because we have to hardcode against the templates anyway.
+  #      XYAMLSpecification.yaml->ostructs->template_uses_ostruct. This chain is static and if you make
+  #      significatant changes in the Spec then the templates have to reflect that. Metamagic makes no sense
+  #      here, for now.
+  #
   #
   #  it "should have matching sections between test spec file and spec file" do
   #     checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" )
@@ -121,6 +131,7 @@ describe CheckSpec do
   #                             \n(\n\t(\n\t\t#{d1.join(",\n\t\t")}),\n\t(#{d2.join(",\n\t\t")}\n\t)\n\n)"
   #     end
   #  end
+
 
 end # describe
 

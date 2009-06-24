@@ -103,6 +103,19 @@ class CheckSpec
     # end
   end
 
+
+#####
+# commit 3843aa3b38b2d7e6802485e81f3110883a262173
+# Author: br <br@omega.omega>
+# Date:   Wed Jun 24 19:49:42 2009 +0900
+#
+#    - Abandoning my idea of writing a test function which parses the spec file and then checks if YAML
+#    generated correctly. First, this is useless (even though its a funny hack). Second, this makes no
+#    sense because we have to hardcode against the templates anyway.
+#    XYAMLSpecification.yaml->ostructs->template_uses_ostruct. This chain is static and if you make
+#    significatant changes in the Spec then the templates have to reflect that. Metamagic makes no sense
+#    here, for now.
+#
 #  # = Extracts the given section from the XYAML Spec file and returns them as an Array
 #  # @param name Expects a valid section and returns the subsections, e.g. name = "metadata" returns
 #  # "["motion", "sound", "capture", "maintenance"]"
@@ -173,17 +186,19 @@ class CheckSpec
 #    #puts ""
 #    #p "TODO: ", todo
 #
-##    # get all subsections and so on - FIXME
-##    top.each do |s|
-##      subset = ( getXYAMLSection( s ) ).to_a.collect { |n| "#{s.to_s}.#{n.to_s}" }
-##      subset.each do |ss|
-##        sections << ( getXYAMLSection( ss ) ).to_a.collect { |nn| "#{ss.to_s}.#{nn.to_s}" }
-##      end
-##      sections << subset
-##    end
-##
+#    # get all subsections and so on - FIXME
+#    top.each do |s|
+#      subset = ( getXYAMLSection( s ) ).to_a.collect { |n| "#{s.to_s}.#{n.to_s}" }
+#      subset.each do |ss|
+#        sections << ( getXYAMLSection( ss ) ).to_a.collect { |nn| "#{ss.to_s}.#{nn.to_s}" }
+#      end
+#      sections << subset
+#    end
+#
 #    #sections.flatten
 #  end
+#
+####
 
 
   # = Checks wheather a given name is a existing section of the XYAML spec
