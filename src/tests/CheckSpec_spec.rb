@@ -14,7 +14,7 @@ require 'CheckSpec.rb'
 
 
 # You need to match this version number to the XYAML Spec file version number, otherwise tests WILL fail.
-@@version = "0.0.1"
+@@version = "0.0.3"
 
 # = CheckSpec expects a certain set of sections in the XYAML Spec file.
 # This is necessary to give plugin developers a stable development environment they can use to
@@ -22,49 +22,6 @@ require 'CheckSpec.rb'
 # tests *WILL* break. With this we want to ensure test spec file and spec file match in case you
 # plan to do something fancy.
 @@sections = %w[
-                  version
-                  
-                  metadata
-                  
-                  metadata.motion
-                  metadata.motion.name
-                  metadata.motion.category
-                  metadata.motion.by
-                  metadata.motion.gender
-                  metadata.motion.capturedTime
-                  metadata.motion.capturedBy
-                  metadata.motion.clothes
-                  metadata.motion.utils
-                  metadata.motion.contact
-                  
-                  metadata.capture
-                  metadata.capture.device
-                  metadata.capture.way
-                  metadata.capture.sensors
-                  metadata.capture.area
-                  metadata.capture.placement
-                  
-                  metadata.sound
-                  metadata.sound.format
-                  metadata.sound.format.file
-                  metadata.sound.format.file.before
-                  metadata.sound.format.file.now
-                  metadata.sound.format.data
-                  metadata.sound.format.data.segments
-                  metadata.sound.format.data.category
-                  metadata.sound.format.data.frames
-                  metadata.sound.format.data.frames.perSecond
-                  metadata.sound.format.data.frames.time
-                  metadata.sound.format.data.frames.amount
-                  
-                  metadata.maintenance
-                  metadata.maintenance.contact
-                  metadata.maintenance.convertedtime
-                  metadata.maintenance.motionCaptureConverterVersion
-                  
-                  motion
-                  motion.mySensor
-                  motion.mySensor.myCategory
                ]
 
 

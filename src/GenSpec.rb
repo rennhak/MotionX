@@ -52,13 +52,15 @@ class GenSpec
   # @param path Needs a sane path without trailing slash (string)
   # @param file Needs a sane filename **WITH** proper extension. E.g. "XYAML.c" or "XYAML.cpp" or "XYAML.rb" etc. Corresponding .h's are created along the way.
   def output path, file
-    #begin
+    begin
       extension = file.to_s.split(".").pop
-      call = "generate#{extension.to_s.upcase}( '#{path}', '#{File.basename( file, '.#{extension.to_s}' )}' )"
+      name      = File.basename( file, ".#{extension.to_s}" )
+      call      = "generate#{extension.to_s.upcase}( '#{path}', '#{name}' )"
+
       eval( call.to_s )
-    #rescue
-    #  raise ArgumentError, "The provided filename contains an invalid extension which is either spelled wrong or not supported."
-    #end
+    rescue
+      raise ArgumentError, "The provided filename contains an invalid extension which is either spelled wrong or not supported."
+    end
   end
 
 
@@ -94,9 +96,10 @@ class GenSpec
     return klass.new
   end
 
+
   # = The generateRB function (d'oh) of course pumps out a Ruby Class file to a provided filename
   # @param path Needs a sane path without trailing slash (string)
-  # @param name Needs a string without the desired extension, e.g. "XYAML" will output "XYAML.rb"
+  # @param name Needs a string **without** the desired extension, e.g. "XYAML" will output "XYAML.rb"
   # @param templatePath Needs a string which holds the path to the Ruby template without trailing slash
   # @param templateFile Needs a string which holds the filename to the Ruby template (ext: .erb)
   def generateRB path, name, templatePath = "templates", templateFile = "Ruby.erb"
@@ -114,7 +117,7 @@ class GenSpec
     klass.instance_variable_set( "@specFile", @specFile )
     klass.instance_variable_set( "@d", @data )
     klass.instance_variable_set( "@data", @data )
-   
+
     # ERB output
     result    = rb.result( klass.get_binding )
     puts result
@@ -176,7 +179,8 @@ end
 # = Direct invocation, not loaded as a library
 if __FILE__ == $0
   c = GenSpec.new( "../specification", "XYAMLSpecification.yaml" )
-  c.generateRB( ".", "XYAML" ) # outputs ruby - extension magic
+  #c.generateRB( ".", "XYAML" ) # outputs ruby - extension magic
+  c.output( ".", "XYAML.rb" ) # outputs ruby - extension magic
 end
 
 
