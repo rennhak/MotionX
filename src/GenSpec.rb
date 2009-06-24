@@ -69,12 +69,11 @@ class GenSpec
   # access everything by openstruct access. e.g. data.metadata.sound.... (r/w)
   # @returns Binding class object (~proc) with all the data extracted from the XYAMLSpecification.rb file.
   # Please see "generateRB" to get an idea of how to use this function.
-  def getBindingClass data = @data
+  def getBindingClass
 
     # Let's use a anonymous class instead of creating a named one
     klass = Class.new do
-      def initialize data
-        @data = data    # this is our YAMLOStruct
+      def initialize
       end
 
       # Learn stuff on the fly
@@ -90,12 +89,9 @@ class GenSpec
       def get_binding
         binding
       end
-
-      attr_accessor :data
-      alias :d :data
     end
 
-    return klass.new( data )
+    return klass.new
   end
 
   # = The generateRB function (d'oh) of course pumps out a Ruby Class file to a provided filename
@@ -116,8 +112,8 @@ class GenSpec
     klass.instance_variable_set( "@filename", name )
     klass.instance_variable_set( "@specPath", @specPath )
     klass.instance_variable_set( "@specFile", @specFile )
-
-
+    klass.instance_variable_set( "@d", @data )
+    klass.instance_variable_set( "@data", @data )
 
     # ERB output
     result    = rb.result( klass.get_binding )

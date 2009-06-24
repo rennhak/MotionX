@@ -35,13 +35,24 @@ class <%= @filename %>
   # @param specPath Expects a sane path without a trailing slash
   # @param specFile Expects a sane @filename with .yaml extension
   # @param version Expects a string containing the version of the XYAML spec file used to generate this file
-  def initialize specPath = "<%= @specPath %>", specFile = "<%= @specFile %>", version = "<%= @data.version %>"
+  def initialize specPath = "<%= @specPath %>", specFile = "<%= @specFile %>", version = "<%= @d.version %>"
     @specPath, @specFile = specPath, specFile
     @version             = version
+    
+    @name           = ""            # e.g. <%= @d.metadata.motion.name          %>
+    @category       = ""            # e.g. <%= @d.metadata.motion.category      %>
+    @by             = ""            # e.g. <%= @d.metadata.motion.by            %>
+    @gender         = ""            # e.g. <%= @d.metadata.motion.gender        %>
+    @capturedTime   = DateTime.new  # e.g. <%= @d.metadata.motion.capturedTime  %>
+    @capturedBy     = ""            # e.g. <%= @d.metadata.motion.capturedBy    %>
+    @clothes        = ""            # e.g. <%= @d.metadata.motion.clothes       %>
+    @utils          = ""            # e.g. <%= @d.metadata.motion.utils         %>
+    @contact        = ""            # e.g. <%= @d.metadata.motion.contact       %>
+
   end
 
 
-  attr_accessor :specPath, :specFile, :version
+  attr_accessor :specPath, :specFile, :version, :name, :category, :by, :gender, :capturedTime, :capturedBy, :clothes, :utils, :contact
 
 end # <%= @filename %>
 
