@@ -1,1 +1,3 @@
 - Write BDD's for Extensions.rb
+
+- Use "erb -x -T '-' templates/Ruby.erb | ruby -c" for Syntax check. Returns "Syntax OK"

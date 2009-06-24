@@ -60,54 +60,20 @@ class GenSpec
     #end
   end
 
-
-  # = The getBindingClass function returns a binding object which holds all the data we need for the
-  # templating engine (ERB) e.g. for templates/Ruby.erb which generates a XYAML ruby interface.
-  # This is a helper method.
-  # @returns Binding class object (~proc) with all the data extracted from the XYAMLSpecification.rb file.
-  # Please see "generateRB" to get an idea of how to use this function.
-  def getBindingClass
-
-    # Let's use a anonymous class instead of creating a named one
-    klass = Class.new do
-      def initialize
-        @filename, @version   = nil, nil
-        @specPath, @specFile  = nil, nil
-      end
-
-      def get_binding
-        binding
-      end
-
-      attr_accessor :filename, :version, :specPath, :specFile
-    end
-
-    return klass.new
-  end
-
   # = The generateRB function (d'oh) of course pumps out a Ruby Class file to a provided filename
   # @param path Needs a sane path without trailing slash (string)
   # @param name Needs a string without the desired extension, e.g. "XYAML" will output "XYAML.rb"
   # @param templatePath Needs a string which holds the path to the Ruby template without trailing slash
   # @param templateFile Needs a string which holds the filename to the Ruby template (ext: .erb)
-  def generateRB path, name, templatePath = "templates", templateFile = "Ruby.erb"
+  def generateRB path, name, templatePath = "template", templateFile = "Ruby.erb"
     target    = "#{path}/#{name}"
     rbFile    = target + ".rb"
     template  = templatePath + "/" + templateFile
 
-    # Read Ruby template
-    rb        = ERB.new( File.open( template ).read, nil, "%" )
-
-    # Assign template data to binding class
-    klass = getBindingClass
-    klass.filename = name
-    klass.specPath = "../specification"
-    klass.specFile = "XYAMLSpecification.yaml"
-    klass.version  = "0.0.1"
-
-    # ERB output
-    result    = rb.result( klass.get_binding )
-    puts result
+    # FIXME: Haml?
+    erb       = ERB.new( template )
+    #erb.display( template )
+    #puts erb.to_yaml
 
   end
 
@@ -166,7 +132,7 @@ end
 # = Direct invocation, not loaded as a library
 if __FILE__ == $0
   c = GenSpec.new( "../specification", "XYAMLSpecification.yaml" )
-  c.generateRB( ".", "XYAML" ) # outputs ruby - extension magic
+  c.output( ".", "XYAML.rb" ) # outputs ruby - extension magic
 end
 
 
