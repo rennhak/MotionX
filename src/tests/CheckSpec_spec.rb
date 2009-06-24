@@ -109,15 +109,18 @@ describe CheckSpec do
   end
 
   # FIXME - recursion doesn't work properly, we are missing some sections
-  # it "should have matching sections between test spec file and spec file" do
-  #   checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" )
-  #   unless( @@sections == checkSpec.getXYAMLSections )
-  #     d1 = @@sections - checkSpec.getXYAMLSections
-  #     d2 = checkSpec.getXYAMLSections - @@sections
-  #     raise ArgumentError, "This test file (CheckSpec_spec.rb) has different (missing?) @@sections than contained in the XYAML Spec file
-  #                           \n(\n\t(\n\t\t#{d1.join(",\n\t\t")}),\n\t(#{d2.join(",\n\t\t")}\n\t)\n\n)"
-  #   end
-  # end
+  # I wonder if this test makes sense. If we hardcode the XYAML spec, then this test is useless.
+  # Also if we need to have templates to generate ruby/c/cpp code then again it makes no sense.
+  #
+  #  it "should have matching sections between test spec file and spec file" do
+  #     checkSpec = CheckSpec.new( "../specification", "XYAMLSpecification.yaml" )
+  #     unless( @@sections == checkSpec.getXYAMLSections )
+  #       d1 = @@sections - checkSpec.getXYAMLSections
+  #       d2 = checkSpec.getXYAMLSections - @@sections
+  #       raise ArgumentError, "This test file (CheckSpec_spec.rb) has different (missing?) @@sections than contained in the XYAML Spec file
+  #                             \n(\n\t(\n\t\t#{d1.join(",\n\t\t")}),\n\t(#{d2.join(",\n\t\t")}\n\t)\n\n)"
+  #     end
+  #  end
 
 end # describe
 

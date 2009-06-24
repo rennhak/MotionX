@@ -4,8 +4,10 @@
 
 #require 'Qt4'
 
-
+##
 # FIXME: This is namespace pollution, avoid by segmenting it in a separate namespace.
+####
+
 
 # Override some default YAML Behavior and create OpenStructs instead of Hashes when called
 # http://rubyquiz.com/quiz81.html
