@@ -44,6 +44,12 @@ describe GenSpec do
     raise ArgumentError, "Couldn't find a Ruby.erb template in template/.. " unless File.exist?( "templates/Ruby.erb" )
   end
 
+  it "should generate proper Ruby code (syntax ok?)" do
+    #result = `erb -x -T '-' templates/Ruby.erb | ruby -c`.chomp
+    result = `erb -x templates/Ruby.erb | ruby -c`.chomp
+    ( result =~ %r{Syntax OK}i ) ? error = false : error = true
+    raise ArgumentError, "Syntax Error in templates/Ruby.erb template" if error
+  end
 
   # FIXME: Missing test for "GenSpec.output"
 

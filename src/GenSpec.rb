@@ -114,7 +114,7 @@ class GenSpec
     klass.instance_variable_set( "@specFile", @specFile )
     klass.instance_variable_set( "@d", @data )
     klass.instance_variable_set( "@data", @data )
-
+   
     # ERB output
     result    = rb.result( klass.get_binding )
     puts result
