@@ -1,3 +1,12 @@
 - Write BDD's for Extensions.rb
 
 - Use "erb -x -T '-' templates/Ruby.erb | ruby -c" for Syntax check. Returns "Syntax OK"
+
+- Generate from YAML? Poor man's UML? Can we leverage the power of RGen or some UML gen tool?
+  HTML UML gen?
+
+- Change the version number to sha1 key over XYAMLSpecification.yaml
+  overkill?
+
+- Generate YAML from UML
+  YAML should be usable for C/C++/Ruby gen but also for ORM mapping
