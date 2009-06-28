@@ -9,3 +9,6 @@
 - Define a fixed API for the YAML interface.
 - VRML
 - Build Outputters for $formats but also for $database
+- UML->YAML which tool is nice? ArgoUML? Dia? Hack on the Dia tree and include YAML/Ruby gen
+- intltool
+- xsltproc --novalid http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl app.dbk >app.1
