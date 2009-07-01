@@ -1,0 +1,68 @@
+CREATE TABLE `Ressource` (
+`id` INTEGER NOT NULL AUTO_INCREMENT ,
+`id_Category` INTEGER NOT NULL ,
+`id_languages` INTEGER NOT NULL ,
+`id_format` INTEGER NOT NULL ,
+`title` VARCHAR(40) NOT NULL DEFAULT 'MyNewsFeed' COMMENT 'This field stores the title' ,
+`subtitle` VARCHAR(40) NOT NULL DEFAULT 'Subtitle' COMMENT 'This field holds the subtitle information.' ,
+`uri` VARCHAR(255) NOT NULL DEFAULT 'http://localhost' COMMENT 'This field stores holds the URI' ,
+`description` VARCHAR(200) NOT NULL DEFAULT 'MyNewsFeed - This feed focuses on topic xyz and has this and that implication.' COMMENT 'This field holds the description, which explains what this feed is.' ,
+`updateFrequency` INTEGER NOT NULL DEFAULT 300 COMMENT 'This field holds the interval in seconds of the update frequency of this ressource.' ,
+`updated` DATETIME NOT NULL COMMENT 'This field stores when we updated the feed.' ,
+PRIMARY KEY (`id`)
+) COMMENT 'This table stores all feed and scraping URLs.';
+
+CREATE TABLE `NewsItem` (
+`id` INTEGER NOT NULL AUTO_INCREMENT ,
+`id_Ressource` INTEGER NOT NULL ,
+`title` VARCHAR(100) NOT NULL DEFAULT 'MyNewsTitle' COMMENT 'This field stores the news title' ,
+`description` VARCHAR(200) NOT NULL COMMENT 'This field stores the description of the news.' ,
+`content` ENUM(2) NOT NULL DEFAULT n COMMENT 'This field holds either y for yes or n for no if we have content in the content table.' ,
+`datetime` DATETIME NOT NULL ,
+PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `UpdateFrequencies` (
+`id` INTEGER NOT NULL AUTO_INCREMENT ,
+`id_Ressource` INTEGER NOT NULL ,
+`updateFrequency` INTEGER NOT NULL DEFAULT 300 COMMENT 'This field holds the past update frequency' ,
+`datetime` DATETIME NOT NULL ,
+PRIMARY KEY (`id`),
+KEY (`id`)
+) COMMENT 'This table stores the past update frequencies of the URI''s. Basically it holds the information of the frequency interval of how often new things are pushed to the URL.';
+
+CREATE TABLE `Category` (
+`id` INTEGER NOT NULL AUTO_INCREMENT ,
+`type` VARCHAR(70) NOT NULL DEFAULT 'Business' COMMENT 'This field holds the value of the category, meaning e.g. Business, Entertainment etc.' ,
+PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `Content` (
+`id` INTEGER NOT NULL AUTO_INCREMENT ,
+`id_NewsItem` INTEGER NOT NULL ,
+`data` VARCHAR(10000) NOT NULL COMMENT 'This field holds the entire article text' ,
+PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `languages` (
+`id` INTEGER NOT NULL AUTO_INCREMENT ,
+`short` VARCHAR(15) NOT NULL DEFAULT 'en_US' ,
+`long` VARCHAR(30) NOT NULL DEFAULT 'American English' ,
+PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `format` (
+`id` INTEGER NOT NULL AUTO_INCREMENT ,
+`type` VARCHAR(10) NOT NULL DEFAULT 'rss' COMMENT 'This field holds the value of the format' ,
+`version` VARCHAR(10) NOT NULL COMMENT 'Version of the type, e.g. rss == type, version == 1.x' ,
+PRIMARY KEY (`id`)
+);
+
+ALTER TABLE `Ressource` ADD FOREIGN KEY (id_Category) REFERENCES `Category` (`id`);
+ALTER TABLE `Ressource` ADD FOREIGN KEY (id_languages) REFERENCES `languages` (`id`);
+ALTER TABLE `Ressource` ADD FOREIGN KEY (id_format) REFERENCES `format` (`id`);
+ALTER TABLE `NewsItem` ADD FOREIGN KEY (id_Ressource) REFERENCES `Ressource` (`id`);
+ALTER TABLE `UpdateFrequencies` ADD FOREIGN KEY (id_Ressource) REFERENCES `Ressource` (`id`);
+ALTER TABLE `Content` ADD FOREIGN KEY (id_NewsItem) REFERENCES `NewsItem` (`id`);
+
+

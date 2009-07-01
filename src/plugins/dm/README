@@ -1,0 +1,38 @@
+DataMapper + Migrations for MotionX
+-----------------------------------
+
+DataMapper (dm) is a excellent Ruby ORM which is similar to ActiveRecord et al. It allows a direct mapping
+from the core ADT to a SQL based database backend. DataMapper supports all kind of abstractions thus
+the capabilities of this plugins provide the following:
+
+
+                                  /- SQLite Memory based
+                                 |-- SQLite File based
+                                 |-- MySQL
+    MotionX ADT -(read/write)----|-- PgSQL
+                                  \- JDBC
+
+
+Furthermore, this package features the Migrations feature from Merb
+(http://en.wikipedia.org/wiki/Merb) for all changes to the DB. This will allow us to migrate the
+Database between different Models of the ADT.
+
+
+Evaluate:
+  The MotionX ADT can change over time. So we use a YAML file for a abstraction table ?
+
+
+Author
+------
+
+(c) 2009, Bjoern Rennhak, The University of Tokyo
+
+
+License
+-------
+
+Same as MotionX project.
+
+
+# vim=ts:2
+

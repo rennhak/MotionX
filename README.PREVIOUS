@@ -1,0 +1,53 @@
+
+MotionX: Motion Capture Media Storage Format and Converter
+----------------------------------------------------------
+
+I called this package "Motion X" because there are too many formats out there.
+This tool is intended to provide means to convert between those formats easily.
+
+If you want to understand how this codebase works see documentation/Big_picture for details.
+
+
+
+Dependencies
+------------
+
+o gem install rspec
+o yaml
+
+
+FAQ
+---
+
+Q: Why do you want to convert everything into YAML?
+A: Did you read this webpage? http://yaml.org/ YAML has bindings in all kind of languages which
+means that after we converted it into YAML you could actually read it with your $yaml parser in your
+$language easily. You just look at the YAML specfication file of MotionX and can start coding right
+away with your data.
+
+Secondly, I wanted to have a nice internal data format. I work on Ruby and the OStruct hack with the
+YAML parser makes it very convenient for me. [2]
+
+Other choices would have been XML (no thanks, I already had that experience) or JSON (close call).
+Probably I will build a JSON plugin to be able to dump that format on demand. Actually, JSON is
+valid YAML except for the /* */ comments. [1]
+
+
+Q: I want plugin X!
+A: Patches are welcome, thanks for your help.
+
+Q: Give me your dance MoCap data!
+A: Phew, I really would like to but that stuff belongs originally to Warabi-za Co. Ltd. Japan.
+
+
+References
+----------
+
+[1] YAML is JSON, why, http://redhanded.hobix.com/inspect/yamlIsJson.html
+[2] Ruby Quiz #81, Hash to OpenStruct, Hans Fugal, http://rubyquiz.com/quiz81.html
+[3] YAML on Wikipedia, http://en.wikipedia.org/wiki/YAML
+
+Licensing
+---------
+
+(C) 2009, Bjoern Rennhak, dual licensed under GPL and MIT. http://www.opensource.org/licenses/mit-license.php

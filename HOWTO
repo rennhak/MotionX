@@ -71,6 +71,9 @@ A: The mapping is nice because it is possible to use the information internally 
 
 
   This is not a must but probably will make life easier for future plugin development.
-  Its overkill but fun :D.
+  Its overkill but fun :D. Oh and this is called "design by contract".
+  (http://en.wikipedia.org/wiki/Design_by_contract)
+
+
 
 

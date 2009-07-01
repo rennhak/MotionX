@@ -1,0 +1,5 @@
+The design is ok for internal use.
+When this would be a customer it would be difficult because there are too many foreign keys which
+takes too much time to restore in case of a breakdown.
+
+Thu Feb 19 10:25:56 JST 2009

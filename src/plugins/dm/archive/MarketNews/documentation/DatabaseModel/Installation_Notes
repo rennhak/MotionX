@@ -1,0 +1,10 @@
+- gem search merb --both | egrep "^merb_" | cut -d' ' -f1 | xargs gem install
+- Datamapper ORM 
+- merb-gen very_flay xyz
+  merb-gen app xyz2
+  cp -vrap xyz2/config xyz/. 
+  rm -rf xyz2
+  cd xyz
+  rake db:migrate
+
+

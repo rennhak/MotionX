@@ -1,0 +1,8 @@
+- Have a MVC Framework for the www service
+    o merb?
+    o rails?
+
+- We definetly want
+    o Activerecord or DataMapper
+        o Migrations (interated in DataMapper)
+    o Testing via RSpec
