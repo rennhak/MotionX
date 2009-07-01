@@ -1,0 +1,382 @@
+####
+#
+# File: Specification.yaml
+#
+# YAML Specification file for the MotionX format.
+# (c) 2009, Bjoern Rennhak, The University of Tokyo
+#
+# This specicifation file has two purposes. Firstly, it contains the information for the YAML parser
+# of the structure, the naming and the description of the fields and values. This is used to
+# generate a Ruby interface for the MotionX format but could also be used to generate all kind of
+# other MotionX format interfaces in other languages using a simple YAML parser. Secondly, this
+# specification contains a lot of descriptive information which is extracted and presented in a
+# better human readable format.
+#
+# WARNING: This file MUST only contain valid YAML syntax.
+#             o Don't use Ruby Keywords for the definition here. We call values like
+#             metadata.motion.name etc. so it is a tad ambigious if you e.g. use a "type" field.
+#
+#             Not allowed:
+#               o class
+#               o type
+#               o method
+#
+#             As you can see we gain convenience but lose exactness.
+#
+#
+# IMPORTANT:  **DO** CHANGE THE VERSION NUMBER++ IF YOU **CHANGE** THIS FILE.
+#             I CANNOT EMPHASIS THIS ENOUGH, CHANGE IT OR YOU WILL BREAK PLUGINS FOR MOTIONX.
+#
+#
+# Details:    The version number of this document indicates if it is compatible to a given plugin or
+#             not. Every time you change this file, you have to change the version number, refactor
+#             the tests in tests/CheckSpec_spec.rb and maybe even CheckSpec.rb. Also you have to
+#             make sure that it doesn't break GenSpec.rb and tests/GenSpec_spec.rb and finally that
+#             all templates work accordingly (templates/...).
+#
+#             - you can write your own XYAMLSpecification files (include new features?)
+#             - you have tests to ensure that some robustness is guaranteed
+#             - you have a tool to verify YAML (CheckSpec) and a tool to generate (GenSpec)
+#             - you have templates which you can tweak to have interfaces for other languages
+#
+#             Q: Wouldn't hardcoding be easier?
+#             A: No, the point is to have flexiblity here to support experimentation of different
+#             approaches. You have different branches (stable, development) where the Spec file is
+#             (frozen, fluid).
+#
+#             Q: What are those crazy strings?
+#             A: They help us to communicate allowed type for this field, form (regex), and give a
+#             concrete example. This helps if you want to build interfaces for e.g. C
+#
+#             Q: How many levels of indirection are ok?
+#             A: Keep it to 3 if possible. (e.g. maintainer.address.street )
+#
+#
+# This file contains information for:
+#
+#   o XYAMLSpec dev's and their template code (C/C++/Ruby/Any language under the sun)
+#   o Plugin developers as a spec reference for their own code
+#   o Database designers/optimizers
+#   o Documentation maintainers
+#   o Interface comments in Doxygen format
+#
+#   --- all are bound by sha1 and version number
+#
+########
+
+---
+
+# = Format version number
+version: "0.0.4"                                                            # This is the XYAML Specification version number.
+                                                                            # **DO CHANGE THIS NUMBER++ IF YOU CHANGE THIS FILE**
+                                                                            # Plugins depend on this specific version number.
+
+
+
+###
+# = Relations. Here we define how things work together.
+######
+
+# = Abstract classes
+abstract:       ["person", "contact"]
+
+# = Instantiated classes are derived
+# X isA instance with the name ... of the abstract base class ...
+# e.g. maintainer: "person" ---(means)--->
+#   maintainer isA instance with the name maintainer of the abstract base class "person".
+isA:            [
+                  # NAME      isA   TYPE class
+                  maintainer:       "person"
+                  subject:          "person"
+                  creator:          "person"
+                  origin:           "coordinate"
+                ]
+
+
+# = Instantiated classes have associations/composites
+# X hasA association/composite object(s) with the name ... 
+hasA:           [
+                  # NAME      hasA    Array of objects
+                  maintainer:         [ "name", "contact" ]
+                  subject:            [ "name", "contact" ]
+                  coordinate:         [ "timestamp" ]
+                  origin:             [ "coordinate" ] #direction?
+                  system:             [ "area" ]
+
+                ]
+
+
+# FLEXIBLE DATA STORAGE OF CERTAIN VENDOR SPECFIC DATA? HOW?
+
+# Make a website tool to actually select placements and naming of sensors on the body
+# convert this into a machine readable format. Is there a medical notation where on the body is
+# something located?
+
+
+
+###
+#
+# = Definitions of ABSTRACT BASE CLASSES FOLLOW
+#
+# The idea is to have good OOP with data capsulated in objects.
+# We break eveything down to two levels.
+#
+# Class:
+#   Variable
+#
+# Associations/Composites etc. are created above.
+#
+# This structure is a mixture of ADT and SQL design.
+#
+######
+
+
+# = Person class
+person:
+  name:
+    type:         "String"
+    regex:        "[A-Za-z0-9 .]{0,50}"
+    example:      "Bjoern Rennhak"
+    description:  ""
+  organization:
+    type:         "String"
+    regex:        "[A-Za-z0-9 /+-.]{0,80}"
+    example:      "The University of Tokyo"
+    description:  ""
+  gender:
+    type:         "String"
+    regex:        "[MmFf]{1}"
+    example:      "m"
+    description:  ""
+  meta:                                         # Information for e.g. doxygen
+    short:        ""
+    long:         ""
+
+
+# = Name class
+name:
+  first:
+    type:         "String"
+    regex:        "[A-Za-z0-9 .]{0,50}"
+    example:      "Bjoern"
+    description:  ""
+  middle:
+    type:         "String"
+    regex:        "[A-Za-z0-9 .]{0,50}"
+    example:      "J. C."
+    description:  ""
+  last:
+    type:         "String"
+    regex:        "[A-Za-z0-9 .]{0,50}"
+    example:      "Rennhak"
+    description:  ""
+  meta:                                       # Information for e.g. doxygen
+    short:        ""
+    long:         ""
+
+
+# = Address class
+address:
+  street:
+    type:         "String"
+    regex:        "[A-Za-z0-9 -]{0,50}"
+    example:      "Somethingroad 17a"
+    description:  ""
+  optional:
+    type:         "String"
+    regex:        "[A-Za-z0-9 -/.]{0,80}"
+    example:      "c/o Mr. X"
+    description:  ""
+  zip:
+    type:         "String"
+    regex:        "[A-Za-z0-9 -]{0,15}"
+    example:      "1234567890"
+    description:  ""
+  city:
+    type:         "String"
+    regex:        "[A-Za-z0-9 ]{0,30}"
+    example:      "Tokyo"
+    description:  ""
+  country:
+    type:         "String"
+    regex:        "[A-Za-z0-9 ]{0,30}"
+    example:      "Japan"
+    description:  ""
+  state:
+    type:         "String"
+    regex:        "[A-Za-z0-9 -.]{0,35}"
+    example:      "Tokyo-to"
+    description:  ""
+  meta:
+    short:        ""
+    long:         ""
+
+
+# = Contact class
+contact:
+  email:
+    type:         "String"
+    regex:        "[A-Za-z0-9@._-]{0,50}"
+    example:      "br@cvl.iis.u-tokyo.ac.jp"
+    description:  ""
+  phone:
+    type:         "String"
+    regex:        "[A-Za-z0-9 []()./\\-]{0,30}"
+    example:      "0123 123 123"
+    description:  ""
+  fax:
+    type:         "String"
+    regex:        "[A-Za-z0-9 -]{0,15}"
+    example:      "0123 123 123"
+    description:  ""
+  www:
+    type:         "String"
+    regex:        "[A-Za-z0-9:/.:~=]{0,15}"
+    example:      "0123 123 123"
+    description:  ""
+  meta:
+    short:        ""
+    long:         ""
+
+
+# = System class
+system:
+  device:
+    type:         "String"
+    regex:        ""
+    example:      "Vicon WS Motion Capture System"
+    description:  ""
+  way:
+    type:         "String"
+    regex:        ""
+    example:      "Magnetic"
+    description:  ""
+  sensors:
+    type:         "Integer"
+    regex:        ""
+    example:      "33"
+    description:  "Amount of Sensors used"
+  placement:                                                   # flexible how?
+    type:         "String"
+    regex:        ""
+    example:      ""
+    description:  "Medical description of the **exact** placement of sensors on the human body."
+    # system HASMANY sensors?
+
+
+# = Coordinate class
+coordinate:
+  x:
+    type:         "Float"
+    regex:        ""
+    example:      ""
+    description:  ""
+  y:              ""
+    type:         "Float"
+    regex:        ""
+    example:      ""
+    description:  ""
+  z:              ""
+    type:         "Float"
+    regex:        ""
+    example:      ""
+    description:  ""
+  unit:           ""
+    type:         "Float"
+    regex:        ""
+    example:      ""
+    description:  ""
+  meta:
+    short:        ""
+    long:         ""
+
+
+
+# meta->
+#   utils->
+#    id = 1..
+#    amount=10 (10 items) ... 
+#
+#    use yaml ? array of hashes?
+
+
+info:
+  name:
+    type:         "String"
+    regex:        ""
+    example:      "Aizubandaisan"
+    description:  "Dance or Motion name. e.g. Walking two meters"
+  category:
+    type:         ""
+    regex:        ""
+    example:      ""
+    description:  "Japanese Folk Dance"
+  meta:
+    short:        ""
+    long:         ""
+
+
+equipment:
+  clothes:
+    type:         ""
+    regex:        ""
+    example:      "Traditional Kimono"
+    description:  ""
+  utils:
+    type:         ""
+    regex:        ""
+    example:      "Traditional Japanese Fan"
+    description:  ""
+  meta:
+    short:        ""
+    long:         ""
+
+
+  capturedTime: "DATETIME"                                                # when the original .VPM was captured
+  capturedBy: [ "NAMES AND GROUPS WHO CAPTURED THIS" ]                    # Array; e.g. [ "Warabi-za Co. Ltd., Japan", "Computer Vision Laboratory, Tokyo University, Japan",.. ]
+  clothes: "COMMENT ABOUT THE CLOTHES USED"                               # e.g. traditional japanese xyz clothing
+  utils: "COMMENT ABOUT THE UTILITIES USED"                               # e.g. Traditional Fan XY
+
+
+timestamp:
+  epoch:
+  utc:            ""
+
+
+sound:
+  filename: ""
+  format: ""
+  data: ""
+
+
+data:
+  segments: [ "AN ORDERED LIST OF ALL SEGMENTS - 1...X"  ]            # Array; e.g. RFWT,...a
+  category:                                                           # Array of groups (this is useful to determine the order of the sensors, Nr. 1 .. x
+      [ [ "GROUP", "UNIT" ], .... ]                                     # e.g. [ [ "XTRAN", "INCHES" ], ... ] etc.
+  frames:
+    perSecond: "FRAMES PER ONE SECOND"                                # framespersecond = 1 / frametime ; e.g. 1 / 0.008333 = 120 frames/s
+    time: "TIME OF RAW CAPTURE PER FRAME"                             # Raw frametime which was used during capture; e.g. 0.008333
+    amount: "TOTAL AMOUNT OF FRAMES"                                  # e.g. Frames -" 2400
+
+#sensorPlacementGraphicData:
+#  encoding: "ENCODING FORMAT"                                               # e.g. Base64
+#  subEncoding: "SUBENCODING OF FILE"                                        # e.g. "JPG"
+#  data: "DATA HERE"                                                         # ..
+
+
+#sound:
+#  type: "TYPE OF SOUND"                                                     # e.g. "Music" or "Voice" or "Noise...
+#  subType: [ "SUBTYPE OF SOUND" ]                                           # e.g. [ "$CATEGORY", "Japanese Folk Dance", "..." ]
+#  encoding: "ENCODING"                                                      # e.g. Base64
+#  subEncoding: "SUBENCODING"                                                # e.g. MP3
+#  title: "NAME OF THE MUSIC"                                                # e.g. Aizu Ban Daisan ...
+#  bpm: "VALUE OF BEATS PER MINUTE"                                          # e.g. 85
+#  speed: "VALUE OF SPEED ; RELATIVE"                                        # e.g. 1.0
+#  data: "DATA HERE"                                                         # ...
+
+motion:
+    mySensor:                                                               # e.g. RFWT:
+      myCategory: "VALUE"                                                   # e.g XTRAN: -4.864795 and repeats
+
+
+

@@ -12,3 +12,22 @@
 - UML->YAML which tool is nice? ArgoUML? Dia? Hack on the Dia tree and include YAML/Ruby gen
 - intltool
 - xsltproc --novalid http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl app.dbk >app.1
+- YAML binary operator useful for "packages" ? http://yaml.org/type/binary.html
+- Write BDD's for Extensions.rb
+
+- Use "erb -x -T '-' templates/Ruby.erb | ruby -c" for Syntax check. Returns "Syntax OK"
+
+- Generate from YAML? Poor man's UML? Can we leverage the power of RGen or some UML gen tool?
+  HTML UML gen?
+
+- Change the version number to sha1 key over XYAMLSpecification.yaml
+  overkill?
+
+- Generate YAML from UML
+  YAML should be usable for C/C++/Ruby gen but also for ORM mapping
+
+- YAML Classes? Seperate documents are classes? Or just Ruby .to_yaml?
+  require 'yaml'
+  C1 = Class.new
+  puts C1.to_yaml #=> --- !ruby/object:Class {}
+

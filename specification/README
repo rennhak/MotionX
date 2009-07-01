@@ -70,3 +70,6 @@ Hints:
   o Frame time in one file may NOT vary, this is used for an integrety check.
 
 
+Reference:
+
+[1] Doxygen Reference, http://www.stack.nl/~dimitri/doxygen/commands.html#cmdclass
