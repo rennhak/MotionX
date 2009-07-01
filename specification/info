@@ -17,3 +17,34 @@ java net.sf.saxon.Transform Address.xsd ../xsl/xml-to-json.xsl > foo.json
 3.) 
 java net.sf.saxon.Transform foo.json ../xsl/XML_to_YAML_-_29_06_2009.xsl
 
+also good, but needs java stuff and xsd's need to be sanitized before running the xsl
+
+
+
+better
+
+require 'xmlsimple'
+config = XmlSimple.xml_in('Person.xml', { 'KeyAttr' => 'name' })
+puts config.to_yaml
+
+http://xml-simple.rubyforge.org/
+
+
+OR
+
+gem install soap4r
+/usr/lib/ruby/gems/1.8/gems/soap4r-1.5.8/bin/xsd2ruby.rb
+
+1.) /usr/lib/ruby/gems/1.8/gems/soap4r-1.5.8/bin/xsd2ruby.rb --xsd Person.xsd --classdef
+Person
+
+/usr/lib/ruby/gems/1.8/gems/soap4r-1.5.8/bin/xsd2ruby.rb --xsd Person.xsd --classdef Person
+--force
+
+
+require 'soap/rpc/driver'
+require 'xsd/mapping' 
+
+
+XSD::Mapping.obj2xml(xsdBasedObject)
+

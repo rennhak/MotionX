@@ -1,12 +1,39 @@
 C3D to VPM and VPM to C3D Converter
 -----------------------------------
 
+The original source code of this project was a C++ based reader/writer of C3D to VPM and vice versa.
+According to S. Kudoh the implementation support all platforms but is well known to work for intel
+systems.
+
+Original work flow: 
+
+  o .c3d <-(read/write)-> vpm
+
+New work flow:
+
+  o .c3d <-(read/write)-> MotionX
+  ( o .vpm <-(read/write)-> MotionX ) ----> is currently called "vpm plugin" and Ruby based.
+                                            Q: Do we need a C++ version of this?
 
 
+
+
+Author
+------
+
+(c) 2005-2009, Shunsuke Kudoh, The University of Tokyo
+
+
+Contributor
+-----------
+
+(c) 2009, Bjoern Rennhak, The University of Tokyo
 
 
 License
 -------
 
-Thu Jun 25 18:14:33 JST 2009
-This software is under the GPL license.
+This software is under the GPL license. ( defined: Thu Jun 25 18:14:33 JST 2009 )
+
+
+# vim=ts:2

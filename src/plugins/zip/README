@@ -1,0 +1,30 @@
+ZIP Plugin - MotionX + LibZip
+-----------------------------
+
+This plugin can read and write zip packages. Zip packages are nothing else than just all data all
+files, e.g. the YAML (w/o the binary data), Sound, Pictures, etc. bundled together as one file.
+The point of this plugin is to
+
+  - only one file for many sub-files generated from the MotionX ADT
+  - provide means of offline storage for data extracted from the DB as .zip's
+  - provide means of easier access than bundled .yaml's which contain base64 encoded payload
+  - store data more efficiently (compression)
+  - ...
+
+Instead of having three, four or more separate files the .zip plugin just bundles everything.
+
+e.g.
+
+              /--- Sound
+ZIP Package ------ Pictures
+              \--- MotionX YAML
+               \-- etc.
+
+
+Usage
+-----
+
+  o Manual usage by commandline (why??!)
+  o Automatic bundling by MotionX interface
+
+

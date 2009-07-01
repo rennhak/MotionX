@@ -1,0 +1,7 @@
+- Convert to AutoTools
+- Convert to MotionX format r/w
+- Write Unittests using libtap
+- Consider a rewrite using Erlang (easier bitfoo)
+- Increase documentation + gen doxygen
+- Rakefile
+
