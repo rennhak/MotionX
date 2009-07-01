@@ -15,7 +15,11 @@ New work flow:
   ( o .vpm <-(read/write)-> MotionX ) ----> is currently called "vpm plugin" and Ruby based.
                                             Q: Do we need a C++ version of this?
 
+Requirements
+------------
 
+  o GCC
+  o Boost
 
 
 Author
