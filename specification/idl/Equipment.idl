@@ -1,0 +1,25 @@
+//
+// class Equipment
+// @brief {Equipment can be all kind of things which is used or worn by a person.
+// }
+// @details {Equipment can be all kind of things which is either used or work by a
+// person. These things can include a force measuring system, clothing etc.}
+
+abstract interface Equipment {
+
+  // Attributes:
+
+  attribute string name;
+
+  attribute string description;
+
+  // Public methods:
+
+
+  // Associations:
+
+  // Association
+  attribute Person uses;
+
+};
+

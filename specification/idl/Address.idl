@@ -1,0 +1,31 @@
+//
+// class Address
+// @class Address
+// @brief { Address is a abstraction which holds the address information of a
+// person. }
+// @details { }
+
+interface Address {
+
+  // Attributes:
+
+  attribute string street;
+
+  attribute string optional;
+
+  attribute int zip;
+
+  attribute string city;
+
+  attribute string country;
+
+  attribute string state;
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+

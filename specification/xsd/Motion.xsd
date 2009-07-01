@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://foo.example.com/tns"
+ xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://foo.example.com/tns">
+
+  <!--  -->
+  <xs:complexType name="MotionComplexType">
+    <xs:complexContent>
+      <xs:extension base="tns:SensorComplexType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!--  -->
+  <xs:complexType name="SensorComplexType"/>
+
+  <!--  -->
+  <xs:complexType name="ForceComplexType">
+    <xs:complexContent>
+      <xs:extension base="tns:SensorComplexType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Motion is the root element, declared here. -->
+  <xs:element name="Motion" type="tns:MotionComplexType"/>
+</xs:schema>

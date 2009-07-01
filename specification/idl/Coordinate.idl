@@ -1,0 +1,15 @@
+//
+// class Coordinate
+
+interface Coordinate {
+
+  // Attributes:
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+

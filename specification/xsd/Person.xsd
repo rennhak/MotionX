@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://foo.example.com/tns"
+ xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://foo.example.com/tns">
+
+  <!-- 
+       @class Person
+       @brief { The Person class is a representation of a natural person and all its data. }
+       @details { The Person class represents a abstraction of all possible data which a natural person can have. }
+  -->
+  <xs:complexType name="PersonComplexType">
+    <!-- @note { e.g. "Bjoern" } -->
+    <xs:attribute name="firstName" type="xs:string" use="optional" default=""""/>
+    <!-- @note { e.g. "J.C." } -->
+    <xs:attribute name="middleName" type="xs:string" use="optional" default=""""/>
+    <!-- @note { e.g. "Rennhak" } -->
+    <xs:attribute name="lastName" type="xs:string" use="optional" default=""""/>
+    <!-- @note { e.g. "Tokyo University" } -->
+    <xs:attribute name="organization" type="xs:string" use="optional" default=""""/>
+    <!-- @note { e.g. "TRUE" is Male, "FALSE" is FEMALE } -->
+    <xs:attribute name="gender" type="xs:bool" use="optional" default="TRUE"/>
+  </xs:complexType>
+
+  <!-- Person is the root element, declared here. -->
+  <xs:element name="Person" type="tns:PersonComplexType"/>
+</xs:schema>

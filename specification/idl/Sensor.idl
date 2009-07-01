@@ -1,0 +1,21 @@
+//
+// class Sensor
+
+interface Sensor {
+
+  // Attributes:
+
+  // visibility should be: private
+  attribute string unit;
+
+  // visibility should be: private
+  attribute string placement;
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+

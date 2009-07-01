@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://foo.example.com/tns"
+ xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://foo.example.com/tns">
+
+  <!--  -->
+  <xs:complexType name="PictureComplexType">
+    <xs:complexContent>
+      <xs:extension base="tns:MediaComplexType">
+        <!-- @note {e.g. 124 in px} -->
+        <xs:attribute name="height" type="xs:int" use="optional" default="0"/>
+        <!-- @note { e.g. 124 in px} -->
+        <xs:attribute name="width" type="xs:int" use="optional" default="0"/>
+        <xs:attributeGroup ref="tns:MediaAttribGroupType"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- 
+       @class Media
+       @brief {Media is a abstract base class which represents many things related to this motion capture session.}
+       @details {Media is a abstract base class which represents many things related to this motion capture session. For instance  a Video, Picture, Sound files etc.}
+  -->
+  <xs:complexType name="MediaComplexType">
+    <!-- @note { e.g. "Symphony Nr. III, D Minor" }  -->
+    <xs:attribute name="name" type="xs:string" use="optional" default=""""/>
+    <!-- @note {e.g. "This is a musical piece by .... etc. etc."} -->
+    <xs:attribute name="description" type="xs:string" use="optional" default=""""/>
+    <!-- @note {e.g. "Music_01.mp3" } -->
+    <xs:attribute name="filename" type="xs:string" use="optional" default=""""/>
+    <!-- @note {e.g. "/my/location"} -->
+    <xs:attribute name="path" type="xs:string" use="optional" default=""""/>
+    <!-- @note {e.g. "Base64 encoded payload" } -->
+    <xs:attribute name="data" type="xs:string" use="optional" default=""""/>
+    <!-- @note {e.g. "MPEG Layer III"} -->
+    <xs:attribute name="codec" type="xs:string" use="optional" default=""""/>
+  </xs:complexType>
+
+  <!--  -->
+  <xs:complexType name="SoundComplexType">
+    <xs:complexContent>
+      <xs:extension base="tns:MediaComplexType">
+        <!-- @note {e.g. "44100" in Hz} -->
+        <xs:attribute name="samplerate" type="xs:int" use="optional" default="0"/>
+        <!-- @note {e.g. "127.4" in s} -->
+        <xs:attribute name="length" type="xs:float" use="optional" default="0"/>
+        <xs:attributeGroup ref="tns:MediaAttribGroupType"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- 
+  -->
+  <xs:complexType name="VideoComplexType">
+    <xs:complexContent>
+      <xs:extension base="tns:MediaComplexType">
+        <!-- @note {e.g. "1247.12"} -->
+        <xs:attribute name="bitrate" type="xs:float" use="optional" default="0"/>
+        <!-- @note { e.g. "124.1" in s } -->
+        <xs:attribute name="length" type="xs:float" use="optional" default="0"/>
+        <!-- @note { e.g. "800x600" in px } -->
+        <xs:attribute name="resolution" type="xs:string" use="optional" default=""""/>
+        <xs:attributeGroup ref="tns:MediaAttribGroupType"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:group name="MediaGroupType">
+    <xs:choice>
+      <xs:element name="Sound" type="tns:SoundComplexType"/>
+      <xs:element name="Picture" type="tns:PictureComplexType"/>
+      <!-- 
+      -->
+      <xs:element name="Video" type="tns:VideoComplexType"/>
+    </xs:choice>
+  </xs:group>
+  <!-- attributes for element Media -->
+  <xs:attributeGroup name="MediaAttribGroupType">
+    <!-- @note { e.g. "Symphony Nr. III, D Minor" }  -->
+    <xs:attribute name="name" type="xs:string" use="optional" default=""""/>
+    <!-- @note {e.g. "This is a musical piece by .... etc. etc."} -->
+    <xs:attribute name="description" type="xs:string" use="optional" default=""""/>
+    <!-- @note {e.g. "Music_01.mp3" } -->
+    <xs:attribute name="filename" type="xs:string" use="optional" default=""""/>
+    <!-- @note {e.g. "/my/location"} -->
+    <xs:attribute name="path" type="xs:string" use="optional" default=""""/>
+    <!-- @note {e.g. "Base64 encoded payload" } -->
+    <xs:attribute name="data" type="xs:string" use="optional" default=""""/>
+    <!-- @note {e.g. "MPEG Layer III"} -->
+    <xs:attribute name="codec" type="xs:string" use="optional" default=""""/>
+  </xs:attributeGroup>
+
+  <!-- Picture is the root element, declared here. -->
+  <xs:element name="Picture" type="tns:PictureComplexType"/>
+</xs:schema>

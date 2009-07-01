@@ -1,0 +1,23 @@
+#include "Coordinate.idl"
+
+//
+// class 2D
+
+interface 2D : Coordinate {
+
+  // Attributes:
+
+  // visibility should be: private
+  attribute double x;
+
+  // visibility should be: private
+  attribute double y;
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+

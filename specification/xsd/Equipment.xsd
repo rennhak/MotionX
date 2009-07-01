@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://foo.example.com/tns"
+ xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://foo.example.com/tns">
+
+  <!-- 
+       @brief {Equipment can be all kind of things which is used or worn by a person. }
+       @details {Equipment can be all kind of things which is either used or work by a person. These things can include a force measuring system, clothing etc.}
+  -->
+  <xs:complexType name="EquipmentComplexType">
+    <!-- @note { e.g. "" } -->
+    <xs:attribute name="name" type="xs:string" use="optional" default=""""/>
+    <!-- @note { e.g. "" } -->
+    <xs:attribute name="description" type="xs:string" use="optional" default=""""/>
+  </xs:complexType>
+
+  <!--  -->
+  <xs:complexType name="ClothesComplexType">
+    <xs:complexContent>
+      <xs:extension base="tns:EquipmentComplexType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!--  -->
+  <xs:complexType name="SystemComplexType">
+    <xs:complexContent>
+      <xs:extension base="tns:EquipmentComplexType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!--  -->
+  <xs:complexType name="ToolsComplexType">
+    <xs:complexContent>
+      <xs:extension base="tns:EquipmentComplexType"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:group name="EquipmentGroupType">
+    <xs:choice>
+      <xs:element name="Clothes" type="tns:ClothesComplexType"/>
+      <xs:element name="System" type="tns:SystemComplexType"/>
+      <xs:element name="Tools" type="tns:ToolsComplexType"/>
+    </xs:choice>
+  </xs:group>
+  <!-- attributes for element Equipment -->
+  <xs:attributeGroup name="EquipmentAttribGroupType">
+    <!-- @note { e.g. "" } -->
+    <xs:attribute name="name" type="xs:string" use="optional" default=""""/>
+    <!-- @note { e.g. "" } -->
+    <xs:attribute name="description" type="xs:string" use="optional" default=""""/>
+  </xs:attributeGroup>
+
+  <!-- Equipment is the root element, declared here. -->
+  <xs:element name="Equipment" type="tns:EquipmentComplexType"/>
+</xs:schema>

@@ -1,0 +1,26 @@
+#include "Sensor.idl"
+#include "Coordinate.idl"
+#include "Scale.idl"
+#include "Angle.idl"
+
+//
+// class Motion
+
+interface Motion : Sensor {
+
+  // Attributes:
+
+  // Public methods:
+
+
+  // Associations:
+
+  // Uni Association
+  attribute Coordinate has;
+  // Uni Association
+  attribute Scale has a;
+  // Uni Association
+  attribute Angle has many;
+
+};
+

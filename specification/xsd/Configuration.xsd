@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://foo.example.com/tns"
+ xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://foo.example.com/tns">
+
+  <!--  -->
+  <xs:complexType name="ConfigurationComplexType"/>
+
+  <!--  -->
+  <xs:complexType name="MarkerComplexType">
+    <xs:complexContent>
+      <xs:extension base="tns:ConfigurationComplexType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Configuration is the root element, declared here. -->
+  <xs:element name="Configuration" type="tns:ConfigurationComplexType"/>
+</xs:schema>

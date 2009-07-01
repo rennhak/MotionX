@@ -1,0 +1,5 @@
+java net.sf.saxon.Transform source.xml xml-to-json.xsl
+http://www.saxonica.com/documentation/javadoc/index.html
+http://www.bramstein.com/projects/xsltjson/
+
+http://www.jslint.com/

@@ -1,0 +1,20 @@
+#include "Equipment.idl"
+#include "Configuration.idl"
+
+//
+// class System
+
+interface System : Equipment {
+
+  // Attributes:
+
+  // Public methods:
+
+
+  // Associations:
+
+  // Aggregation
+  attribute Configuration m_Configuration;
+
+};
+

@@ -1,0 +1,25 @@
+#include "Person.idl"
+#include "Media.idl"
+#include "Frame.idl"
+
+//
+// class Situation
+
+interface Situation {
+
+  // Attributes:
+
+  // Public methods:
+
+
+  // Associations:
+
+  // Aggregation
+  attribute Person has some;
+  // Aggregation
+  attribute Media has some;
+  // Aggregation
+  attribute Frame has many;
+
+};
+

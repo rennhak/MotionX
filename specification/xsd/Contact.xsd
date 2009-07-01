@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://foo.example.com/tns"
+ xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://foo.example.com/tns">
+
+  <!-- 
+       @class Contact
+       @brief {Contact encapsulates everything beside an Address.}
+       @details {Contact stores everything beside addresses like email, fax, phone etc.}
+  -->
+  <xs:complexType name="ContactComplexType">
+    <!-- @note {e.g. "bjoern@rennhak.de" } -->
+    <xs:attribute name="email" type="xs:string" use="optional" default=""""/>
+    <!-- @note { e.g. "+81 (0) 3 123 456 789 / -ext 799" } -->
+    <xs:attribute name="phone" type="xs:string" use="optional" default=""""/>
+    <!-- @note { e.g. "+81 (0) 3 123 456 789 / -ext 799" } -->
+    <xs:attribute name="fax" type="xs:string" use="optional" default=""""/>
+    <!-- @note {e.g. "http://www.example.com" } -->
+    <xs:attribute name="www" type="xs:string" use="optional" default=""""/>
+  </xs:complexType>
+
+  <!-- Contact is the root element, declared here. -->
+  <xs:element name="Contact" type="tns:ContactComplexType"/>
+</xs:schema>

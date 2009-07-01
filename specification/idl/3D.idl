@@ -1,0 +1,20 @@
+#include "2D.idl"
+
+//
+// class 3D
+
+interface 3D : 2D {
+
+  // Attributes:
+
+  // visibility should be: private
+  attribute double z;
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+

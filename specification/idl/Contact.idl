@@ -1,0 +1,27 @@
+//
+// class Contact
+// @class Contact
+// @brief {Contact encapsulates everything beside an Address.}
+// @details {Contact stores everything beside addresses like email, fax, phone
+// etc.}
+
+interface Contact {
+
+  // Attributes:
+
+  attribute string email;
+
+  attribute string phone;
+
+  attribute string fax;
+
+  attribute string www;
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+

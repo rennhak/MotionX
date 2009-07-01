@@ -1,0 +1,40 @@
+#include "Address.idl"
+#include "Equipment.idl"
+#include "Contact.idl"
+
+//
+// class Person
+// @class Person
+// @brief { The Person class is a representation of a natural person and all its
+// data. }
+// @details { The Person class represents a abstraction of all possible data which
+// a natural person can have. }
+
+interface Person {
+
+  // Attributes:
+
+  attribute string firstName;
+
+  attribute string middleName;
+
+  attribute string lastName;
+
+  attribute string organization;
+
+  attribute bool gender;
+
+  // Public methods:
+
+
+  // Associations:
+
+  // Uni Association
+  attribute AddressVector lives/works at;
+  // Association
+  attribute Equipment uses;
+  // Uni Association
+  attribute ContactVector reachable under;
+
+};
+

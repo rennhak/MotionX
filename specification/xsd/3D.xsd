@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://foo.example.com/tns"
+ xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://foo.example.com/tns">
+
+  <!--  -->
+  <xs:complexType name="3DComplexType">
+    <xs:complexContent>
+      <xs:extension base="tns:2DComplexType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!--  -->
+  <xs:complexType name="2DComplexType">
+    <xs:complexContent>
+      <xs:extension base="tns:CoordinateComplexType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!--  -->
+  <xs:complexType name="CoordinateComplexType"/>
+
+  <!--  -->
+  <xs:complexType name="undefComplexType">
+    <xs:complexContent>
+      <xs:extension base="tns:CoordinateComplexType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- 3D is the root element, declared here. -->
+  <xs:element name="3D" type="tns:3DComplexType"/>
+</xs:schema>

@@ -1,0 +1,23 @@
+#include "Sensor.idl"
+
+//
+// class Frame
+
+interface Frame {
+
+  // Attributes:
+
+  attribute string timestamp;
+
+  attribute unsigned int epoch;
+
+  // Public methods:
+
+
+  // Associations:
+
+  // Aggregation
+  attribute SensorVector has many;
+
+};
+

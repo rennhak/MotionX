@@ -1,0 +1,15 @@
+//
+// class Model
+
+interface Model {
+
+  // Attributes:
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+

@@ -1,0 +1,21 @@
+#include "Media.idl"
+
+//
+// class Picture
+
+interface Picture : Media {
+
+  // Attributes:
+
+  attribute int height;
+
+  attribute int width;
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+

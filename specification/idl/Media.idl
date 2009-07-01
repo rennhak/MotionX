@@ -1,0 +1,32 @@
+//
+// class Media
+// @class Media
+// @brief {Media is a abstract base class which represents many things related to
+// this motion capture session.}
+// @details {Media is a abstract base class which represents many things related to
+// this motion capture session. For instance  a Video, Picture, Sound files etc.}
+
+abstract interface Media {
+
+  // Attributes:
+
+  attribute string name;
+
+  attribute string description;
+
+  attribute string filename;
+
+  attribute string path;
+
+  attribute string data;
+
+  attribute string codec;
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+

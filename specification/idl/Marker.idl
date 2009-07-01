@@ -1,0 +1,17 @@
+#include "Configuration.idl"
+
+//
+// class Marker
+
+interface Marker : Configuration {
+
+  // Attributes:
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+

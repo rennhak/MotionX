@@ -1,0 +1,21 @@
+#include "Media.idl"
+
+//
+// class Sound
+
+interface Sound : Media {
+
+  // Attributes:
+
+  attribute int samplerate;
+
+  attribute float length;
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+

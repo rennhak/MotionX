@@ -1,0 +1,17 @@
+#include "Equipment.idl"
+
+//
+// class Clothes
+
+interface Clothes : Equipment {
+
+  // Attributes:
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+

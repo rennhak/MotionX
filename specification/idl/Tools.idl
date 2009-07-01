@@ -1,0 +1,17 @@
+#include "Equipment.idl"
+
+//
+// class Tools
+
+interface Tools : Equipment {
+
+  // Attributes:
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+

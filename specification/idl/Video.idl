@@ -1,0 +1,23 @@
+#include "Media.idl"
+
+//
+// class Video
+
+interface Video : Media {
+
+  // Attributes:
+
+  attribute float bitrate;
+
+  attribute float length;
+
+  attribute string resolution;
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+

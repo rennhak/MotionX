@@ -1,0 +1,17 @@
+#include "Sensor.idl"
+
+//
+// class Force
+
+interface Force : Sensor {
+
+  // Attributes:
+
+  // Public methods:
+
+
+  // Associations:
+
+
+};
+
