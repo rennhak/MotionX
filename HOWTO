@@ -1,0 +1,30 @@
+Howto do x...
+-------------
+
+
+
+
+Q: How to develop a Plugin?
+A: First, take a look at all documentation and familiarize yourself with the Abstract Data Structure
+   (ADT) of MotionX. The ADT was designed to be purely OOP using a UML design tool called
+   "Umbrello".
+
+   Umbrello is able to generate from this specification several stubs which were then completed
+   which result in the MotionX format binding for each language. Also the tool generated XML Schema
+   Definition files (.xsd's) which are normally used to validate XML data against the UML
+   specification and allow judgement if the data is well formed or not.
+
+   These XSD's can be used by Plugin developers directly who wish to work on XML based technologies.
+   For people who prefer simpler approaches like e.g. YAML (JSON superset) there is a human readable
+   dump generated of the current stable interface which can be easily be included in your proejct to
+   know which methods to address and what they accept.
+
+   So in summary:
+
+   1.) Read specs and understand UML
+   2.) Pick either XSD or YAML/JSON files for interface definition
+   3.) Use your preferred language to develop a plugin to read/write to the MotionX format.
+   4.) To get officially supported please submit your plugin with proper interface (e.g. CLI) to the
+       main developers.
+
+

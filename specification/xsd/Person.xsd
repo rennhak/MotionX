@@ -9,15 +9,15 @@
   -->
   <xs:complexType name="PersonComplexType">
     <!-- @note { e.g. "Bjoern" } -->
-    <xs:attribute name="firstName" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="firstName" type="xs:string"/>
     <!-- @note { e.g. "J.C." } -->
-    <xs:attribute name="middleName" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="middleName" type="xs:string"/>
     <!-- @note { e.g. "Rennhak" } -->
-    <xs:attribute name="lastName" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="lastName" type="xs:string"/>
     <!-- @note { e.g. "Tokyo University" } -->
-    <xs:attribute name="organization" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="organization" type="xs:string"/>
     <!-- @note { e.g. "TRUE" is Male, "FALSE" is FEMALE } -->
-    <xs:attribute name="gender" type="xs:bool" use="optional" default="TRUE"/>
+    <xs:attribute name="gender" type="xs:bool"/>
   </xs:complexType>
 
   <!-- Person is the root element, declared here. -->

@@ -5,9 +5,7 @@
   <!--  -->
   <xs:complexType name="FrameComplexType">
     <!-- @note { e.g. "Thu Jul  2 00:54:22 JST 2009" } -->
-    <xs:attribute name="timestamp" type="xs:string" use="optional" default=""""/>
-    <!-- @note { e.g. 1246463811 } -->
-    <xs:attribute name="epoch" type="xs:unsigned int" use="optional" default="0"/>
+    <xs:attribute name="timestamp" type="xs:string"/>
   </xs:complexType>
 
   <!-- Frame is the root element, declared here. -->

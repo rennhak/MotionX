@@ -9,17 +9,17 @@
   -->
   <xs:complexType name="AddressComplexType">
     <!-- @note { e.g. "Somethingstreet 17a" } -->
-    <xs:attribute name="street" type="xs:string" use="optional" default=""/>
+    <xs:attribute name="street" type="xs:string"/>
     <!-- @note { e.g. "c/o Mr. X" } -->
-    <xs:attribute name="optional" type="xs:string" use="optional" default=""/>
+    <xs:attribute name="optional" type="xs:string"/>
     <!-- @note { e.g. "01234567890" } -->
-    <xs:attribute name="zip" type="xs:int" use="optional" default="-1"/>
+    <xs:attribute name="zip" type="xs:int"/>
     <!-- @note { e.g. "Tokyo" } -->
-    <xs:attribute name="city" type="xs:string" use="optional" default=""/>
+    <xs:attribute name="city" type="xs:string"/>
     <!-- @note { e.g. "Japan" } -->
-    <xs:attribute name="country" type="xs:string" use="optional" default=""/>
+    <xs:attribute name="country" type="xs:string"/>
     <!-- @note { e.g. "Toyko-to" } -->
-    <xs:attribute name="state" type="xs:string" use="optional" default=""/>
+    <xs:attribute name="state" type="xs:string"/>
   </xs:complexType>
 
   <!-- Address is the root element, declared here. -->

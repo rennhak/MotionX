@@ -30,4 +30,4 @@
   require 'yaml'
   C1 = Class.new
   puts C1.to_yaml #=> --- !ruby/object:Class {}
-
+- http://github.com/mislav/hanna/tree/master

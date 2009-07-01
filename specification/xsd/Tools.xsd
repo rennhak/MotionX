@@ -15,9 +15,9 @@
   -->
   <xs:complexType name="EquipmentComplexType">
     <!-- @note { e.g. "" } -->
-    <xs:attribute name="name" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="name" type="xs:string"/>
     <!-- @note { e.g. "" } -->
-    <xs:attribute name="description" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="description" type="xs:string"/>
   </xs:complexType>
 
   <!--  -->
@@ -43,9 +43,9 @@
   <!-- attributes for element Equipment -->
   <xs:attributeGroup name="EquipmentAttribGroupType">
     <!-- @note { e.g. "" } -->
-    <xs:attribute name="name" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="name" type="xs:string"/>
     <!-- @note { e.g. "" } -->
-    <xs:attribute name="description" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="description" type="xs:string"/>
   </xs:attributeGroup>
 
   <!-- Tools is the root element, declared here. -->

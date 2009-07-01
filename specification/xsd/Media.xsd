@@ -9,17 +9,17 @@
   -->
   <xs:complexType name="MediaComplexType">
     <!-- @note { e.g. "Symphony Nr. III, D Minor" }  -->
-    <xs:attribute name="name" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="name" type="xs:string"/>
     <!-- @note {e.g. "This is a musical piece by .... etc. etc."} -->
-    <xs:attribute name="description" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="description" type="xs:string"/>
     <!-- @note {e.g. "Music_01.mp3" } -->
-    <xs:attribute name="filename" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="filename" type="xs:string"/>
     <!-- @note {e.g. "/my/location"} -->
-    <xs:attribute name="path" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="path" type="xs:string"/>
     <!-- @note {e.g. "Base64 encoded payload" } -->
-    <xs:attribute name="data" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="data" type="xs:string"/>
     <!-- @note {e.g. "MPEG Layer III"} -->
-    <xs:attribute name="codec" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="codec" type="xs:string"/>
   </xs:complexType>
 
   <!--  -->
@@ -27,9 +27,9 @@
     <xs:complexContent>
       <xs:extension base="tns:MediaComplexType">
         <!-- @note {e.g. "44100" in Hz} -->
-        <xs:attribute name="samplerate" type="xs:int" use="optional" default="0"/>
+        <xs:attribute name="samplerate" type="xs:int"/>
         <!-- @note {e.g. "127.4" in s} -->
-        <xs:attribute name="length" type="xs:float" use="optional" default="0"/>
+        <xs:attribute name="length" type="xs:float"/>
         <xs:attributeGroup ref="tns:MediaAttribGroupType"/>
       </xs:extension>
     </xs:complexContent>
@@ -40,9 +40,9 @@
     <xs:complexContent>
       <xs:extension base="tns:MediaComplexType">
         <!-- @note {e.g. 124 in px} -->
-        <xs:attribute name="height" type="xs:int" use="optional" default="0"/>
+        <xs:attribute name="height" type="xs:int"/>
         <!-- @note { e.g. 124 in px} -->
-        <xs:attribute name="width" type="xs:int" use="optional" default="0"/>
+        <xs:attribute name="width" type="xs:int"/>
         <xs:attributeGroup ref="tns:MediaAttribGroupType"/>
       </xs:extension>
     </xs:complexContent>
@@ -54,11 +54,11 @@
     <xs:complexContent>
       <xs:extension base="tns:MediaComplexType">
         <!-- @note {e.g. "1247.12"} -->
-        <xs:attribute name="bitrate" type="xs:float" use="optional" default="0"/>
+        <xs:attribute name="bitrate" type="xs:float"/>
         <!-- @note { e.g. "124.1" in s } -->
-        <xs:attribute name="length" type="xs:float" use="optional" default="0"/>
+        <xs:attribute name="length" type="xs:float"/>
         <!-- @note { e.g. "800x600" in px } -->
-        <xs:attribute name="resolution" type="xs:string" use="optional" default=""""/>
+        <xs:attribute name="resolution" type="xs:string"/>
         <xs:attributeGroup ref="tns:MediaAttribGroupType"/>
       </xs:extension>
     </xs:complexContent>
@@ -75,17 +75,17 @@
   <!-- attributes for element Media -->
   <xs:attributeGroup name="MediaAttribGroupType">
     <!-- @note { e.g. "Symphony Nr. III, D Minor" }  -->
-    <xs:attribute name="name" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="name" type="xs:string"/>
     <!-- @note {e.g. "This is a musical piece by .... etc. etc."} -->
-    <xs:attribute name="description" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="description" type="xs:string"/>
     <!-- @note {e.g. "Music_01.mp3" } -->
-    <xs:attribute name="filename" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="filename" type="xs:string"/>
     <!-- @note {e.g. "/my/location"} -->
-    <xs:attribute name="path" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="path" type="xs:string"/>
     <!-- @note {e.g. "Base64 encoded payload" } -->
-    <xs:attribute name="data" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="data" type="xs:string"/>
     <!-- @note {e.g. "MPEG Layer III"} -->
-    <xs:attribute name="codec" type="xs:string" use="optional" default=""""/>
+    <xs:attribute name="codec" type="xs:string"/>
   </xs:attributeGroup>
 
   <!-- Media is the root element, declared here. -->

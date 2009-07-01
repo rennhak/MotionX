@@ -3,3 +3,17 @@ http://www.saxonica.com/documentation/javadoc/index.html
 http://www.bramstein.com/projects/xsltjson/
 
 http://www.jslint.com/
+
+0.) install java + saxon
+
+1.)
+export
+CLASSPATH=/usr/share/saxon/lib/saxon8-dom.jar:/usr/share/saxon/lib/saxon8-jdom.jar:/usr/share/saxon/lib/saxon8-sql.jar:/usr/share/saxon/lib/saxon8-xom.jar:/usr/share/saxon/lib/saxon8-xpath.jar:/usr/share/saxon/lib/saxon8.jar:$CLASSPATH
+
+2.)
+java net.sf.saxon.Transform Address.xsd ../xsl/xml-to-json.xsl > foo.json
+
+
+3.) 
+java net.sf.saxon.Transform foo.json ../xsl/XML_to_YAML_-_29_06_2009.xsl
+
