@@ -1,0 +1,2 @@
+- Is there a official specification documentation for this format?
+- How to handle crln? \r\n ? \n ? Compat to different systems? Windows?
