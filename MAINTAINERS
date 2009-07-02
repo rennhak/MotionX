@@ -30,10 +30,18 @@ MAINTAINERS
     Associated:   Has some relevance to the project and is referable to specific parts of the project.
 
 
-    Stock Market Analysis and pRediction sysTem
+    MotionX
     P: Bjoern Rennhak
     M: bjoern AT rennhak DOT de
     L: -
     W: http://www.rennhak.de
     S: Creator, Maintainer
+
+
+    C3D Plugin
+    P: Shunsuke Kudoh
+    M: kudoh AT cvl DOT iis DOT u-tokyo DOT ac DOT jp
+    L: -
+    W: http://cvl.iis.u-tokyo.ac.jp
+    S: Creator
 
