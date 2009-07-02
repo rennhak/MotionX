@@ -1,2 +1,0 @@
-c3d2vpm.o: c3d2vpm.cpp c3d.h kdh_error.h
-c3d.o: c3d.cpp kdh_error.h c3d.h
