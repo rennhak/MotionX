@@ -1,0 +1,21 @@
+Developers README
+-----------------
+
+The VPM Plugin works *hopefully* with all .vpm's out there but that probably depends on the types of 
+capture devices used etc. So if you encounter a non-working version please drop me a note. (see
+AINTAINERS file in the MotionX root directory).
+
+  o The whole project has been realized fully in Ruby.
+  o Testing is realized by rspec in a BDD manner
+
+
+Structure
+---------
+
+The plugin uses a Abstract Data Type (ADT) internally because the MotionX ADT might change and I
+just want to write different mappings if it should significantly change.
+
+  VPM.rb          Commandline interface as well as library bindings
+  ADT.rb          Ruby based ADT for internal use
+  Mapping.rb      Converts the VPM.rb Object to the MotionX ADT
+
