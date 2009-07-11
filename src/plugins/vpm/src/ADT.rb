@@ -160,7 +160,7 @@ class ADT
   end
 
 
-  attr_accessor :segments
+  attr_accessor :segments, :file
   # attr_reader :segments
   # attr_writer
 end
