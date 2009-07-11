@@ -16,6 +16,7 @@ The plugin uses a Abstract Data Type (ADT) internally because the MotionX ADT mi
 just want to write different mappings if it should significantly change.
 
   VPM.rb          Commandline interface as well as library bindings
+  Segment.rb      ADT for one Segment of the VPM file (it is a subpart of the ADT.rb)
   ADT.rb          Ruby based ADT for internal use
   Mapping.rb      Converts the VPM.rb Object to the MotionX ADT
 

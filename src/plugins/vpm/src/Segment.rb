@@ -79,7 +79,7 @@ class Segment
     header = []
 
     delimiter = "\t"
-    header << "Segment:#{delimiter}#{@name}"
+    header << "Segment:#{delimiter}#{@name.upcase}"
     header << "Frames:#{delimiter}#{@frames}"
     header << "Frame Time:#{delimiter}#{@frameTime}"
     header << @order.collect{ |i| i.upcase }.join("\t").to_s                   # e.g. "XTRAN\tYTRAN\tZTRAN\tXROT\tYROT\tZROT\tXSCALE\tYSCALE\tZSCALE"
