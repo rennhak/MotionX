@@ -45,6 +45,14 @@ class ADT
 
   end
 
+  # = The initialize_copy method is necessary when this object is cloned or dup'd for various
+  # reasons. (e.g. Marshal)
+  def initialize_copy from
+    @file = from.file
+    @segments = from.segments
+  end
+
+
   # == Dynamical method creation at run-time
   # @param method Takes the method header definition
   # @param code Takes the body of the method
@@ -152,10 +160,9 @@ class ADT
   end
 
 
-  # attr_accessor
-  # attr_reader
+  attr_accessor :segments
+  # attr_reader :segments
   # attr_writer
-
 end
 
 
@@ -163,7 +170,11 @@ end
 if __FILE__ == $0
 
   adt = ADT.new( "../sample/Aizu_Female.vpm" )
-  adt.write
+  
+  # p adt.segments
+  # p adt.rfwt.xtran
+
+  # FIXME: adt.write
 
 end
 

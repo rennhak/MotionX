@@ -42,6 +42,12 @@ class Segment
     @markers            = Hash.new                       # our marker/unit hash here (just for convenience)
   end
 
+  # = The initialize_copy method is necessary when this object is cloned or dup'd for various
+  # reasons. (e.g. Marshal)
+  def initialize_copy from
+    @name, @description = from.name, from.description
+    @order, @markers    = from.order, from.markers
+  end
 
   # = setMapping! takes a segment hash and maps it internally
   # @param markers Markers is a key vector (array) which looks like this:
@@ -138,7 +144,7 @@ class Segment
 
 
   # Meta magic for get/set
-  attr_accessor :name, :description, :frames, :frameTime, :markers
+  attr_accessor :name, :description, :frames, :frameTime, :markers, :order
 end
 
 
