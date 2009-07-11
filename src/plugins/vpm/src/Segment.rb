@@ -37,17 +37,28 @@ class Segment
   # @param description  Desciption holds a explanation where this actually sits on the body.
   def initialize name, description
     @name, @description = name, description
-    @markers            = Hash.new                       # we store our marker/unit hash here
+
+    @order              = Array.new                      # the order or our markers here (just for I/O order)a
+    @markers            = Hash.new                       # our marker/unit hash here (just for convenience)
   end
 
+
   # = setMapping! takes a segment hash and maps it internally
-  # @param hash Hash is a key/value vector which was created from these two lines:
+  # @param markers Markers is a key vector (array) which looks like this:
   #             XTRAN   YTRAN   ZTRAN   XROT    YROT    ZROT    XSCALE  YSCALE  ZSCALE
-  #             INCHES  INCHES  INCHES  DEGREES DEGREES DEGREES PERCENT PERCENT PERCENT
-  #             The keys are the marker names and the values are the units.a
   #             Each value has NO newline or other special characters and is converted automatically
   #             to lower case.
-  def setMapping! hash
+  # @param units Units is a key vector (array) which looks like this:
+  #             INCHES  INCHES  INCHES  DEGREES DEGREES DEGREES PERCENT PERCENT PERCENT
+  #             Each value has NO newline or other special characters and is converted automatically
+  #             to lower case.
+  def setMapping! markers, units
+    @order = markers
+
+    # merge units and markers into a hash
+    hash = Hash[ *markers.zip( units ).flatten ]
+
+    # FIXME - below here
     hash.each_pair do |marker, unit|
       # take all markers and make sure they are downcased
       @markers[ marker.to_s.downcase ] = unit.to_s.downcase
@@ -63,25 +74,33 @@ class Segment
 
   
   # = GetHeader returns the content of a segment header
-  # FIXME: Hardcoding
+  # @returns Returns an array with the header lines, each slot is a new line
   def getHeader
+    header = []
+
     delimiter = "\t"
-    puts "Segment:#{delimiter}#{@name}"
-    puts "Frames:#{delimiter*2}#{@frames}"
-    puts "Frame Time:#{delimiter}#{@frameTime}"
-    puts "XTRAN\tYTRAN\tZTRAN\tXROT\tYROT\tZROT\tXSCALE\tYSCALE\tZSCALE"
-    puts "INCHES\tINCHES\tINCHES\tDEGREES\tDEGREES\tDEGREES\tPERCENT\tPERCENT\tPERCENT"
+    header << "Segment:#{delimiter}#{@name}"
+    header << "Frames:#{delimiter}#{@frames}"
+    header << "Frame Time:#{delimiter}#{@frameTime}"
+    header << @order.collect{ |i| i.upcase }.join("\t").to_s                   # e.g. "XTRAN\tYTRAN\tZTRAN\tXROT\tYROT\tZROT\tXSCALE\tYSCALE\tZSCALE"
+    
+    @output = []
+    @order.each { |markerName| @output << @markers[ markerName ].to_s  }
+    header << @output.collect { |i| i.upcase }.join("\t").to_s                 # e.g. "INCHES\tINCHES\tINCHES\tDEGREES\tDEGREES\tDEGREES\tPERCENT\tPERCENT\tPERCENT"
+    header
   end
 
 
   # = GetData returns the content of a frame at position index
   # @param index Index represenents one frame
-  # FIXME: Hardcoding
+  # @returns Returns an array with the desired values in the ORDER (@order) at INDEX (index)
   def getData index
-    "#{xtran[index]} #{ytran[index]} #{ztran[index]} #{xrot[index]} #{yrot[index]} #{zrot[index]} #{xscale[index]} #{yscale[index]} #{zscale[index]}"
+    @order.dup.collect { |markerName| eval( "#{markerName.to_s}[#{index}]" ) } # e.g. ->  "#{xtran[index]} #{ytran[index]} #{ztran[index]} #{xrot[index]} #{yrot[index]} #{zrot[index]} #{xscale[index]} #{yscale[index]} #{zscale[index]}"
   end
 
   # == Dynamical method creation at run-time
+  # @param method Takes the method header definition
+  # @param code Takes the body of the method
   def learn method, code
       eval <<-EOS
           class << self
@@ -102,24 +121,19 @@ class Segment
   # @note The formatting is probably by tabs, but we will only know this for sure if we have the spec
   # @todo Linux/Windows termination of strings??! Spec file?
   def to_s
-    getHeader
+    puts getHeader.join("\n")
 
-    # Data, we print only the known frames, if you put more in here it's your own problem! 
     # TODO: Write a sanity checker for VPMs
-    #
-    # b0rked
-    #0.upto( frames.to_i ) do |frame|
-    #  [*@markers.keys].each do |marker|
-    #    print eval( marker ).to_s + " "
-    #    print "\n" if( @markers.keys.last.to_s =~ %r{#{marker.to_s}}i )
-    #  end
-    #end
-    
-    0.upto( frames.to_i ) do |i|
-      puts getData( i )
-    end
 
-    ""
+    # frames.to_i starts with 1 we don't want that
+    0.upto( frames.to_i - 1 ) do |i|
+      # Construct the format string for printf (depending on how many marker names we have)
+      # All markers are considered to be floats in the 4.6 format
+      @format = []
+      @order.length.to_i.times { @format << "%4.6f" }
+
+      ( i == ( frames.to_i - 1 ) ) ? ( printf( @format.join(" ").to_s, *getData( i ) ) ) : ( printf( @format.join(" ").to_s + "\n", *getData( i ) ) )
+    end
   end
 
 
@@ -130,7 +144,7 @@ end
 
 # Direct invocation, for manual testing beside rspec
 if __FILE__ == $0
-  
+
   # Simple test with one VPM segment
   fn    = "../sample/OneSegment.vpm"
   file  = File.open( fn ).readlines
@@ -145,11 +159,11 @@ if __FILE__ == $0
   u           = file.shift.to_s.split(" ").collect { |i| i.downcase }
 
   # Make a hash out of it
-  markers     = Hash[ *m.zip( u ).flatten ]
+  #markers     = Hash[ *m.zip( u ).flatten ]
 
   # This step will create get and set for e.g. xtran etc. 
   s = Segment.new segment, ""
-  s.setMapping! markers
+  s.setMapping! m, u
 
   # Set the rest
   s.frames    = frames
@@ -160,13 +174,15 @@ if __FILE__ == $0
   # file contains now only data (one segment)
   file.each do |line|
     data = line.split(" ")
-    markers.keys.each_with_index do |marker, index|
+    m.each_with_index do |marker, index|
+      # Basically stuff the data into the adt
       eval( "s.#{marker.to_s} #{data[index]}" )
     end # markers
 
-    p s.to_s
-    exit
   end # file
+
+  p s.to_s
+
 end
 
 

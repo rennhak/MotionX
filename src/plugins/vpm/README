@@ -10,3 +10,4 @@ with a certain structure containing data. This plugin is able to read/write to V
     - read
 
 All data is directly imported to the MotionX format.
+
