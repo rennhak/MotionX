@@ -42,6 +42,16 @@ class Segment
     @markers            = Hash.new                       # our marker/unit hash here (just for convenience)
   end
 
+
+  # = GetCoordinates! returns a set of e.g. XTRAN, YTRAN, ZTRAN coordinates in array in array form
+  # [ [x,y,z], [x,y,z],... ] 
+  # FIXME: Hardcoding
+  def getCoordinates!
+    return [ @xtran, @ytran, @ztran ].transpose
+  end
+
+
+
   # = The initialize_copy method is necessary when this object is cloned or dup'd for various
   # reasons. (e.g. Marshal)
   def initialize_copy from

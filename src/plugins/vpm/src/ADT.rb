@@ -45,6 +45,20 @@ class ADT
 
   end
 
+  
+  # = GetCoordinates returns a set of e.g. XTRAN, YTRAN, ZTRAN coordinates in array in array form
+  # for a segment
+  # [ [x1,y1,z1], [x2,y2,z2],... ]
+  # @param segment Segment needs a identifier of which segment is desired, e.g. "rwrb"
+  def getCoordinates segment
+
+    coords = eval( "@#{segment.to_s.downcase}" ).getCoordinates!
+    p coords
+
+    exit
+  end
+
+
   # = The initialize_copy method is necessary when this object is cloned or dup'd for various
   # reasons. (e.g. Marshal)
   def initialize_copy from
@@ -170,7 +184,9 @@ end
 if __FILE__ == $0
 
   adt = ADT.new( "../sample/Aizu_Female.vpm" )
-  
+
+  #adt.getCoordinates( "rwrb" )
+
   # p adt.segments
   # p adt.rfwt.xtran
 
