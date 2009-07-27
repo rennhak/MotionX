@@ -14,6 +14,12 @@ $FLOAT $FLOAT $FLOAT $FLOAT $FLOAT $FLOAT $FLOAT $FLOAT
 
 Then it repeats. The segments are connected and not separeted.
 
+   210         C3D ---> VPM
+   211          x       -x
+   212          y        z
+   213          z        y
+
+
 
 Problems
 ---------
