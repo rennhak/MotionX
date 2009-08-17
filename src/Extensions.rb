@@ -3,6 +3,7 @@
 #
 
 #require 'Qt4'
+require 'ostruct'
 
 ##
 # FIXME: This is namespace pollution, avoid by segmenting it in a separate namespace.
@@ -19,6 +20,46 @@ class << YAML::DefaultResolver
     end
 end
 
+
+# Create new features for the OStruct class
+# http://snippets.dzone.com/tag/hash
+# This class provides a few new capabilities in addition to what is provided by
+# the OpenStruct class.  The method _to_hash will return a hash representation of
+# the struct, including nested structs.  The method _table will return a hash
+# representation, but will not resolve any nested structs.  The method
+# _manual_set takes a hash and adds it to the struct. This is similar to
+# OpenStruct's ability to take a hash as an initial argument to create a struct,
+# this method allows the struct to be modifed post instantiation.  The method
+# names start with an _ (underscore) to avoid any conflicts between these methods
+# and struct assignments.  Implementation note: I created a new class rather than
+# extending the existing OpenStruct class due to my personal preference of not
+# changing the behavior for standard library classes. However, one could just as
+# easily extend the OpenStruct class with these behaviors as well.
+class OpenStruct
+  def _to_hash
+    h = @table
+    #handles nested structures
+    h.each do |k,v|
+      if v.class == OpenStruct
+        h[k] = v._to_hash
+      end
+    end
+    return h
+  end
+  
+  def _table
+    @table   #table is the hash structure used in OpenStruct
+  end
+  
+  def _manual_set(hash)
+    if hash && (hash.class == Hash)
+      for k,v in hash
+        @table[k.to_sym] = v
+        new_ostruct_member(k)
+      end
+    end
+  end
+end
 
 
 # == Ninjapatching for Ruby
@@ -59,18 +100,50 @@ class String
     end
 end
 
-class Hash
-    def delete_unless &block
-        delete_if{ |key, value| not block.call( key, value ) }
-    end
 
-    # This is dangerous, see require 'ostruct'
-    # # Make access like hashObject.key1.key2.key3 possible
-    # def method_missing(*args)
-    #     return self[args[0]] if self.keys.include?(args[0])
-    #     super
-    # end
+class Hash
+
+  # http://snippets.dzone.com/tag/hash
+  # Collapse a multi-dimensional hash into a single-dimensional hash
+  def flatten_keys(newhash={}, keys=nil)
+    @@keys ||= []
+
+    self.each do |k, v|
+      k = k.to_s
+      keys2 = keys ? keys+"."+k : k
+      @@keys << keys2
+
+      if v.is_a?(Hash)
+        v.flatten_keys( newhash, keys2 )
+      else
+        newhash[keys2] = v
+      end
+    end
+    newhash
+  end
+
+  # Ugly. FIXME
+  def getKeysOfNestedHash
+    @@keys
+  end
+
+  def recursive_merge(h)
+    self.merge!(h) {|key, _old, _new| if _old.class == Hash then _old.recursive_merge(_new) else _new end  }
+  end
+
+  def delete_unless &block
+    delete_if{ |key, value| not block.call( key, value ) }
+  end
+
+  # This is dangerous, see require 'ostruct'
+  # # Make access like hashObject.key1.key2.key3 possible
+  # def method_missing(*args)
+  #     return self[args[0]] if self.keys.include?(args[0])
+  #     super
+  # end
+
 end
+
 
 class Object
     # == Dynamical method creation at run-time
@@ -229,5 +302,4 @@ end
 #     end
 #   end
 # end
-# 
-# 
+ 

@@ -42,7 +42,6 @@ class ADT
 
     read!                           # read the given file and create dynamical objects
 
-
   end
 
   
