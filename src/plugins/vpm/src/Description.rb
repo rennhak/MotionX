@@ -22,7 +22,7 @@
 
 
 # require 'ostruct'
-require '../../../Extensions.rb'
+require 'Extensions.rb'
 
 
 ###
