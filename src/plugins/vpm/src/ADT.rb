@@ -22,7 +22,7 @@
 
 
 require 'Segment.rb'
-require 'Description.rb'
+require 'Body.rb'
 
 ###
 #
@@ -39,7 +39,7 @@ class ADT
   def initialize file 
     @file = file
     @segments   = Array.new
-    @body       = Description.new.body
+    @body       = Body.new.body
 
     read!                           # read the given file and create dynamical objects
 
