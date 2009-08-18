@@ -344,11 +344,11 @@ if __FILE__ == $0
   pt30Coords = pt30.getCoordinates!
   points.each do |p1, p2|
     n += 1
-    next if( n < 1050 )
-    next if( n > 1090 )
+    #next if( n < 0 )
+    #next if( n > 100 )
 
-    #next if( n < 1100 )
-    #next if( n > 1166 )
+    next if( n < 1100 )
+    next if( n > 1166 )
 
     x = pt30Coords[n].shift
     y = pt30Coords[n].shift

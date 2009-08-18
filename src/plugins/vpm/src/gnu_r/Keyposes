@@ -1,6 +1,5 @@
-Manoj Thesis page 
-
 Keyposes are around these frames:
+---------------------------------
 
 INDEX       Approx. Frame         Exact Frame
 
@@ -183,8 +182,14 @@ utilize this for the legs too
 Good: 1*#, 2*~, 3, 4, 5*~, 6~, 7, 8
 Bad:  none really bad, except oversampling in the beginning
 
-* == Tendency to opposite
+* == Tendency to opposite (good->bad ;; bad->good)
 ~ == Good with Dense sampling consideration
 # == Needs theshhold sensitity consideration
 
+
+Reference:
+----------
+
+Kudoh Thesis page, 109      Markers
+Manoj Thesis page, 49       Keyposes
 
