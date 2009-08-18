@@ -167,12 +167,76 @@ class ADT
   # = computeExtraPoints does exactly as the name suggests. See Kudoh Thesis for more info on this.
   # (p. 109)
   def computeExtraPoints!
-    getNewSegment!( "pt27", "" )
 
+    # pt32 -> Bellybutton
+
+    %w[pt24 pt25 pt26 pt27 pt28 pt29 pt30 pt31 pt32].each { |var| getNewSegment!( var.to_s, "" ) }         # Generate new segments
+
+    @pt24 = ( @lfhd + @lbhd + @rfhd + @rbhd ) / 4
+    @pt25 = ( @lsho + @rsho ) / 2
+    @pt26 = ( @lwra + @lwrb ) / 2
     @pt27 = ( @rwra + @rwrb ) / 2
-    
+    @pt28 = ( @lfwt + @lbwt ) / 2
+    @pt29 = ( @rfwt + @rbwt ) / 2
+    @pt30 = ( @pt28 + @pt29 ) / 2
+    @pt31 = ( @pt25 + ( @pt30 * 2 ) ) / 3
+    # @pt32 = 
+  end
 
 
+  # = getSlopeForm returns a solution of the following:
+  # Two points p1 (x,y,z) and p2 (x2,y2,z2) span a line in 2D space.
+  # The slope form also known as f(x) =>  y = m*x + t 
+  # m = DeltaY / DeltaX  ; where DeltaY is the Y2 - Y1 ("steigung")
+  # @param array1 Set of coordinates Point A
+  # @param array2 Set of coordinates Point B
+  # @returns Array containing m and t for the slope form equasion
+  # @warning FIXME: Z coordinate is only neglegted and this needs to be normally compensated
+  def getSlopeForm array1, array2
+    x1, y1, z1  = *array1
+    x2, y2, z2  = *array2
+
+    deltaY      = y2 - y1
+    deltaX      = x2 - x1
+    m           = deltaY / deltaX
+
+    t           = y1 - ( m * x1 )
+
+    return [ m, t ]
+  end
+
+  # = getIntersectionPoint returns a solution for the following:
+  # Two lines in slope intersection form f1 y = m*x + t  and f2 ...
+  # intersection in a point (or not -> the intersection with the origin is returned) and this point
+  # is returned.
+  # @param array1 Array with m and t of a line in slope form
+  # @param array2 Array with m and t of a line in slope form
+  # @returns Array containing 2D point of intersection
+  def getIntersectionPoint array1, array2
+    m1, t1 = *array1
+    m2, t2 = *array2
+
+    # m1*x + t1 = m2*x + t2 <=> ..
+    x   = ( t2 - t1 ) / ( m1 - m2 )
+    y1  = m1 * x + t1
+    y2  = m2 * x + t2
+
+    # FIXME: This error occurs due to many decimals after the comma... use sprintf -- use
+    # assertions anyway! 
+    # raise ArgumentError, "Y1 and Y2 of the equasion has to be same. Something is b0rked. (,#{y1.to_s}' *** ,#{y2.to_s}')" unless y1 == y2
+
+    return [x,y1]
+  end
+  
+
+  # = determinat returns a solution for the following:
+  # Given two lines in slope intersection form f1 y = m*x +t and f2...
+  # the determinant is ad - bc ; three cases:
+  # -1  := No solution
+  #  0  := One
+  #  1  := Unlimited (you can invert it)
+  def determinat array1, array2
+    # FIXME write a class for matrix functionality
   end
 
 
@@ -206,24 +270,118 @@ if __FILE__ == $0
 
   adt = ADT.new( "../sample/Aizu_Female.vpm" )
 
-  rwrb = adt.rwrb
-  rwra = adt.rwra
+  #  puts "pt30 = "
+  #  p adt.pt30.getCoordinates!.first
+  #
+  #  puts "pt24 = "
+  #  p adt.pt24.getCoordinates!.first
+  #
+  #  puts "( ( pt24.y + pt30.y ) / pt30.y )"
+  #  res = ( ( adt.pt24 + adt.pt30 ) / adt.pt24 ).ytran
+  #  final = 0
+  #  res.each { |n| final += n } ; final = final / res.length
+  #  p 1.6180339887 - final
 
-  rwrc = ( rwrb + rwra ) / 2
-  
-  p rwrb.getCoordinates!.first
-  p rwra.getCoordinates!.first
-  p rwrc.getCoordinates!.first
+  ################
+  #
+  # p30 origin
+  # p27 and p9      ||    p26 and p5
+  #
 
-  puts "Point27:"
+  # Easy handling
+  pt30 = adt.pt30
   pt27 = adt.pt27
-  p pt27.getCoordinates!.first
-  # p adt.segments
-  # p adt.rfwt.xtran
+  pt9  = adt.relb
+  pt26 = adt.pt26
+  pt5  = adt.lelb
 
-  # FIXME: adt.write
+  # Make coords relative to p30 not global -- not normalized
+  pt27new           = pt27 - pt30
+  pt9new            = pt9  - pt30
+  slopeCoordsVars1  = []
 
-end
+  pt26new           = pt26 - pt30
+  pt5new            = pt5  - pt30
+  slopeCoordsVars2  = []
+
+  [ pt27new.getCoordinates!.zip( pt9new.getCoordinates! ) ].each do |array|
+    array.each do |point27Array, point9Array|
+      #puts "Point 27:"
+      #p point27Array
+      #puts "Point 9:"
+      #p point9Array
+      #puts "m and t are:"
+      slopeCoordsVars1 << adt.getSlopeForm( point27Array, point9Array )
+    end
+  end
+
+
+  [ pt26new.getCoordinates!.zip( pt5new.getCoordinates! ) ].each do |array|
+    array.each do |point26Array, point5Array|
+      #puts "Point 26:"
+      #p point26Array
+      #puts "Point 5:"
+      #p point5Array
+      #puts "m and t are:"
+      slopeCoordsVars2 << adt.getSlopeForm( point26Array, point5Array )
+    end
+  end 
+  
+
+  points = []
+
+  # Determine the intersection point of the two lines
+  [ slopeCoordsVars1.zip( slopeCoordsVars2 ) ].each do |array|
+    array.each do |line1, line2|  # line1 == [m, t]   --> f(x) y = m*x + t
+      points << adt.getIntersectionPoint( line1, line2 )
+    end
+  end
+
+
+  f = File.open("/tmp/results.csv", "w")
+  f.write( "index, x, y\n")
+  n = 0
+  pt30Coords = pt30.getCoordinates!
+  points.each do |p1, p2|
+    n += 1
+    next if( n < 0 )
+    next if( n > 100 )
+
+    #next if( n < 1100 )
+    #next if( n > 1166 )
+
+    x = pt30Coords[n].shift
+    y = pt30Coords[n].shift
+    z = pt30Coords[n].shift
+
+    length = Math.sqrt( (x*x) + (y*y) + (z*z) )
+
+    f.write( "#{n.to_s}, #{ ((p1-x)/length).to_s}, #{((p2-y)/length).to_s}\n" )
+  end
+  f.close
+
+  # find derivatives (or approx.) of turningpoints
+ # index = 0
+ # points.each do |p1x, p1y|
+ #     p "Index: " + index.to_s
+ #     p2x, p2y = *points[ index + 1 ]
+ #     p "P1X: " + p1x.to_s
+ #     p "P1Y: " + p1y.to_s
+ #     p "P2X: " + p2x.to_s
+ #     p "P2Y: " + p2y.to_s
+ #     index += 1
+ #     
+ #     deltaX = p2x - p1x
+ #     deltaY = p2y - p1y
+ #     m      = deltaY / deltaX
+ #     
+ #     p "m = #{m.to_s}  -- Frame: #{index.to_s}"
+ #     STDIN.gets
+
+ # end
+ # 
+
+end # end of if __FILE__ == $0
 
 
 # vim=ts:2
