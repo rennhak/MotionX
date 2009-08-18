@@ -3,7 +3,7 @@
 
 ###
 #
-# File: Description.rb
+# File: Body.rb
 #
 ######
 
@@ -12,7 +12,7 @@
 #
 # (c) 2009, Copyright, Bjoern Rennhak, The University of Tokyo
 #
-# @file       Description.rb
+# @file       Body.rb
 # @author     Bjoern Rennhak
 # @since      Fri Jul  3 05:23:16 JST 2009
 # @version    0.0.1
@@ -27,13 +27,13 @@ require 'Extensions.rb'
 
 ###
 #
-# @class   Description.rb
+# @class   Body.rb
 # @author  Bjoern Rennhak
-# @brief   Description is a very simple lookup table for the VPM markers and their meaning. It is
+# @brief   Body is a very simple lookup table for the VPM markers and their meaning. It is
 #          used by segment in the standard configuration.
 #
 #######
-class Description
+class Body
   def initialize
     
     # This is taken from the PhD Thesis of S. Kudoh, p. 117
@@ -155,12 +155,12 @@ class Description
 
 
   attr_reader :markers, :body, :mass
-end # of class Description
+end # of class Body
 
 
 # Direct invocation, for manual testing beside rspec
 if __FILE__ == $0
-  d = Description.new
+  d = Body.new
 
   # p d.body._to_hash.flatten_keys.getKeysOfNestedHash
 end
