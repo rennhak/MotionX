@@ -38,7 +38,7 @@ class Segment
   def initialize name, description
     @name, @description = name, description
 
-    @order              = Array.new                      # the order or our markers here (just for I/O order)a
+    @order              = Array.new                      # the order or our markers here (just for I/O order)
     @markers            = Hash.new                       # our marker/unit hash here (just for convenience)
   end
 
@@ -50,6 +50,176 @@ class Segment
     return [ @xtran, @ytran, @ztran ].transpose
   end
 
+
+  # = + Operator expects another object of the type segment
+  def + ( other )
+    ownCoordinates    = self.getCoordinates!
+
+    if other.is_a?( Numeric )
+      ownCoordinates    = self.getCoordinates!
+
+      # Clone self and push new coords and name
+      newCoordinates = self.fork( "(_" + self.name.to_s + "_+_" + other.to_s + "_)" )
+
+      ownCoordinates.each do |array1|
+        x1, y1, z1 = *array1
+
+        newX, newY, newZ = (x1+other), (y1+other), (z1+other)
+
+        newCoordinates.xtran << newX
+        newCoordinates.ytran << newY
+        newCoordinates.ztran << newZ
+      end
+    else
+      otherCoordinates  = other.getCoordinates!                       # we get an array of coords [x,y,z]
+      ownCoordinates    = self.getCoordinates!
+
+      # Clone self and push new coords and name
+      newCoordinates = self.fork( "(_" + self.name.to_s + "_+_" + other.name.to_s + "_)" )
+
+      [ ownCoordinates, otherCoordinates ].transpose.each do |array1, array2|
+        x1, y1, z1 = *array1
+        x2, y2, z2 = *array2
+
+        newX, newY, newZ = (x1+x2), (y1+y2), (z1+z2)
+
+        newCoordinates.xtran << newX
+        newCoordinates.ytran << newY
+        newCoordinates.ztran << newZ
+      end
+    end
+
+    return newCoordinates
+  end
+
+  # = - Operator expects another object of the type segment
+  def - ( other )
+    ownCoordinates    = self.getCoordinates!
+
+    if other.is_a?( Numeric )
+      # Clone self and push new coords and name
+      newCoordinates = self.fork( "(_" + self.name.to_s + "_-_" + other.to_s + "_)" )
+
+      ownCoordinates.each do |array1|
+        x1, y1, z1 = *array1
+
+        newX, newY, newZ = (x1-other), (y1-other), (z1-other)
+
+        newCoordinates.xtran << newX
+        newCoordinates.ytran << newY
+        newCoordinates.ztran << newZ
+      end
+    else
+      otherCoordinates  = other.getCoordinates!                       # we get an array of coords [x,y,z]
+
+      # Clone self and push new coords and name
+      newCoordinates = self.fork( "(_" + self.name.to_s + "_-_" + other.name.to_s + "_)" )
+
+      [ ownCoordinates, otherCoordinates ].transpose.each do |array1, array2|
+        x1, y1, z1 = *array1
+        x2, y2, z2 = *array2
+
+        newX, newY, newZ = (x1-x2), (y1-y2), (z1-z2)
+
+        newCoordinates.xtran << newX
+        newCoordinates.ytran << newY
+        newCoordinates.ztran << newZ
+      end
+    end
+
+    return newCoordinates
+  end
+
+  # = * Operator expects another object of the type segment
+  def * ( other )
+    ownCoordinates    = self.getCoordinates!
+
+    if other.is_a?( Numeric )
+
+      # Clone self and push new coords and name
+      newCoordinates = self.fork( "(_" + self.name.to_s + "_*_" + other.to_s + "_)" )
+
+      ownCoordinates.each do |array1|
+        x1, y1, z1 = *array1
+
+        newX, newY, newZ = (x1*other), (y1*other), (z1*other)
+
+        newCoordinates.xtran << newX
+        newCoordinates.ytran << newY
+        newCoordinates.ztran << newZ
+      end
+
+    else
+      otherCoordinates  = other.getCoordinates!                       # we get an array of coords [x,y,z]
+
+      # Clone self and push new coords and name
+      newCoordinates = self.fork( "(_" + self.name.to_s + "_*_" + other.name.to_s + "_)" )
+
+      [ ownCoordinates, otherCoordinates ].transpose.each do |array1, array2|
+        x1, y1, z1 = *array1
+        x2, y2, z2 = *array2
+
+        newX, newY, newZ = (x1*x2), (y1*y2), (z1*z2)
+
+        newCoordinates.xtran << newX
+        newCoordinates.ytran << newY
+        newCoordinates.ztran << newZ
+      end
+    end
+
+    return newCoordinates
+  end
+
+  # = / Operator expects another object of the type segment
+  def / ( other )
+    ownCoordinates    = self.getCoordinates!
+
+    if other.is_a?( Numeric )
+      # Clone self and push new coords and name
+      newCoordinates = self.fork( "(_" + self.name.to_s + "_/_" + other.to_s + "_)" )
+
+      ownCoordinates.each do |array1|
+        x1, y1, z1 = *array1
+
+        newX, newY, newZ = (x1/other), (y1/other), (z1/other)
+
+        newCoordinates.xtran << newX
+        newCoordinates.ytran << newY
+        newCoordinates.ztran << newZ
+
+      end
+    else
+      otherCoordinates  = other.getCoordinates!                       # we get an array of coords [x,y,z]
+
+      # Clone self and push new coords and name
+      newCoordinates = self.fork( "(_" + self.name.to_s + "_/_" + other.name.to_s + "_)" )
+
+      [ ownCoordinates, otherCoordinates ].transpose.each do |array1, array2|
+        x1, y1, z1 = *array1
+        x2, y2, z2 = *array2
+
+        newX, newY, newZ = (x1/x2), (y1/y2), (z1/z2)
+
+        newCoordinates.xtran << newX
+        newCoordinates.ytran << newY
+        newCoordinates.ztran << newZ
+      end
+    end # end of other.is_a(Fixnum)
+
+    return newCoordinates
+  end
+
+
+
+  # = Forks self object and just cleans out data which is then used to push some results like "add"
+  # @returns Segment object like self w/o data and new name
+  def fork( name, description = "" )
+    new = Segment.new( name, description )
+    new.setMapping!( *self.getMapping! )
+    new.frames      = self.frames
+    new.frameTime   = self.frameTime
+    return new
+  end
 
 
   # = The initialize_copy method is necessary when this object is cloned or dup'd for various
@@ -70,6 +240,7 @@ class Segment
   #             to lower case.
   def setMapping! markers, units
     @order = markers
+    @units = units
 
     # merge units and markers into a hash
     hash = Hash[ *markers.zip( units ).flatten ]
@@ -83,12 +254,19 @@ class Segment
       self.instance_variable_set( "@#{marker.to_s.downcase}", Array.new )   # e.g. XTRAN/INCHES becomes @xtran => Array.new
 
       # learn getter and setter
-      # TODO: doesn't ruby have a better way for this?
-      learn( "#{marker.to_s.downcase} val = nil", "( val.nil? ) ? ( return @#{marker.to_s.downcase} ) : ( @#{marker.to_s.downcase} << val )"  )
+      # TODO: doesn't ruby have a better way for this? inside functions?
+      learn( "#{marker.to_s.downcase}=(val)", "@#{marker.to_s.downcase} = val" )      # Setter
+      learn( "#{marker.to_s.downcase}", "@#{marker.to_s.downcase}" )                  # Getter
+
+      #learn( "#{marker.to_s.downcase} val = nil", "( val.nil? ) ? ( return @#{marker.to_s.downcase} ) : ( @#{marker.to_s.downcase} << val )"  )
     end
   end
 
-  
+  def getMapping!
+    return [@order, @units]
+  end
+
+
   # = GetHeader returns the content of a segment header
   # @returns Returns an array with the header lines, each slot is a new line
   def getHeader
@@ -99,7 +277,7 @@ class Segment
     header << "Frames:#{delimiter}#{@frames}"
     header << "Frame Time:#{delimiter}#{@frameTime}"
     header << @order.collect{ |i| i.upcase }.join("\t").to_s                   # e.g. "XTRAN\tYTRAN\tZTRAN\tXROT\tYROT\tZROT\tXSCALE\tYSCALE\tZSCALE"
-    
+
     @output = []
     @order.each { |markerName| @output << @markers[ markerName ].to_s  }
     header << @output.collect { |i| i.upcase }.join("\t").to_s                 # e.g. "INCHES\tINCHES\tINCHES\tDEGREES\tDEGREES\tDEGREES\tPERCENT\tPERCENT\tPERCENT"
@@ -197,7 +375,12 @@ if __FILE__ == $0
 
   end # file
 
-  p s.to_s
+  p s.xtran
+  #s.xtran( [] )
+  #p "---"
+  #p s.xtran
+
+
 
 end
 

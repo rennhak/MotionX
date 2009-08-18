@@ -42,7 +42,7 @@ class ADT
     @body       = Body.new.body
 
     read!                           # read the given file and create dynamical objects
-
+    computeExtraPoints!             # e.g. pt27, etc.
   end
 
   
@@ -51,11 +51,7 @@ class ADT
   # [ [x1,y1,z1], [x2,y2,z2],... ]
   # @param segment Segment needs a identifier of which segment is desired, e.g. "rwrb"
   def getCoordinates segment
-
     coords = eval( "@#{segment.to_s.downcase}" ).getCoordinates!
-    p coords
-
-    exit
   end
 
 
@@ -101,7 +97,7 @@ class ADT
         # generate a variable for each segment
         self.instance_variable_set( "@#{s.to_s}", Segment.new( s, "" ) )     # same idea as in Segment.rb TODO: Add meta information for segments
 
-        # TODO: doesn't ruby have a better way for this? --- attr??
+        # TODO: doesn't ruby have a better way for this? --- attr in functions?
         learn( "#{s.to_s}", "return @#{s.to_s}" ) # getter
       end
     end
@@ -144,7 +140,7 @@ class ADT
       d = line.split(" ")
       m.each_with_index do |marker, index|
         # Basically stuff the data into the adt
-        eval( "@#{segment.downcase}.#{marker.to_s} #{d[index]}" )
+        eval( "@#{segment.downcase}.#{marker.to_s} << #{d[index]}" )
       end # markers
     end # data
 
@@ -153,6 +149,31 @@ class ADT
   end
 
 
+  #= getNewSegment! generates a new empty segment with the same frame, frametime, and markers + order as existing ones
+  # @returns A segment object with the name and description. Also sets a instance_variable with the same name and data
+  def getNewSegment! name, description
+    new = @rwrb.fork( name, description )   # FIXME: Hardcoding
+
+    # generate a variable for each segment
+    self.instance_variable_set( "@#{name.to_s}", new )     # same idea as in Segment.rb TODO: Add meta information for segments
+
+    # TODO: doesn't ruby have a better way for this? --- attr in functions?
+    learn( "#{name.to_s}", "return @#{name.to_s}" ) # getter
+
+    return new
+  end
+
+
+  # = computeExtraPoints does exactly as the name suggests. See Kudoh Thesis for more info on this.
+  # (p. 109)
+  def computeExtraPoints!
+    getNewSegment!( "pt27", "" )
+
+    @pt27 = ( @rwra + @rwrb ) / 2
+    
+
+
+  end
 
 
   # = Check checks a given VPM file
@@ -185,8 +206,18 @@ if __FILE__ == $0
 
   adt = ADT.new( "../sample/Aizu_Female.vpm" )
 
-  #adt.getCoordinates( "rwrb" )
+  rwrb = adt.rwrb
+  rwra = adt.rwra
 
+  rwrc = ( rwrb + rwra ) / 2
+  
+  p rwrb.getCoordinates!.first
+  p rwra.getCoordinates!.first
+  p rwrc.getCoordinates!.first
+
+  puts "Point27:"
+  pt27 = adt.pt27
+  p pt27.getCoordinates!.first
   # p adt.segments
   # p adt.rfwt.xtran
 
