@@ -249,7 +249,7 @@ class ADT
   # @param segment1 Expects a valid segment name, e.g. rwft
   # @param segment1 Expects a valid segment name, e.g. lwft
   # @returns Hash, containing reference Phi, calculated Phi from the segments and the difference, e.g. "[ 1.61803339.., 1.59112447, 0.2... ]"
-  def getPhi segment1, segment2 # {{{
+  def getPhi segment1, segment2, frame = nil # {{{
     results                      = {}
     xtranPhi, ytranPhi, ztranPhi = [], [], []
 
@@ -268,9 +268,9 @@ class ADT
     ytranPhi.collect! { |a, b| ( ( a + b ) / a ) }
     ztranPhi.collect! { |a, b| ( ( a + b ) / a ) }
 
-    results[ "xtranPhi" ] = xtranPhi
-    results[ "ytranPhi" ] = ytranPhi
-    results[ "ztranPhi" ] = ztranPhi
+    results[ "xtranPhi" ] = ( frame.nil? ) ? ( xtranPhi ) : ( xtranPhi[ frame ] )
+    results[ "ytranPhi" ] = ( frame.nil? ) ? ( ytranPhi ) : ( ytranPhi[ frame ] )
+    results[ "ztranPhi" ] = ( frame.nil? ) ? ( ztranPhi ) : ( ztranPhi[ frame ] )
 
     results
   end # end of getPhi }}}
@@ -370,10 +370,14 @@ if __FILE__ == $0
   f.close
 
   # = PHI Calculation
-  # x = adt.getPhi( "pt24", "pt30" )["ytranPhi"]
+  # x = adt.getPhi( "pt24", "pt30", 10 )["ytranPhi"]
   # @results = []
-  # x.each_with_index { |val, index| @results << "#{index},#{( 1.61803398874989 - val ).abs}\n" }
-  # File.open( "/tmp/foo", "w" ) { |f| f.write( "x,y\n" ); f.write( @results.to_s ) }
+  # if( x.is_a?(Numeric) )
+  #   p x
+  # else
+  #   x.each_with_index { |val, index| @results << "#{index},#{( 1.61803398874989 - val ).abs}\n" }
+  #   File.open( "/tmp/foo", "w" ) { |f| f.write( "x,y\n" ); f.write( @results.to_s ) }
+  # end
 
 end # end of if __FILE__ == $0
 
