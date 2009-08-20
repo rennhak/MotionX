@@ -36,91 +36,91 @@ require 'Body.rb'
 #
 #######
 class ADT
-  def initialize file 
-    @file = file
-    @segments   = Array.new
+  def initialize file # {{{
+    @file       = file
+    @segments   = []
     @body       = Body.new.body
 
     read!                           # read the given file and create dynamical objects
     computeExtraPoints!             # e.g. pt27, etc.
-  end
 
-  
-  # = GetCoordinates returns a set of e.g. XTRAN, YTRAN, ZTRAN coordinates in array in array form
-  # for a segment
-  # [ [x1,y1,z1], [x2,y2,z2],... ]
-  # @param segment Segment needs a identifier of which segment is desired, e.g. "rwrb"
-  def getCoordinates segment
-    coords = eval( "@#{segment.to_s.downcase}" ).getCoordinates!
-  end
+  end # end of initialize }}}
 
 
-  # = The initialize_copy method is necessary when this object is cloned or dup'd for various
-  # reasons. (e.g. Marshal)
-  def initialize_copy from
+  # = The initialize_copy method is necessary when this object is cloned or dup'd for various reasons. (e.g. Marshal)
+  # @param from From needs a class name
+  # @returns Self with instance_variables instanciated
+  def initialize_copy from # {{{
     @file = from.file
     @segments = from.segments
-  end
+  end # end of initialize_copy }}}
 
 
-  # == Dynamical method creation at run-time
+  # = GetCoordinates returns a set of e.g. XTRAN, YTRAN, ZTRAN coordinates Array w/ subarrays
+  # @param segment Segment needs a identifier of which segment is desired, e.g. "rwrb"
+  # @returns An array in array form for a segment [ [x1,y1,z1], [x2,y2,z2],... ]
+  def getCoordinates segment # {{{
+    coords = eval( "@#{segment.to_s.downcase}" ).getCoordinates!
+  end # end of getCoordinates }}}
+
+
+  # = Dynamical method creation at run-time
   # @param method Takes the method header definition
   # @param code Takes the body of the method
-  def learn method, code
+  def learn method, code # {{{
       eval <<-EOS
           class << self
               def #{method}; #{code}; end
           end
       EOS
-  end
+  end # end of learn }}}
 
-  # = Read reads a given VPM file
+
+  # = The read! function reads a given VPM file
+  # After finishing the objects names in @segments exist as objects in this class as e.g. "@rwft" etc.
   # @param file File represents the path/file combination where to find the VPM file
-  # After finishing the objects names in @segments exist as objects in this class as e.g. "@rwft"
-  # etc.
-  # @todo Checks and warnings if file is not readable. Also regarding vpm sanity.
-  def read! file = @file
+  # @todo FIXME Checks and warnings if file is not readable. Also regarding vpm sanity.
+  def read! file = @file # {{{
 
-    # read file and cut '\n's
-    data = File.open( file ).readlines
+    data = File.open( file ).readlines    # read file and cut '\n's
     data.collect { |a| a.chomp! }
 
     ###
     # Split content into segments
-    # 1.) How many segments do we have and what is their name? Also create for each segment a
-    # segment object.
+    #####
+
+    # How many segments do we have and what is their name? Also create for each segment a segment object.
     data.each do |l|
       if l.to_s =~ %r{Segment:}i
         s = l.split(":").last.strip.to_s.downcase
         @segments << s
 
-        # generate a variable for each segment
-        self.instance_variable_set( "@#{s.to_s}", Segment.new( s, "" ) )     # same idea as in Segment.rb TODO: Add meta information for segments
+        # Generate a variable for each segment
+        self.instance_variable_set( "@#{s.to_s}", Segment.new( s, "" ) )     # same idea as in Segment.rb
 
-        # TODO: doesn't ruby have a better way for this? --- attr in functions?
-        learn( "#{s.to_s}", "return @#{s.to_s}" ) # getter
+        # FIXME: Add meta information for segments
+
+        learn( "#{s.to_s}", "return @#{s.to_s}" ) # Getter method
       end
     end
 
-    # 2.) Split contents along the "Segment:" lines into a segment objects
-    # the delete_if removes the first empty element
+    # Split contents along the "Segment:" lines into a segment objects the delete_if removes the first empty element
     segments = data.dup.join("\n").to_s.split("Segment:").delete_if { |s| s.empty? }.collect { |s| "Segment:"+s.to_s }
-    segments.each { |s| processSegment( s ) }                   # this will gen various segments
+    segments.each { |s| processSegment( s ) }                                # this will gen various segments
 
-    # TODO: Check if read succeeded
-  end
+    # FIXME: Check if read succeeded
+  end # end of read! }}}
 
 
   # = ProcessSegment takes a segment string and returns a segment object, but also sets the object.
   # @param string String is one segment ans one string incl. newlines etc.
-  # @returns Returns a Segment object generated from the given string
-  # e.g. "Segment: RWFT...." -> @rwft = Segment.new...
+  # @returns Returns a Segment object generated from the given string e.g. "Segment: RWFT...." -> @rwft = Segment.new...
   # @warning First line in the string needs to be a segment definition. The Segment section needs to
-  # validate specification otherwise this function will fail. Run vpmcheck first.
-  def processSegment string
+  #          validate specification otherwise this function will fail. Run vpmcheck first.
+  def processSegment string # {{{
     data = string.split("\n")
 
-    # Get meta
+    # Get meta information
     segment     = data.shift.to_s.split(":").last.strip
     frames      = data.shift.to_s.split(":").last.strip
     frameTime   = data.shift.to_s.split(":").last.strip
@@ -129,27 +129,23 @@ class ADT
     m           = data.shift.to_s.split(" ").collect { |i| i.downcase }
     u           = data.shift.to_s.split(" ").collect { |i| i.downcase }
 
+    # Set marker mappings and other variables as instance variables
     eval( "@#{segment.downcase}" ).setMapping!( m, u )
-
-    # Set the rest
     eval( "@#{segment.downcase}" ).frames    = frames
     eval( "@#{segment.downcase}" ).frameTime = frameTime
 
-    # now only data (one segment)
+    # Only data (one segment!) left
     data.each do |line|
       d = line.split(" ")
-      m.each_with_index do |marker, index|
-        # Basically stuff the data into the adt
-        eval( "@#{segment.downcase}.#{marker.to_s} << #{d[index]}" )
-      end # markers
-    end # data
+      m.each_with_index { |marker, index| eval( "@#{segment.downcase}.#{marker.to_s} << #{d[index]}" ) }
+    end # end of data
 
-    #p eval( "@#{segment.downcase}" ).to_s
-    return eval( "@#{segment.downcase}" )
-  end
+    eval( "@#{segment.downcase}" )
+  end # end of processSegment }}}
 
 
   #= getNewSegment! generates a new empty segment with the same frame, frametime, and markers + order as existing ones
+  # @param 
   # @returns A segment object with the name and description. Also sets a instance_variable with the same name and data
   def getNewSegment! name, description
     new = @rwrb.fork( name, description )   # FIXME: Hardcoding
@@ -344,11 +340,11 @@ if __FILE__ == $0
   pt30Coords = pt30.getCoordinates!
   points.each do |p1, p2|
     n += 1
-    #next if( n < 0 )
-    #next if( n > 100 )
+    #next if( n < 990 )
+    #next if( n > 1040 )
 
-    next if( n < 1100 )
-    next if( n > 1166 )
+    #next if( n < 1100 )
+    #next if( n > 1166 )
 
     x = pt30Coords[n].shift
     y = pt30Coords[n].shift
