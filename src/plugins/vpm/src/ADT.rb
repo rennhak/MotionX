@@ -297,6 +297,7 @@ class ADT
   # @param segment2b Name of segment which together with segment2a builds a 3D line
   # @param center Name of segment which is our coordinate center for measurement and projection (3D->2D)
   # @returns Array, containing the points after the calculation
+  # @warning FIXME: This thing is too slow, speed it up
   def getTurningPoints segment1 = "pt27", segment2 = "relb", segment3 = "pt26", segment4 = "lelb", center = "p30" # {{{
 
     #####
@@ -332,7 +333,6 @@ class ADT
       end
     end
 
-
     [ pt26new.getCoordinates!.zip( pt5new.getCoordinates! ) ].each do |array|
       array.each do |point26Array, point5Array|
         slopeCoordsVars2 << getSlopeForm( point26Array, point5Array )
@@ -348,9 +348,28 @@ class ADT
       end
     end
 
+    pt30Coords = pt30.getCoordinates!
+    final = []
+    n = 0
+    points.each do |p1, p2|
+      n += 1
+
+      x = pt30Coords[n].shift
+      y = pt30Coords[n].shift
+      z = pt30Coords[n].shift
+
+      length = Math.sqrt( (x*x) + (y*y) + (z*z) )
+
+      final << [ "#{n.to_s}, #{ ((p1-x)/length).to_s}, #{((p2-y)/length).to_s}" ]
+    end
+
     points
   end # end of getTurningPoints }}}
 
+
+  # = writeCSV takes various 
+  def writeCSV
+  end
 
   attr_accessor :segments, :file, :body
 end # end of ADT class }}}
@@ -362,29 +381,28 @@ if __FILE__ == $0
   adt = ADT.new( "../sample/Aizu_Female.vpm" )
 
   points = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30"  )
-  pt30 = adt.pt30
 
   f = File.open("/tmp/results.csv", "w")
   f.write( "index, x, y\n")
-  n = 0
-  pt30Coords = pt30.getCoordinates!
+  #n = 0
+  #pt30Coords = pt30.getCoordinates!
 
-  points.each do |p1, p2|
-    n += 1
-    next if( n < 990 )
-    next if( n > 1040 )
+  points.each do |n, p1, p2|
+  #  n += 1
+  #  next if( n < 990 )
+  #  next if( n > 1040 )
 
     #next if( n < 1100 )
     #next if( n > 1166 )
 
-    x = pt30Coords[n].shift
-    y = pt30Coords[n].shift
-    z = pt30Coords[n].shift
+  #  x = pt30Coords[n].shift
+  #  y = pt30Coords[n].shift
+  #  z = pt30Coords[n].shift
 
 
-    length = Math.sqrt( (x*x) + (y*y) + (z*z) )
+  #  length = Math.sqrt( (x*x) + (y*y) + (z*z) )
 
-    f.write( "#{n.to_s}, #{ ((p1-x)/length).to_s}, #{((p2-y)/length).to_s}\n" )
+    f.write( "#{n.to_s}, #{p1.to_s}, #{p2.to_s}\n" )
   end
   f.close
 
