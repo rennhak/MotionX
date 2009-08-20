@@ -244,26 +244,35 @@ class ADT
   end # end of valid? }}}
 
 
-  # = getPhi takes two segements and performs a simple golden ratio calculation
+  # = getPhi takes two segements and performs a simple golden ratio calculation for each coordinate pair
   #   A good reference would be \varphi = \frac{1 + \sqrt{5}}{2} \approx 1.61803339 \ldots
   # @param segment1 Expects a valid segment name, e.g. rwft
   # @param segment1 Expects a valid segment name, e.g. lwft
-  # @returns Array, containing reference Phi, calculated Phi from the segments and the difference, e.g. "[ 1.61803339.., 1.59112447, 0.2... ]"
+  # @returns Hash, containing reference Phi, calculated Phi from the segments and the difference, e.g. "[ 1.61803339.., 1.59112447, 0.2... ]"
   def getPhi segment1, segment2 # {{{
-    results = []
+    results                      = {}
+    xtranPhi, ytranPhi, ztranPhi = [], [], []
 
-    # calculate reference phi
+    # calculate a reference phi
+    results[ "phi" ]  = ( ( 1 + Math.sqrt(5) ) / 2 )
 
-    s1 = eval( "adt.#{segment1.to_s}.getCoordinates!.first" )
-    s1 = eval( "adt.#{segment2.to_s}.getCoordinates!.first" )
+    # get Coordinate Arrays, e.g. [ [ ..., ..., ... ], [ ... ], ... ]
+    s1, s2            = eval( "@#{segment1.to_s}.getCoordinates!" ), eval( "@#{segment2.to_s}.getCoordinates!" )
 
-    #  puts "( ( pt24.y + pt30.y ) / pt30.y )"
-    #  res = ( ( adt.pt24 + adt.pt30 ) / adt.pt24 ).ytran
-    #  final = 0
-    #  res.each { |n| final += n } ; final = final / res.length
-    #  p 1.6180339887 - final
+    # push all x, y and z values to the subarrays in #{$x}tranPhi
+    s1.each_with_index { |array, index| x, y, z = *array ; %w[x y z].each { |var| eval( "#{var.to_s}tranPhi << [ #{var} ]" ) } }
+    s2.each_with_index { |array, index| x, y, z = *array ; %w[x y z].each { |var| eval( "#{var.to_s}tranPhi[#{index}] << #{var}" ) } }
 
+    # calculate phi for each timeframe
+    xtranPhi.collect! { |a, b| ( ( a + b ) / a ) }
+    ytranPhi.collect! { |a, b| ( ( a + b ) / a ) }
+    ztranPhi.collect! { |a, b| ( ( a + b ) / a ) }
 
+    results[ "xtranPhi" ] = xtranPhi
+    results[ "ytranPhi" ] = ytranPhi
+    results[ "ztranPhi" ] = ztranPhi
+
+    results
   end # end of getPhi }}}
 
   # = write dumps a given VPM data into a file
@@ -340,8 +349,8 @@ if __FILE__ == $0
   f.write( "index, x, y\n")
   n = 0
   pt30Coords = pt30.getCoordinates!
+
   points.each do |p1, p2|
-    n += 1
     #next if( n < 990 )
     #next if( n > 1040 )
 
@@ -352,11 +361,19 @@ if __FILE__ == $0
     y = pt30Coords[n].shift
     z = pt30Coords[n].shift
 
+    n += 1
+
     length = Math.sqrt( (x*x) + (y*y) + (z*z) )
 
     f.write( "#{n.to_s}, #{ ((p1-x)/length).to_s}, #{((p2-y)/length).to_s}\n" )
   end
   f.close
+
+  # = PHI Calculation
+  # x = adt.getPhi( "pt24", "pt30" )["ytranPhi"]
+  # @results = []
+  # x.each_with_index { |val, index| @results << "#{index},#{( 1.61803398874989 - val ).abs}\n" }
+  # File.open( "/tmp/foo", "w" ) { |f| f.write( "x,y\n" ); f.write( @results.to_s ) }
 
 end # end of if __FILE__ == $0
 
