@@ -36,6 +36,8 @@ require 'Body.rb'
 #
 #######
 class ADT
+
+  # = initialize, inits the ADT class
   def initialize file # {{{
     @file       = file
     @segments   = []
@@ -47,7 +49,7 @@ class ADT
   end # end of initialize }}}
 
 
-  # = The initialize_copy method is necessary when this object is cloned or dup'd for various reasons. (e.g. Marshal)
+  # = initialize_copy method is necessary when this object is cloned or dup'd for various reasons. (e.g. Marshal)
   # @param from From needs a class name
   # @returns Self with instance_variables instanciated
   def initialize_copy from # {{{
@@ -56,7 +58,7 @@ class ADT
   end # end of initialize_copy }}}
 
 
-  # = GetCoordinates returns a set of e.g. XTRAN, YTRAN, ZTRAN coordinates Array w/ subarrays
+  # = getCoordinates returns a set of e.g. XTRAN, YTRAN, ZTRAN coordinates Array w/ subarrays
   # @param segment Segment needs a identifier of which segment is desired, e.g. "rwrb"
   # @returns An array in array form for a segment [ [x1,y1,z1], [x2,y2,z2],... ]
   def getCoordinates segment # {{{
@@ -64,7 +66,7 @@ class ADT
   end # end of getCoordinates }}}
 
 
-  # = Dynamical method creation at run-time
+  # = dynamical method creation at run-time
   # @param method Takes the method header definition
   # @param code Takes the body of the method
   def learn method, code # {{{
@@ -76,7 +78,7 @@ class ADT
   end # end of learn }}}
 
 
-  # = The read! function reads a given VPM file
+  # = read! function reads a given VPM file
   # After finishing the objects names in @segments exist as objects in this class as e.g. "@rwft" etc.
   # @param file File represents the path/file combination where to find the VPM file
   # @todo FIXME Checks and warnings if file is not readable. Also regarding vpm sanity.
@@ -112,7 +114,7 @@ class ADT
   end # end of read! }}}
 
 
-  # = ProcessSegment takes a segment string and returns a segment object, but also sets the object.
+  # = processSegment takes a segment string and returns a segment object, but also sets the object.
   # @param string String is one segment ans one string incl. newlines etc.
   # @returns Returns a Segment object generated from the given string e.g. "Segment: RWFT...." -> @rwft = Segment.new...
   # @warning First line in the string needs to be a segment definition. The Segment section needs to
@@ -145,138 +147,148 @@ class ADT
 
 
   #= getNewSegment! generates a new empty segment with the same frame, frametime, and markers + order as existing ones
-  # @param 
+  # @param name A string representing the name of the segment, e.g. "rwft". It will be used as instance variable e.g. "@rwft"
+  # @param description A string describing the point's meaning on the body. E.g. Rear Waist Forward Top half..." etc.
   # @returns A segment object with the name and description. Also sets a instance_variable with the same name and data
-  def getNewSegment! name, description
+  def getNewSegment! name, description # {{{
     new = @rwrb.fork( name, description )   # FIXME: Hardcoding
 
-    # generate a variable for each segment
-    self.instance_variable_set( "@#{name.to_s}", new )     # same idea as in Segment.rb TODO: Add meta information for segments
+    # Generate a variable for each segment
+    self.instance_variable_set( "@#{name.to_s}", new )     # same idea as in Segment.rb 
 
-    # TODO: doesn't ruby have a better way for this? --- attr in functions?
-    learn( "#{name.to_s}", "return @#{name.to_s}" ) # getter
+    # TODO: Add meta information for segments
 
-    return new
-  end
+    learn( "#{name.to_s}", "return @#{name.to_s}" ) # Getter function
+
+    new
+  end # }}}
 
 
-  # = computeExtraPoints does exactly as the name suggests. See Kudoh Thesis for more info on this.
-  # (p. 109)
-  def computeExtraPoints!
-
-    # pt32 -> Bellybutton
+  # = computeExtraPoints does exactly as the name suggests. See S. Kudoh Thesis (p. 109) for more info on this.
+  def computeExtraPoints! # {{{
 
     %w[pt24 pt25 pt26 pt27 pt28 pt29 pt30 pt31 pt32].each { |var| getNewSegment!( var.to_s, "" ) }         # Generate new segments
 
+    # Standard Points from S. Kudoh Thesis
     @pt24 = ( @lfhd + @lbhd + @rfhd + @rbhd ) / 4
-    @pt25 = ( @lsho + @rsho ) / 2
-    @pt26 = ( @lwra + @lwrb ) / 2
-    @pt27 = ( @rwra + @rwrb ) / 2
-    @pt28 = ( @lfwt + @lbwt ) / 2
-    @pt29 = ( @rfwt + @rbwt ) / 2
-    @pt30 = ( @pt28 + @pt29 ) / 2
-    @pt31 = ( @pt25 + ( @pt30 * 2 ) ) / 3
-    # @pt32 = 
-  end
+    @pt25 = ( @lsho + @rsho )                 / 2
+    @pt26 = ( @lwra + @lwrb )                 / 2
+    @pt27 = ( @rwra + @rwrb )                 / 2
+    @pt28 = ( @lfwt + @lbwt )                 / 2
+    @pt29 = ( @rfwt + @rbwt )                 / 2
+    @pt30 = ( @pt28 + @pt29 )                 / 2
+    @pt31 = ( @pt25 + ( @pt30 * 2 ) )         / 3     # FIXME: Depends on normalization, see Motion Viewer code
+  end # }}}
 
 
   # = getSlopeForm returns a solution of the following:
-  # Two points p1 (x,y,z) and p2 (x2,y2,z2) span a line in 2D space.
-  # The slope form also known as f(x) =>  y = m*x + t 
-  # m = DeltaY / DeltaX  ; where DeltaY is the Y2 - Y1 ("steigung")
+  #   Two points p1 (x,y,z) and p2 (x2,y2,z2) span a line in 2D space.
+  #   The slope form also known as f(x) =>  y = m*x + t 
+  #   m = DeltaY / DeltaX  ; where DeltaY is the Y2 - Y1 ("steigung")
   # @param array1 Set of coordinates Point A
   # @param array2 Set of coordinates Point B
-  # @returns Array containing m and t for the slope form equasion
+  # @returns Array, containing m and t for the slope form equasion
   # @warning FIXME: Z coordinate is only neglegted and this needs to be normally compensated
-  def getSlopeForm array1, array2
-    x1, y1, z1  = *array1
-    x2, y2, z2  = *array2
+  def getSlopeForm array1, array2 # {{{
+    x1, y1, z1      = *array1
+    x2, y2, z2      = *array2
 
-    deltaY      = y2 - y1
-    deltaX      = x2 - x1
-    m           = deltaY / deltaX
+    deltaX, deltaY  = ( x2 - x1 ), ( y2 - y1 )
+    m               = deltaY / deltaX
+    t               = y1 - ( m * x1 )
 
-    t           = y1 - ( m * x1 )
+    [ m, t ]
+  end # end of getSlopeForm }}}
 
-    return [ m, t ]
-  end
 
   # = getIntersectionPoint returns a solution for the following:
-  # Two lines in slope intersection form f1 y = m*x + t  and f2 ...
-  # intersection in a point (or not -> the intersection with the origin is returned) and this point
-  # is returned.
-  # @param array1 Array with m and t of a line in slope form
-  # @param array2 Array with m and t of a line in slope form
+  #   Two lines in slope intersection form f1 y = m*x + t  and f2 ...
+  #   intersection in a point (or not -> the intersection with the origin is returned) and this point is returned.
+  # @param array1 Array, with m and t of a line in slope form
+  # @param array2 Array, with m and t of a line in slope form
   # @returns Array containing 2D point of intersection
-  def getIntersectionPoint array1, array2
+  def getIntersectionPoint array1, array2 # {{{
     m1, t1 = *array1
     m2, t2 = *array2
 
-    # m1*x + t1 = m2*x + t2 <=> ..
-    x   = ( t2 - t1 ) / ( m1 - m2 )
-    y1  = m1 * x + t1
-    y2  = m2 * x + t2
+    #     m1*x + t1   = m2*x + t2   | -m2*x - t1
+    # <=> m1*x - m2*x = t2 - t1
+    # <=> (m1-m2)*x   = t2 - t1     | / (m1-m2)
+    # <=>         x   = (t2-t1) / (m1-m2)
+    x       = ( t2 - t1 ) / ( m1 - m2 )
+    y1, y2  = ( m1 * x + t1 ), ( m2 * x + t2 )
 
-    # FIXME: This error occurs due to many decimals after the comma... use sprintf -- use
-    # assertions anyway! 
+    # FIXME: This error occurs due to many decimals after the comma... use sprintf
+    # FIXME: Assertion
     # raise ArgumentError, "Y1 and Y2 of the equasion has to be same. Something is b0rked. (,#{y1.to_s}' *** ,#{y2.to_s}')" unless y1 == y2
 
-    return [x,y1]
-  end
-  
+    [x,y1]
+  end # end of getIntersectionPoint }}}
+
 
   # = determinat returns a solution for the following:
-  # Given two lines in slope intersection form f1 y = m*x +t and f2...
-  # the determinant is ad - bc ; three cases:
-  # -1  := No solution
-  #  0  := One
-  #  1  := Unlimited (you can invert it)
-  def determinat array1, array2
+  #   Given two lines in slope intersection form f1 y = m*x +t and f2...
+  #   the determinant is ad - bc ; three cases:
+  #   -1  := No solution
+  #    0  := One
+  #    1  := Unlimited (you can invert it)
+  def determinat array1, array2 # {{{
     # FIXME write a class for matrix functionality
-  end
+  end # end of determinat }}}
 
 
-  # = Check checks a given VPM file
-  def check file = @file
-  end
+  # = check parses a VPM file and looks for errors. In case of error it returns false
+  def valid? file = @file # {{{
+    
+
+  end # end of valid? }}}
 
 
-  # = Write writes a given VPM file
-  # FIXME: This method is b0rked because the Segment.rb to_s function uses printf instead of
-  # returning proper strings.
-  def write file = "/tmp/MotionX_Output.vpm"
+  # = getPhi takes two segements and performs a simple golden ratio calculation
+  #   A good reference would be \varphi = \frac{1 + \sqrt{5}}{2} \approx 1.61803339 \ldots
+  # @param segment1 Expects a valid segment name, e.g. rwft
+  # @param segment1 Expects a valid segment name, e.g. lwft
+  # @returns Array, containing reference Phi, calculated Phi from the segments and the difference, e.g. "[ 1.61803339.., 1.59112447, 0.2... ]"
+  def getPhi segment1, segment2 # {{{
+    results = []
+
+    # calculate reference phi
+
+    s1 = eval( "adt.#{segment1.to_s}.getCoordinates!.first" )
+    s1 = eval( "adt.#{segment2.to_s}.getCoordinates!.first" )
+
+    #  puts "( ( pt24.y + pt30.y ) / pt30.y )"
+    #  res = ( ( adt.pt24 + adt.pt30 ) / adt.pt24 ).ytran
+    #  final = 0
+    #  res.each { |n| final += n } ; final = final / res.length
+    #  p 1.6180339887 - final
+
+
+  end # end of getPhi }}}
+
+  # = write dumps a given VPM data into a file
+  # @param file Expects a string with a full URI as path/file combination
+  # FIXME: This method is b0rked because the Segment.rb to_s function uses printf instead of returning proper strings.
+  # @returns Boolean, true if write succeeded and false if not.
+  def write file = "/tmp/MotionX_Output.vpm" # {{{
     @result = []
 
-    @segments.each do |segmentName|
-      @result << eval( "@#{segmentName.to_s}" ).to_s
-    end
+    # rendering of each segment is done in Segment.rb
+    @segments.each { |segmentName| @result << eval( "@#{segmentName.to_s}" ).to_s }
 
     File.open( file, File::CREAT|File::TRUNC|File::RDWR, 0644) { |f| f.write( @result.join("\n") ) }
-  end
+  end # end of write }}}
 
 
   attr_accessor :segments, :file, :body
-  # attr_reader :segments
-  # attr_writer
-end
+end # end of ADT class }}}
 
 
-# Direct invocation, for manual testing beside rspec
+# = Direct invocation, for manual testing besides rspec
 if __FILE__ == $0
 
   adt = ADT.new( "../sample/Aizu_Female.vpm" )
 
-  #  puts "pt30 = "
-  #  p adt.pt30.getCoordinates!.first
-  #
-  #  puts "pt24 = "
-  #  p adt.pt24.getCoordinates!.first
-  #
-  #  puts "( ( pt24.y + pt30.y ) / pt30.y )"
-  #  res = ( ( adt.pt24 + adt.pt30 ) / adt.pt24 ).ytran
-  #  final = 0
-  #  res.each { |n| final += n } ; final = final / res.length
-  #  p 1.6180339887 - final
 
   ################
   #
@@ -302,11 +314,6 @@ if __FILE__ == $0
 
   [ pt27new.getCoordinates!.zip( pt9new.getCoordinates! ) ].each do |array|
     array.each do |point27Array, point9Array|
-      #puts "Point 27:"
-      #p point27Array
-      #puts "Point 9:"
-      #p point9Array
-      #puts "m and t are:"
       slopeCoordsVars1 << adt.getSlopeForm( point27Array, point9Array )
     end
   end
@@ -314,11 +321,6 @@ if __FILE__ == $0
 
   [ pt26new.getCoordinates!.zip( pt5new.getCoordinates! ) ].each do |array|
     array.each do |point26Array, point5Array|
-      #puts "Point 26:"
-      #p point26Array
-      #puts "Point 5:"
-      #p point5Array
-      #puts "m and t are:"
       slopeCoordsVars2 << adt.getSlopeForm( point26Array, point5Array )
     end
   end 
@@ -356,29 +358,6 @@ if __FILE__ == $0
   end
   f.close
 
-  # find derivatives (or approx.) of turningpoints
- # index = 0
- # points.each do |p1x, p1y|
- #     p "Index: " + index.to_s
- #     p2x, p2y = *points[ index + 1 ]
- #     p "P1X: " + p1x.to_s
- #     p "P1Y: " + p1y.to_s
- #     p "P2X: " + p2x.to_s
- #     p "P2Y: " + p2y.to_s
- #     index += 1
- #     
- #     deltaX = p2x - p1x
- #     deltaY = p2y - p1y
- #     m      = deltaY / deltaX
- #     
- #     p "m = #{m.to_s}  -- Frame: #{index.to_s}"
- #     STDIN.gets
-
- # end
- # 
-
 end # end of if __FILE__ == $0
 
-
 # vim=ts:2
-
