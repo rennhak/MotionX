@@ -289,6 +289,69 @@ class ADT
   end # end of write }}}
 
 
+  # = getTurningPoints returns a set of values after turning point calculation (B. Rennhak's Method '09)
+  # takes four segments ( a,b,c,d - 2 for each line (a+b) (c+d) ) one segment for
+  # @param segment1a Name of segment which together with segment1b builds a 3D line
+  # @param segment1b Name of segment which together with segment1a builds a 3D line
+  # @param segment2a Name of segment which together with segment2b builds a 3D line
+  # @param segment2b Name of segment which together with segment2a builds a 3D line
+  # @param center Name of segment which is our coordinate center for measurement and projection (3D->2D)
+  # @returns Array, containing the points after the calculation
+  def getTurningPoints segment1 = "pt27", segment2 = "relb", segment3 = "pt26", segment4 = "lelb", center = "p30" # {{{
+
+    #####
+    #
+    # Reference case
+    # e.g. S. Kudoh Thesis, Page 109, VPM File used "Aizu_Female.vpm"
+    #
+    # Center of Coordinate System:  p30
+    # Right Arm:                    p27 and p9 ("relb")
+    # Left Arm:                     p26 and p5 ("lelb")
+    #
+    ###########
+
+    # Easy handling
+    pt30 = @pt30
+    pt27 = @pt27
+    pt9  = @relb
+    pt26 = @pt26
+    pt5  = @lelb
+
+    # Make coords relative to p30 not global -- not normalized
+    pt27new           = pt27 - pt30
+    pt9new            = pt9  - pt30
+    slopeCoordsVars1  = []
+
+    pt26new           = pt26 - pt30
+    pt5new            = pt5  - pt30
+    slopeCoordsVars2  = []
+
+    [ pt27new.getCoordinates!.zip( pt9new.getCoordinates! ) ].each do |array|
+      array.each do |point27Array, point9Array|
+        slopeCoordsVars1 << getSlopeForm( point27Array, point9Array )
+      end
+    end
+
+
+    [ pt26new.getCoordinates!.zip( pt5new.getCoordinates! ) ].each do |array|
+      array.each do |point26Array, point5Array|
+        slopeCoordsVars2 << getSlopeForm( point26Array, point5Array )
+      end
+    end 
+
+    points = []
+
+    # Determine the intersection point of the two lines
+    [ slopeCoordsVars1.zip( slopeCoordsVars2 ) ].each do |array|
+      array.each do |line1, line2|  # line1 == [m, t]   --> f(x) y = m*x + t
+        points << getIntersectionPoint( line1, line2 )
+      end
+    end
+
+    points
+  end # end of getTurningPoints }}}
+
+
   attr_accessor :segments, :file, :body
 end # end of ADT class }}}
 
@@ -298,52 +361,8 @@ if __FILE__ == $0
 
   adt = ADT.new( "../sample/Aizu_Female.vpm" )
 
-
-  ################
-  #
-  # p30 origin
-  # p27 and p9      ||    p26 and p5
-  #
-
-  # Easy handling
+  points = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30"  )
   pt30 = adt.pt30
-  pt27 = adt.pt27
-  pt9  = adt.relb
-  pt26 = adt.pt26
-  pt5  = adt.lelb
-
-  # Make coords relative to p30 not global -- not normalized
-  pt27new           = pt27 - pt30
-  pt9new            = pt9  - pt30
-  slopeCoordsVars1  = []
-
-  pt26new           = pt26 - pt30
-  pt5new            = pt5  - pt30
-  slopeCoordsVars2  = []
-
-  [ pt27new.getCoordinates!.zip( pt9new.getCoordinates! ) ].each do |array|
-    array.each do |point27Array, point9Array|
-      slopeCoordsVars1 << adt.getSlopeForm( point27Array, point9Array )
-    end
-  end
-
-
-  [ pt26new.getCoordinates!.zip( pt5new.getCoordinates! ) ].each do |array|
-    array.each do |point26Array, point5Array|
-      slopeCoordsVars2 << adt.getSlopeForm( point26Array, point5Array )
-    end
-  end 
-  
-
-  points = []
-
-  # Determine the intersection point of the two lines
-  [ slopeCoordsVars1.zip( slopeCoordsVars2 ) ].each do |array|
-    array.each do |line1, line2|  # line1 == [m, t]   --> f(x) y = m*x + t
-      points << adt.getIntersectionPoint( line1, line2 )
-    end
-  end
-
 
   f = File.open("/tmp/results.csv", "w")
   f.write( "index, x, y\n")
@@ -351,8 +370,9 @@ if __FILE__ == $0
   pt30Coords = pt30.getCoordinates!
 
   points.each do |p1, p2|
-    #next if( n < 990 )
-    #next if( n > 1040 )
+    n += 1
+    next if( n < 990 )
+    next if( n > 1040 )
 
     #next if( n < 1100 )
     #next if( n > 1166 )
@@ -361,7 +381,6 @@ if __FILE__ == $0
     y = pt30Coords[n].shift
     z = pt30Coords[n].shift
 
-    n += 1
 
     length = Math.sqrt( (x*x) + (y*y) + (z*z) )
 
@@ -371,6 +390,7 @@ if __FILE__ == $0
 
   # = PHI Calculation
   # x = adt.getPhi( "pt24", "pt30", 10 )["ytranPhi"]
+  # p x = adt.getPhi( "pt26", "lsho", 10 )
   # @results = []
   # if( x.is_a?(Numeric) )
   #   p x
