@@ -296,9 +296,11 @@ class ADT
   # @param segment2a Name of segment which together with segment2b builds a 3D line
   # @param segment2b Name of segment which together with segment2a builds a 3D line
   # @param center Name of segment which is our coordinate center for measurement and projection (3D->2D)
+  # @param from Expects a number indicating to start from which time frame
+  # @param to Expects a number indicating to end on which time frame
   # @returns Array, containing the points after the calculation
   # @warning FIXME: This thing is too slow, speed it up
-  def getTurningPoints segment1 = "pt27", segment2 = "relb", segment3 = "pt26", segment4 = "lelb", center = "p30" # {{{
+  def getTurningPoints segment1 = "pt27", segment2 = "relb", segment3 = "pt26", segment4 = "lelb", center = "p30", from = nil, to = nil # {{{
 
     #####
     #
@@ -352,7 +354,6 @@ class ADT
     final = []
     n = 0
     points.each do |p1, p2|
-      n += 1
 
       x = pt30Coords[n].shift
       y = pt30Coords[n].shift
@@ -361,9 +362,31 @@ class ADT
       length = Math.sqrt( (x*x) + (y*y) + (z*z) )
 
       final << [ "#{n.to_s}, #{ ((p1-x)/length).to_s}, #{((p2-y)/length).to_s}" ]
+
+      n += 1
     end
 
-    points
+    # Modify our array if we want only a certain range
+    if( from.nil? )
+      if( to.nil? )
+        # from && to == nil
+        # do nothing, we have already all resuts
+      else
+        # from == nil ; to != nil
+        # we start from 0 upto to
+        final = eval( "final[0..#{to}]" )
+      end
+    else
+      if( to.nil? )
+        # from != nil ; to == nil
+        final = eval( "final[#{from}..-1]" )
+      else
+        # from && to != nil
+        final = eval( "final[#{from}..#{to}]" )
+      end
+    end
+
+    final
   end # end of getTurningPoints }}}
 
 
@@ -380,31 +403,9 @@ if __FILE__ == $0
 
   adt = ADT.new( "../sample/Aizu_Female.vpm" )
 
-  points = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30"  )
-
-  f = File.open("/tmp/results.csv", "w")
-  f.write( "index, x, y\n")
-  #n = 0
-  #pt30Coords = pt30.getCoordinates!
-
-  points.each do |n, p1, p2|
-  #  n += 1
-  #  next if( n < 990 )
-  #  next if( n > 1040 )
-
-    #next if( n < 1100 )
-    #next if( n > 1166 )
-
-  #  x = pt30Coords[n].shift
-  #  y = pt30Coords[n].shift
-  #  z = pt30Coords[n].shift
+  p points = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30")
 
 
-  #  length = Math.sqrt( (x*x) + (y*y) + (z*z) )
-
-    f.write( "#{n.to_s}, #{p1.to_s}, #{p2.to_s}\n" )
-  end
-  f.close
 
   # = PHI Calculation
   # x = adt.getPhi( "pt24", "pt30", 10 )["ytranPhi"]
