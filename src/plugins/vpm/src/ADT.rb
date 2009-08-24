@@ -411,7 +411,12 @@ end # end of ADT class }}}
 # = Direct invocation, for manual testing besides rspec
 if __FILE__ == $0
 
-  adt     = ADT.new( "../sample/Aizu_Female.vpm" )
+#  adt     = ADT.new( "../sample/Aizu_Female.vpm" )
+#  points  = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30")
+#  ret     = adt.writeCSV( "/tmp/results.csv", points )
+
+
+  adt     = ADT.new( "../sample/Jongara.vpm" )
   points  = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30")
   ret     = adt.writeCSV( "/tmp/results.csv", points )
 
