@@ -390,9 +390,19 @@ class ADT
   end # end of getTurningPoints }}}
 
 
-  # = writeCSV takes various 
-  def writeCSV
-  end
+  # = writeCSV takes output from e.g. getTurningPoints form and dumps it into $file
+  # @param file Needs a URI (string) which points to the location where you want to store your data in csv format.
+  # @param data Needs data which is in the form which comes from the getTurningPoints function.
+  # @returns Boolean, if write was successful or not.
+  # @warning Truncates the file if existent.
+  def writeCSV file = nil, data = getTurningPoints # {{{
+    raise ArgumentError, "Need a valid filename/target" if file.nil?
+
+    File.open( file, File::WRONLY|File::TRUNC|File::CREAT, 0666 ) do |f|
+      f.write( "index, x, y\n" )
+      f.write( data.join( "\n" ) )
+    end
+  end # end of writeCSV }}}
 
   attr_accessor :segments, :file, :body
 end # end of ADT class }}}
@@ -401,10 +411,9 @@ end # end of ADT class }}}
 # = Direct invocation, for manual testing besides rspec
 if __FILE__ == $0
 
-  adt = ADT.new( "../sample/Aizu_Female.vpm" )
-
-  p points = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30")
-
+  adt     = ADT.new( "../sample/Aizu_Female.vpm" )
+  points  = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30")
+  ret     = adt.writeCSV( "/tmp/results.csv", points )
 
 
   # = PHI Calculation
