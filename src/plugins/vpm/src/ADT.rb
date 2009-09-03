@@ -84,8 +84,8 @@ class ADT
   # @todo FIXME Checks and warnings if file is not readable. Also regarding vpm sanity.
   def read! file = @file # {{{
 
-    data = File.open( file ).readlines    # read file and cut '\n's
-    data.collect { |a| a.chomp! }
+    data = []
+    data = File.open( file, "r" ).readlines.collect { |a| a.chomp! }
 
     ###
     # Split content into segments
@@ -409,12 +409,11 @@ end # end of ADT class }}}
 
 
 # = Direct invocation, for manual testing besides rspec
-if __FILE__ == $0
+#if __FILE__ == $0
 
 #  adt     = ADT.new( "../sample/Aizu_Female.vpm" )
 #  points  = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30")
 #  ret     = adt.writeCSV( "/tmp/results.csv", points )
-
 
   adt     = ADT.new( "../sample/Jongara.vpm" )
   points  = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30", 1400, 1500 )
@@ -466,7 +465,14 @@ if __FILE__ == $0
     i += 1
   end
 
-  results.each_with_index { |r, i| puts "#{i.to_s}  -> #{r.to_s}" }
+
+  #
+  # 1.) Ruby19
+  # 2.) RubyProf
+  # 3.) Tuning
+  #
+
+#  results.each_with_index { |r, i| puts "#{i.to_s}  -> #{r.to_s}" }
 
   #ret     = adt.writeCSV( "/tmp/results.csv", points )
 
@@ -482,6 +488,6 @@ if __FILE__ == $0
   #   File.open( "/tmp/foo", "w" ) { |f| f.write( "x,y\n" ); f.write( @results.to_s ) }
   # end
 
-end # end of if __FILE__ == $0
+# end # end of if __FILE__ == $0
 
 # vim=ts:2

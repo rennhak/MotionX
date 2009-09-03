@@ -1,0 +1,11 @@
+- Whats wrong with 1.9?
+
+[22:48][br@gemini:plugins/vpm/src]% time ./ADT.rb
+./ADT.rb  22.73s user 0.08s system 98% cpu 23.240 total
+[22:49][br@gemini:plugins/vpm/src]% ruby --version
+ruby 1.9.1p129 (2009-05-12 revision 23412) [i686-linux]
+[22:49][br@gemini:plugins/vpm/src]% ruby --version
+ruby 1.8.6 (2009-06-08 patchlevel 369) [i686-linux]
+[22:49][br@gemini:plugins/vpm/src]% time ./ADT.rb     
+./ADT.rb  10.16s user 0.09s system 97% cpu 10.470 total
+

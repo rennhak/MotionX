@@ -48,6 +48,7 @@ SOFTWARE REQUIREMENTS
 
         o merb package
         o rspec package
+        o plotutils and gnuplot
 
 BUILD PROCESS
 

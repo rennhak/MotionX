@@ -3,6 +3,7 @@
 #
 
 #require 'Qt4'
+require 'yaml'
 require 'ostruct'
 
 ##
