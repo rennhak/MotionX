@@ -93,6 +93,14 @@ class Array
     # % ./Extensions.rb
     #[ ["foo0", "foo1", "foo2"], ["foo3", "foo4", "foo5"], ["foo6", "foo7", "foo8"], ["foo9", "foo10"]]
 
+
+    def sum
+      inject( nil ) { |sum,x| sum ? sum+x : x }
+    end
+
+    def mean
+      sum / size
+    end
 end
 
 class String
