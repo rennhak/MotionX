@@ -415,56 +415,56 @@ end # end of ADT class }}}
 #  points  = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30")
 #  ret     = adt.writeCSV( "/tmp/results.csv", points )
 
-  adt     = ADT.new( "../sample/Jongara.vpm" )
-  points  = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30", 1400, 1500 )
-  values = []
-  points.each do |string|
-    index, x, y = *(string.to_s.gsub(" ","").split(","))
-    index   = index.to_i
-    x       = x.to_f
-    y       = y.to_f
-
-    values << [index,x,y]
-  end
-
-  results = []
-  i = 0
-  threshhold = 1
-
-  # If the frame i we are in is a twisting point we set a 1 if not 0
-  values.each do |array|
-    index, x, y = array.shift, array.shift, array.shift
-    index   = index.to_i
-    x       = x.to_f
-    y       = y.to_f
-
-    if( values.length >= (i+2) )    # only get values in the range of our array
-      thisX = x
-      thisY = y
-
-      x2 = ((values[ i+1 ].to_s.gsub(" ","").split(","))[1]).to_f
-      y2 = ((values[ i+1 ].to_s.gsub(" ","").split(","))[2]).to_f
-
-      x3 = ((values[ i+2 ].to_s.gsub(" ","").split(","))[1]).to_f
-      y3 = ((values[ i+2 ].to_s.gsub(" ","").split(","))[2]).to_f
-
-
-      finalX = (x+x2+x3)/3.0
-      finalY = (y+y2+y3)/3.0
-
-      if( (finalX or finalY) >= threshhold )
-        results << 1
-      else
-        results << 0
-      end
-    else
-      # push a 0
-      results << 0
-    end
-
-    i += 1
-  end
-
+#  adt     = ADT.new( "../sample/Jongara.vpm" )
+#  points  = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30", 1400, 1500 )
+#  values = []
+#  points.each do |string|
+#    index, x, y = *(string.to_s.gsub(" ","").split(","))
+#    index   = index.to_i
+#    x       = x.to_f
+#    y       = y.to_f
+#
+#    values << [index,x,y]
+#  end
+#
+#  results = []
+#  i = 0
+#  threshhold = 1
+#
+#  # If the frame i we are in is a twisting point we set a 1 if not 0
+#  values.each do |array|
+#    index, x, y = array.shift, array.shift, array.shift
+#    index   = index.to_i
+#    x       = x.to_f
+#    y       = y.to_f
+#
+#    if( values.length >= (i+2) )    # only get values in the range of our array
+#      thisX = x
+#      thisY = y
+#
+#      x2 = ((values[ i+1 ].to_s.gsub(" ","").split(","))[1]).to_f
+#      y2 = ((values[ i+1 ].to_s.gsub(" ","").split(","))[2]).to_f
+#
+#      x3 = ((values[ i+2 ].to_s.gsub(" ","").split(","))[1]).to_f
+#      y3 = ((values[ i+2 ].to_s.gsub(" ","").split(","))[2]).to_f
+#
+#
+#      finalX = (x+x2+x3)/3.0
+#      finalY = (y+y2+y3)/3.0
+#
+#      if( (finalX or finalY) >= threshhold )
+#        results << 1
+#      else
+#        results << 0
+#      end
+#    else
+#      # push a 0
+#      results << 0
+#    end
+#
+#    i += 1
+#  end
+#
 
   #
   # 1.) Ruby19
