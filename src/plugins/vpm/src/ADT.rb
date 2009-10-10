@@ -164,6 +164,25 @@ class ADT
   end # }}}
 
 
+  #= setNewSegment! sets a new given segment with the same frame, frametime, and markers + order as existing ones
+  # @param name A string representing the name of the segment, e.g. "rwft". It will be used as instance variable e.g. "@rwft"
+  # @param description A string describing the point's meaning on the body. E.g. Rear Waist Forward Top half..." etc.
+  # @returns A segment object with the name and description. Also sets a instance_variable with the same name and data
+  def setNewSegment! name, description, value # {{{
+
+    # Generate a variable for each segment
+    self.instance_variable_set( "@#{name.to_s}", value )     # same idea as in Segment.rb 
+
+    # TODO: Add meta information for segments
+
+    learn( "#{name.to_s}", "return @#{name.to_s}" ) # Getter function
+
+    value
+  end # }}}
+
+
+
+
   # = computeExtraPoints does exactly as the name suggests. See S. Kudoh Thesis (p. 109) for more info on this.
   def computeExtraPoints! # {{{
 
