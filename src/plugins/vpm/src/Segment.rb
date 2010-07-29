@@ -148,8 +148,9 @@ class Segment
         newCoordinates.ytran << newY
         newCoordinates.ztran << newZ
       end
+    end
 
-    else
+    if other.is_a?( Segment )
       otherCoordinates  = other.getCoordinates!                       # we get an array of coords [x,y,z]
 
       # Clone self and push new coords and name
@@ -160,6 +161,23 @@ class Segment
         x2, y2, z2 = *array2
 
         newX, newY, newZ = (x1*x2), (y1*y2), (z1*z2)
+
+        newCoordinates.xtran << newX
+        newCoordinates.ytran << newY
+        newCoordinates.ztran << newZ
+      end
+    end
+
+    # if we want to apply an array(frames) of scalars to the segment vector (x,y,z) for all frames f 
+    if other.is_a?( Array )
+      # Clone self and push new coords and name
+      newCoordinates = self.fork( "(_" + self.name.to_s + "_*_" + "scalar_)" )
+
+      [ ownCoordinates, other ].transpose.each do |array1, array2|
+        x1, y1, z1  = *array1
+        scalar      = *array2
+
+        newX, newY, newZ = (x1*scalar), (y1*scalar), (z1*scalar)
 
         newCoordinates.xtran << newX
         newCoordinates.ytran << newY
