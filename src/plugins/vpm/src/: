@@ -285,63 +285,8 @@ class Segment
     return new.norms
   end # of def distance }}}
 
-  
-  # = Determinat
-  # @param a scalar
-  # ...
-  def determinant( a, b, c, d, e, f, g, h, i ) # {{{
-    # http://en.wikipedia.org/wiki/Triangle#Using_coordinates
-    # det (A) = aei + bfg + cdh - afh - bdi - ceg (rule of sarrus)
-    #       _         _
-    #      |  a  b  c  |
-    #  A = |  d  e  f  |
-    #      |_ g  h  i _|
- 
-    return ( (a*e*i) + (b*f*g) + (c*d*h) - (a*f*h) - (b*d*i) - (c*e*g) )
-  end # of determinant }}}
-
-
-  # = area_of_triangle of three segments (self, p1, p2)
-  # @param p1 Segment
-  # @param p2 Segment
-  # @returns Array of area values for all frames f
-  def area_of_triangle( p1, p2 ) # {{{
-   
-    ownCoordinates    = self.getCoordinates!
-    areas             = []
-
-    if p1.is_a?( Segment ) && p2.is_a?( Segment )
-      p1Coordinates     = p1.getCoordinates!
-      p2Coordinates     = p2.getCoordinates!
-
-      [ ownCoordinates, p1Coordinates, p2Coordinates ].transpose.each do |array1, array2, array3|
-        x1, y1, z1 = *array1
-        x2, y2, z2 = *array2
-        x3, y3, z3 = *array3
-        
-        # In three dimensions, the area of a general triangle {A = (xA, yA, zA), B = (xB, yB, zB) and C = (xC, yC, zC)} is the Pythagorean sum of the areas
-        # of the respective projections on the three principal planes (i.e. x = 0, y = 0 and z = 0)
-        #
-        #   area = 0.5 * Math.sqrt(   det(MatrixA)^2 + det(MatrixB)^2 + det(MatrixC)^2   )
-        #
-        #             |  x1 x2 x3  |                |  y1 y2 y3  |             |  z1 z2 z3  |
-        #   MatrixA = |  y1 y2 y3  |      MatrixB = |  z1 z2 z3  |   MatrixC = |  x1 x2 x3  |
-        #             |_  1  1  1 _|                |_ 1  1  1  _|             |_ 1  1  1  _|
-        #
-        # FIXME: Write det and matrix abstractions
-        
-        detMatrixA = determinant( x1, x2, x3, y1, y2, y3, 1, 1, 1 )
-        detMatrixB = determinant( y1, y2, y3, z1, z2, z3, 1, 1, 1 )
-        detMatrixC = determinant( z1, z2, z3, x1, x2, x3, 1, 1, 1 )
-  
-        areas << ( 0.5 * ( Math.sqrt( (detMatrixA**2) + (detMatrixB**2) + (detMatrixC**2) ) ) )
-      end
-    else
-      raise ArgumentError, "How can you do a dot product of something that is not a segment class ?"
-    end # end of other.is_a(Segment)
-
-    return areas
-  end # of def area_of_triangle }}}
+  # = Determinant of three segments (self, p1, p2)
+  def determinant( 
 
 
   # = Forks self object and just cleans out data which is then used to push some results like "add"
