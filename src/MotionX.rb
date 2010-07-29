@@ -2,6 +2,7 @@
 #
 
 # == Load libaries
+require 'rubygems'
 require 'optparse'                                                      # Handles the commandline options/parsing
 require 'date'                                                          # For the --version
 
@@ -17,7 +18,7 @@ require 'log4r/outputter/datefileoutputter'             # we use various outputt
 include Log4r                                           # Change Namespace
 
 # Pretty useful for boosting error robustness - "Monkey Patching" (tm) dr. nic
-require 'guessmethod'
+#require 'guessmethod'
 
 
 # == Global/Instance Variables

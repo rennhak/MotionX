@@ -45,7 +45,6 @@ class ADT
 
     read!                           # read the given file and create dynamical objects
     computeExtraPoints!             # e.g. pt27, etc.
-
   end # end of initialize }}}
 
 
@@ -240,9 +239,11 @@ end # end of ADT class }}}
 
 
 # = Direct invocation, for manual testing besides rspec
-#if __FILE__ == $0
+if __FILE__ == $0
 
-#  adt     = ADT.new( "../sample/Aizu_Female.vpm" )
+#  adt     = ADT.new( "/home/br/universities/todai/data/DanceData/Aizu_Female.vpm" )
+  
+
 #  points  = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30")
 #  ret     = adt.writeCSV( "/tmp/results.csv", points )
 
@@ -319,6 +320,6 @@ end # end of ADT class }}}
   #   File.open( "/tmp/foo", "w" ) { |f| f.write( "x,y\n" ); f.write( @results.to_s ) }
   # end
 
-# end # end of if __FILE__ == $0
+end # end of if __FILE__ == $0
 
 # vim=ts:2

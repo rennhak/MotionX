@@ -209,6 +209,61 @@ class Segment
     return newCoordinates
   end
 
+  # = dot_product returns as the name suggest the dot product for two vectors (3D)
+  # d(u,v) =  (u).x * (v).x + (u).y * (v).y + (u).z * (v).z
+  # @param other Segment
+  # @returns Array of scalars of length self.frames
+  # Write a dot operator for segment
+  def dot_product( other ) # {{{
+    ownCoordinates    = self.getCoordinates!
+
+    if other.is_a?( Segment )
+      otherCoordinates  = other.getCoordinates!                       # we get an array of coords [x,y,z]
+
+      dot_products      = []
+
+      [ ownCoordinates, otherCoordinates ].transpose.each do |array1, array2|
+        x1, y1, z1 = *array1
+        x2, y2, z2 = *array2
+
+        dot_products <<  ( (x1*x2) + (y1*y2) + (z1*z2) )
+      end
+
+    else
+      raise ArgumentError, "How can you do a dot product of something that is not a segment class ?"
+    end # end of other.is_a(Segment)
+
+    return dot_products
+  end # of def dot_product }}} 
+
+
+  # = norms returns as the name suggest the norm (length of all vectors) for self norm = sqrt(dot(v,v))
+  # @returns Array of scalars of length self.frames representing the norms for all entries
+  def norms # {{{
+    norm_scalars = []
+    # dot( self, self )
+    self.dot_product( self ).each do |pre_norm|
+      norm_scalars << Math.sqrt( pre_norm )
+    end
+
+    return norm_scalars
+  end # of def norm(other) }}}
+
+
+  # = distance_to returns the distance between two vectors ( distance( u,v ) = norm( u-v ) )
+  # @param other Segment
+  # @returns Array of scalars
+  # More info search for "Distance between Lines and Segments with their Closest Point of Approach"
+  # e.g. http://softsurfer.com/Archive/algorithm_0106/algorithm_0106.htm
+  def distance_to( other ) # {{{
+    if other.is_a?( Segment )
+      new       = self - other      # segment(self) - segment(other)
+    else
+      raise ArgumentError, "How can you do a distance calculation if the other is not a segment?"
+    end # end of other.is_a(Segment)
+
+    return new.norms
+  end # of def distance }}}
 
 
   # = Forks self object and just cleans out data which is then used to push some results like "add"
