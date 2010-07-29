@@ -173,15 +173,17 @@ class Segment
       # Clone self and push new coords and name
       newCoordinates = self.fork( "(_" + self.name.to_s + "_*_" + "scalar_)" )
 
-      [ ownCoordinates, other ].transpose.each do |array1, array2|
+      cnt = 0
+      ownCoordinates.each do |array1|
         x1, y1, z1  = *array1
-        scalar      = *array2
+        scalar      = other[cnt]
 
         newX, newY, newZ = (x1*scalar), (y1*scalar), (z1*scalar)
 
         newCoordinates.xtran << newX
         newCoordinates.ytran << newY
         newCoordinates.ztran << newZ
+        cnt += 1
       end
     end
 
