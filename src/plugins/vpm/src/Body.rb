@@ -163,10 +163,20 @@ class Body
     @body.segments              = @markers
 
 
-    # Body components mapping to segments
+    # Body components mapping to segments 
+    @body.arms.left.segments              = [ :lfin, :lsho ]
+    @body.arms.right.segments             = [ :rfin, :rsho ]
+    # @body.arms.left.segments              = [ :pt26, :lsho ] # excluding the hand
+    # @body.arms.right.segments             = [ :pt27, :rsho ] # excluding the hand
+
+    @body.legs.left.segments              = [ :ltoe, :pt28 ]
+    @body.legs.right.segments             = [ :rtoe, :pt29 ]
+
     @body.arms.left.upper.segments        = [ :lelb, :lsho ]
     @body.arms.right.upper.segments       = [ :relb, :rsho ]
 
+    #@body.arms.left.fore.segments         = [ :lfin, :lelb ] # including hand
+    #@body.arms.right.fore.segments        = [ :rfin, :relb ] # including hand
     @body.arms.left.fore.segments         = [ :pt26, :lelb ]
     @body.arms.right.fore.segments        = [ :pt27, :relb ]
 
@@ -176,13 +186,19 @@ class Body
     @body.legs.left.thigh.segments        = [ :lkne, :pt28 ]
     @body.legs.right.thigh.segments       = [ :rkne, :pt29 ]
 
+    # @body.legs.left.shank.segments        = [ :ltoe, :lkne ] # including feet
+    # @body.legs.right.shank.segments       = [ :rtoe, :rkne ] # including feet
     @body.legs.left.shank.segments        = [ :lank, :lkne ]
     @body.legs.right.shank.segments       = [ :rank, :rkne ]
+
 
     @body.legs.left.foot.segments         = [ :ltoe, :lank ]
     @body.legs.right.foot.segments        = [ :rtoe, :rank ]
 
+    # 12 model (standard)
     @group  = {
+      :arms           => [ @body.arms.right.segments,        @body.arms.left.segments           ],
+      :legs           => [ @body.legs.right.segments,        @body.legs.left.segments           ],
       :upper_arms     => [ @body.arms.right.upper.segments,  @body.arms.left.upper.segments     ],
       :fore_arms      => [ @body.arms.right.fore.segments,   @body.arms.left.fore.segments      ],
       :hands          => [ @body.arms.right.hand.segments,   @body.arms.left.hand.segments      ],
@@ -190,6 +206,140 @@ class Body
       :shanks         => [ @body.legs.right.shank.segments,  @body.legs.left.shank.segments     ],
       :feet           => [ @body.legs.right.foot.segments,   @body.legs.left.foot.segments      ]
     }
+
+    @group_12_model   = @group.dup   # legacy code workaround
+
+    @group_12_model_right  = {}
+    @group_12_model_left   = {}
+
+    @group_12_model.dup.each_pair do |component, array|
+      @group_12_model_right[ component ] = [ array.shift ]
+      @group_12_model_left[  component ] = [ array.shift ]
+    end
+
+
+
+
+    ####
+    # 8 model (we have upper/lower arms/legs)
+    #########
+
+    # arms in total
+    @body.arms.left.segments              = [ :lfin, :lsho ]
+    @body.arms.right.segments             = [ :rfin, :rsho ]
+    # @body.arms.left.segments              = [ :pt26, :lsho ] # excluding hands
+    # @body.arms.right.segments             = [ :pt27, :rsho ] # excluding hands
+
+    # legs in total
+    @body.legs.left.segments              = [ :ltoe, :pt28 ]
+    @body.legs.right.segments             = [ :rtoe, :pt29 ]
+    # @body.legs.left.segments              = [ :lank, :pt28 ]  # excluding feet
+    # @body.legs.right.segments             = [ :rank, :pt29 ]  # excluding feet
+
+    # forearms  = forearms + hands
+    @body.arms.left.fore.segments         = [ :lfin, :lelb ] # including hand
+    @body.arms.right.fore.segments        = [ :rfin, :relb ] # including hand
+    # @body.arms.left.fore.segments         = [ :pt26, :lelb ] # excluding hand
+    # @body.arms.right.fore.segments        = [ :pt27, :relb ] # excluding hand
+
+    # shanks    = shanks + feet
+    @body.legs.left.shank.segments        = [ :ltoe, :lkne ] # including feet
+    @body.legs.right.shank.segments       = [ :rtoe, :rkne ] # including feet
+    # @body.legs.left.shank.segments        = [ :lank, :lkne ] # excluding feet
+    # @body.legs.right.shank.segments       = [ :rank, :rkne ] # excluding feet
+
+    @body.legs.left.thigh.segments        = [ :lkne, :pt28 ]
+    @body.legs.right.thigh.segments       = [ :rkne, :pt29 ]
+
+    @body.arms.left.upper.segments        = [ :lelb, :lsho ]
+    @body.arms.right.upper.segments       = [ :relb, :rsho ]
+
+
+    # Hands and feet fields removed
+    @group_8_model  = {
+      :arms           => [ @body.arms.right.segments,        @body.arms.left.segments           ],
+      :legs           => [ @body.legs.right.segments,        @body.legs.left.segments           ],
+      :upper_arms     => [ @body.arms.right.upper.segments,  @body.arms.left.upper.segments     ],
+      :fore_arms      => [ @body.arms.right.fore.segments,   @body.arms.left.fore.segments      ],
+      :thighs         => [ @body.legs.right.thigh.segments,  @body.legs.left.thigh.segments     ],
+      :shanks         => [ @body.legs.right.shank.segments,  @body.legs.left.shank.segments     ],
+    }
+
+    @group_8_model_right  = {}
+    @group_8_model_left   = {}
+    @group_8_model.dup.each_pair do |component, array|
+      @group_8_model_right[ component ] = [ array.shift ]
+      @group_8_model_left[  component ] = [ array.shift ]
+    end
+
+    ####
+    # 4 model (we have one arms/legs)
+    #########
+
+    # arms in total
+    @body.arms.left.segments              = [ :lfin, :lsho ]
+    @body.arms.right.segments             = [ :rfin, :rsho ]
+    # @body.arms.left.segments              = [ :lelb, :lsho ] # excluding hands and forearms
+    # @body.arms.right.segments             = [ :relb, :rsho ] # excluding hands and forearms
+
+    # legs in total
+    @body.legs.left.segments              = [ :ltoe, :pt28 ]
+    @body.legs.right.segments             = [ :rtoe, :pt29 ]
+    # @body.legs.left.segments              = [ :lkne, :pt28 ] # excluding feet and shanks
+    # @body.legs.right.segments             = [ :rkne, :pt29 ] # excluding feet and shanks
+
+    # upper arms = upper arms to fingers
+    @body.arms.left.upper.segments        = [ :lfin, :lsho ]
+    @body.arms.right.upper.segments       = [ :rfin, :rsho ]
+    # @body.arms.left.upper.segments        = [ :lelb, :lsho ] # excluding hands and forearms
+    # @body.arms.right.upper.segments       = [ :relb, :rsho ] # excluding hands and forearms
+
+    # thighs = thighs to feet
+    @body.legs.left.thigh.segments        = [ :ltoe, :pt28 ]
+    @body.legs.right.thigh.segments       = [ :rtoe, :pt29 ]
+    # @body.legs.left.thigh.segments        = [ :lkne, :pt28 ] # excluding feet and shanks
+    # @body.legs.right.thigh.segments       = [ :rkne, :pt29 ] # excluding feet and shanks
+
+
+    # hands, feet, shanks, forearms removed
+    @group_4_model  = {
+      :arms           => [ @body.arms.right.segments,        @body.arms.left.segments           ],
+      :legs           => [ @body.legs.right.segments,        @body.legs.left.segments           ],
+      :upper_arms     => [ @body.arms.right.upper.segments,  @body.arms.left.upper.segments     ],
+      :thighs         => [ @body.legs.right.thigh.segments,  @body.legs.left.thigh.segments     ],
+    }
+
+    @group_4_model_right  = {}
+    @group_4_model_left   = {}
+    @group_4_model.dup.each_pair do |component, array|
+      @group_4_model_right[ component ] = [ array.shift ]
+      @group_4_model_left[  component ] = [ array.shift ]
+    end
+
+
+    #####
+    # 1 model (we have one body)
+    ###########
+    
+    # HOW TO DO? 
+    @group_1_model  = {
+      :arms           => [ @body.arms.right.segments,        @body.arms.left.segments           ],
+      :legs           => [ @body.legs.right.segments,        @body.legs.left.segments           ],
+      :upper_arms     => [ @body.arms.right.upper.segments,  @body.arms.left.upper.segments     ],
+      :fore_arms      => [ @body.arms.right.fore.segments,   @body.arms.left.fore.segments      ],
+      :hands          => [ @body.arms.right.hand.segments,   @body.arms.left.hand.segments      ],
+      :thighs         => [ @body.legs.right.thigh.segments,  @body.legs.left.thigh.segments     ],
+      :shanks         => [ @body.legs.right.shank.segments,  @body.legs.left.shank.segments     ],
+      :feet           => [ @body.legs.right.foot.segments,   @body.legs.left.foot.segments      ]
+    }
+
+    @group_1_model_right  = {}
+    @group_1_model_left   = {}
+    @group_1_model.each_pair do |component, array|
+      @group_1_model_right[ component ] = [ array.shift ]
+      @group_1_model_left[  component ] = [ array.shift ]
+    end
+
 
   end # of initialize
 
@@ -200,7 +350,7 @@ class Body
   def get_mass component # {{{
     fixed                 = %w[head chest loins]
     components_singular   = %w[upper_arm fore_arm hand thigh shank foot]
-    components_plural     = %w[upper_arms fore_arms hands thighs shanks feet]
+    components_plural     = %w[arms legs upper_arms fore_arms hands thighs shanks feet]
 
     # We have a fixed case
     if( fixed.include?( component ) )
@@ -218,6 +368,11 @@ class Body
         return @mass[ "foot" ] * 2
       else
         # we have just a "s" to deal with -> e.g. fore_arm -> fore_arms
+        if( (component == "arms") or (component == "legs") )
+          mass = eval( "@body.#{component.to_s}.mass" )
+          return mass
+        end
+
         return @mass[ component.chop ] * 2
       end
     end
@@ -225,7 +380,7 @@ class Body
     raise ArgumentError, "There is something wrong with the argument (,,#{component.to_s}'') in MotionX->Body.rb::get_mass"
   end # of def get_mass # }}}
 
-  attr_reader :markers, :body, :mass, :center, :group
+  attr_reader :markers, :body, :mass, :center, :group, :group_1_model, :group_1_model_left, :group_1_model_right, :group_4_model, :group_4_model_left, :group_4_model_right, :group_8_model, :group_8_model_left, :group_8_model_right, :group_12_model, :group_12_model_left, :group_12_model_right
 end # of class Body
 
 
