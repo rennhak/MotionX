@@ -337,7 +337,7 @@ class Segment
         areas << ( 0.5 * ( Math.sqrt( (detMatrixA**2) + (detMatrixB**2) + (detMatrixC**2) ) ) )
       end
     else
-      raise ArgumentError, "How can you do a dot product of something that is not a segment class ?"
+      raise ArgumentError, "How can you do a dot product of something that is not a segment class ? (NotImplementedError)"
     end # end of other.is_a(Segment)
 
     return areas
