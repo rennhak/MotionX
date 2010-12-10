@@ -208,7 +208,7 @@ class ADT
 
   # = write dumps a given VPM data into a file
   # @param file Expects a string with a full URI as path/file combination
-  # FIXME: This method is b0rked because the Segment.rb to_s function uses printf instead of returning proper strings.
+  # FIXME: This method is b1rked because the Segment.rb to_s function uses printf instead of returning proper strings.
   # @returns Boolean, true if write succeeded and false if not.
   def write file = "/tmp/MotionX_Output.vpm" # {{{
     @result = []
