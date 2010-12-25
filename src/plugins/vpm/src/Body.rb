@@ -81,7 +81,7 @@ class Body
       "PT31" => "The solar plexus of the torso between PT25 and PT30"
     }
 
-    @center           = "PT30"
+    @center           = :pt30
 
     ###
     # Hierachical model to address certain segments
