@@ -185,7 +185,7 @@ class ADT
   # = computeExtraPoints does exactly as the name suggests. See S. Kudoh Thesis (p. 109) for more info on this.
   def computeExtraPoints! # {{{
 
-    %w[pt24 pt25 pt26 pt27 pt28 pt29 pt30 pt31 pt32].each { |var| getNewSegment!( var.to_s, "" ) }         # Generate new segments
+    %w[pt24 pt25 pt26 pt27 pt28 pt29 pt30 pt31].each { |var| getNewSegment!( var.to_s, "" ) }         # Generate new segments
 
     # Standard Points from S. Kudoh Thesis
     @pt24 = ( @lfhd + @lbhd + @rfhd + @rbhd ) / 4
