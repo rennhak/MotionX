@@ -104,8 +104,8 @@ class Body
       "head"      => 7.0,
       "chest"     => 25.8,
       "loins"     => 17.2,
-      "upper arm" => 3.6,
-      "fore arm"  => 2.2,
+      "upper_arm" => 3.6,
+      "fore_arm"  => 2.2,
       "hand"      => 0.7,
       "thigh"     => 11.4,
       "shank"     => 5.3,
@@ -138,13 +138,13 @@ class Body
     @body.chest.mass            = @mass["chest"]
     @body.loins.mass            = @mass["loins"]
 
-    @body.arms.left.mass        = @mass["upper arm"] + @mass["fore arm"] + @mass["hand"]
+    @body.arms.left.mass        = @mass["upper_arm"] + @mass["fore_arm"] + @mass["hand"]
     @body.arms.right.mass       = @body.arms.left.mass
     @body.arms.mass             = @body.arms.left.mass + @body.arms.right.mass
-    @body.arms.left.upper.mass  = @mass["upper arm"]
-    @body.arms.right.upper.mass = @mass["upper arm"]
-    @body.arms.left.fore.mass   = @mass["fore arm"]
-    @body.arms.right.fore.mass  = @mass["fore arm"]
+    @body.arms.left.upper.mass  = @mass["upper_arm"]
+    @body.arms.right.upper.mass = @mass["upper_arm"]
+    @body.arms.left.fore.mass   = @mass["fore_arm"]
+    @body.arms.right.fore.mass  = @mass["fore_arm"]
     @body.arms.left.hand.mass   = @mass["hand"]
     @body.arms.right.hand.mass  = @mass["hand"]
 
@@ -192,6 +192,38 @@ class Body
     }
 
   end # of initialize
+
+  # = The function get_mass will take a components such as found in @mass but allow for plurals and other cases and return a proper mass value.
+  #   Basically this is just an intelligent interface to the @mass hash
+  # @param component Name of the desired component such as fore_arm -> singular or fore_arms -> plural etc
+  # @returns Float, representing the mass of the desired body component
+  def get_mass component # {{{
+    fixed                 = %w[head chest loins]
+    components_singular   = %w[upper_arm fore_arm hand thigh shank foot]
+    components_plural     = %w[upper_arms fore_arms hands thighs shanks feet]
+
+    # We have a fixed case
+    if( fixed.include?( component ) )
+      return @mass[ component ]
+    end
+
+    # we have a singular case
+    if( components_singular.include?( component ) )
+      return @mass[ component ]
+    end 
+
+    # we have a plural case
+    if( components_plural.include?( component ) )
+      if( component == "feet" )
+        return @mass[ "foot" ] * 2
+      else
+        # we have just a "s" to deal with -> e.g. fore_arm -> fore_arms
+        return @mass[ component.chop ] * 2
+      end
+    end
+
+    raise Error, "There is something wrong with the argument (,,#{component.to_s}'') in MotionX->Body.rb::get_mass"
+  end # of def get_mass # }}}
 
   attr_reader :markers, :body, :mass, :center, :group
 end # of class Body
