@@ -182,10 +182,18 @@ class Body
     @body.legs.left.foot.segments         = [ :ltoe, :lank ]
     @body.legs.right.foot.segments        = [ :rtoe, :rank ]
 
+    @group  = {
+      :upper_arms     => [ @body.arms.right.upper.segments,  @body.arms.left.upper.segments     ],
+      :fore_arms      => [ @body.arms.right.fore.segments,   @body.arms.left.fore.segments      ],
+      :hands          => [ @body.arms.right.hand.segments,   @body.arms.left.hand.segments      ],
+      :thighs         => [ @body.legs.right.thigh.segments,  @body.legs.left.thigh.segments     ],
+      :shanks         => [ @body.legs.right.shank.segments,  @body.legs.left.shank.segments     ],
+      :feet           => [ @body.legs.right.foot.segments,   @body.legs.left.foot.segments      ]
+    }
+
   end # of initialize
 
-
-  attr_reader :markers, :body, :mass, :center
+  attr_reader :markers, :body, :mass, :center, :group
 end # of class Body
 
 
