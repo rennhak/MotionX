@@ -41,7 +41,7 @@ class ADT
   def initialize file # {{{
     @file       = file
     @segments   = []
-    @body       = Body.new.body
+    @body       = Body.new
 
     read!                           # read the given file and create dynamical objects
     computeExtraPoints!             # e.g. pt27, etc.
