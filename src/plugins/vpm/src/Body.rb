@@ -36,7 +36,7 @@ require 'Extensions.rb'
 class Body
   def initialize
     
-    # This is taken from the PhD Thesis of S. Kudoh, p. 117
+    # This is taken from the PhD Thesis of S. Kudoh, p. 117 in Comma first style
     @markers = {
       "LFHD" => "The left front of the head",
       "LBHD" => "The left back of the head",
@@ -71,8 +71,15 @@ class Body
       "RHEE" => "The right heel",
       "RTOE" => "The right toe",
       "RMT5" => "The right little toe",
+      "PT24" => "The center of the head between LFHD, LBHD, RFHD and RBHD",
+      "PT25" => "The center of the shoulder blades between LSHO and RSHO",
+      "PT26" => "The center of the left wrist between LWRA and LWRB",
+      "PT27" => "The center of the right wrist between RWRA and RWRB",
+      "PT28" => "The center of the left waist between LFWT and LBWT",
+      "PT29" => "The center of the right waist between RFWT and RBWT",
+      "PT30" => "The end of the spine directly above PT25 between LFWT, LBWT, RFWT and RBWT",
+      "PT31" => "The solar plexus of the torso between PT25 and PT30"
     }
-
 
     ###
     # Hierachical model to address certain segments
@@ -86,7 +93,7 @@ class Body
       %w[arms legs].each        { |part| eval( "@body.#{part.to_s}.#{orientation.to_s} = OpenStruct.new" ) }                    # Create left/right subparts for arms/legs
       %w[upper fore hand].each  { |part| eval( "@body.arms.#{orientation.to_s}.#{part.to_s} = OpenStruct.new" ) }               # Create upper arm / fore arm / hand
       %w[thigh shank foot].each { |part| eval( "@body.legs.#{orientation.to_s}.#{part.to_s} = OpenStruct.new" ) }               # Create thigh, shank, foot
-    end
+    end 
 
     ###
     # Mass in percent (See S. Kudoh PhD Thesis p. 45)
@@ -111,9 +118,11 @@ class Body
         %w[arms legs].each        { |part| eval( "@body.#{part.to_s}.#{orientation.to_s}.#{var.to_s} = OpenStruct.new" ) }                    # Create left/right subparts for arms/legs
         %w[upper fore hand].each  { |part| eval( "@body.arms.#{orientation.to_s}.#{part.to_s}.#{var.to_s} = OpenStruct.new" ) }               # Create upper arm / fore arm / hand
         %w[thigh shank foot].each { |part| eval( "@body.legs.#{orientation.to_s}.#{part.to_s}.#{var.to_s} = OpenStruct.new" ) }               # Create thigh, shank, foot
-      end
 
-    end
+      end # of %w[left right].each do |orientation|
+
+    end # of %w[mass segments].each do |var|
+
 
     # Why does this not work? - FIXME
     # @body.dup._to_hash.flatten_keys.getKeysOfNestedHash.each do |keys|
@@ -151,6 +160,26 @@ class Body
 
     @body.segments              = @markers
 
+
+    # Body components mapping to segments
+    @body.arms.left.upper.segments        = [ :lelb, :lsho ]
+    @body.arms.right.upper.segments       = [ :relb, :rsho ]
+
+    @body.arms.left.fore.segments         = [ :pt26, :lelb ]
+    @body.arms.right.fore.segments        = [ :pt27, :relb ]
+
+    @body.arms.left.hand.segments         = [ :lfin, :pt26 ]
+    @body.arms.right.hand.segments        = [ :rfin, :pt27 ]
+
+    @body.legs.left.thigh.segments        = [ :lkne, :pt28 ]
+    @body.legs.right.thigh.segments       = [ :rkne, :pt29 ]
+
+    @body.legs.left.shank.segments        = [ :lank, :lkne ]
+    @body.legs.right.shank.segments       = [ :rank, :rkne ]
+
+    @body.legs.left.foot.segments         = [ :ltoe, :lank ]
+    @body.legs.right.foot.segments        = [ :rtoe, :rank ]
+
   end # of initialize
 
 
@@ -160,7 +189,9 @@ end # of class Body
 
 # Direct invocation, for manual testing beside rspec
 if __FILE__ == $0
-  d = Body.new
+  b = Body.new
+
+  p b.body.legs.left.thigh
 
   # p d.body._to_hash.flatten_keys.getKeysOfNestedHash
 end

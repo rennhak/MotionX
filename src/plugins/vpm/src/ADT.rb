@@ -201,7 +201,6 @@ class ADT
 
   # = check parses a VPM file and looks for errors. In case of error it returns false
   def valid? file = @file # {{{
-    
 
   end # end of valid? }}}
 
