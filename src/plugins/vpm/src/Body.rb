@@ -222,7 +222,7 @@ class Body
       end
     end
 
-    raise Error, "There is something wrong with the argument (,,#{component.to_s}'') in MotionX->Body.rb::get_mass"
+    raise ArgumentError, "There is something wrong with the argument (,,#{component.to_s}'') in MotionX->Body.rb::get_mass"
   end # of def get_mass # }}}
 
   attr_reader :markers, :body, :mass, :center, :group
