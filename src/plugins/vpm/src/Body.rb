@@ -35,7 +35,7 @@ require 'Extensions.rb'
 #######
 class Body
   def initialize
-    
+
     # This is taken from the PhD Thesis of S. Kudoh, p. 117 in Comma first style
     @markers = {
       "LFHD" => "The left front of the head",
@@ -80,6 +80,8 @@ class Body
       "PT30" => "The end of the spine directly above PT25 between LFWT, LBWT, RFWT and RBWT",
       "PT31" => "The solar plexus of the torso between PT25 and PT30"
     }
+
+    @center           = "PT30"
 
     ###
     # Hierachical model to address certain segments
@@ -183,17 +185,14 @@ class Body
   end # of initialize
 
 
-  attr_reader :markers, :body, :mass
+  attr_reader :markers, :body, :mass, :center
 end # of class Body
 
 
 # Direct invocation, for manual testing beside rspec
 if __FILE__ == $0
-  b = Body.new
+  # b = Body.new
 
-  p b.body.legs.left.thigh
-
-  # p d.body._to_hash.flatten_keys.getKeysOfNestedHash
 end
 
 
