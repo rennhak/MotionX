@@ -94,6 +94,7 @@ class ADT
     data.each do |l|
       if l.to_s =~ %r{Segment:}i
         s = l.split(":").last.strip.to_s.downcase
+        s.gsub!("-","_")
         @segments << s
 
         # Generate a variable for each segment
@@ -102,6 +103,7 @@ class ADT
         # FIXME: Add meta information for segments
 
         learn( "#{s.to_s}", "return @#{s.to_s}" ) # Getter method
+
       end
     end
 
@@ -112,7 +114,43 @@ class ADT
     # FIXME: Check if read succeeded
   end # end of read! }}}
 
-
+#  # = save! function saves all data stored in the ADT class to a VPM file
+#  # @param type e.g. :vpm
+#  # @param filename e.g. "filename.vpm"
+#  def save! type = :vpm, filename = "filename.vpm"
+#
+#    # WARNING: This method only stores the common segments to the file NOT all available ones! FIXME
+#    common_segments = %w[RFWT LFWT RBWT T10 RWRA CLAV LWRA RFIN LFIN LTHI RSHO LSHO RWRB C7 LWRB RKNE RELB LELB LBHD RBHD LFHD RFHD RANK RHEE RTOE LTOE LHEE RMT5 LMT5 LBWT STRN LKNE LANK]
+#
+#    file = File.open( filename, File::WRONLY|File::TRUNC|File::CREAT, 0666 )
+#
+#    
+#
+#    common_segments.each do |segment|
+#      unless( @segments.include?( segment.downcase.to_s ) )
+#        puts "WARNING: Ignoring this segment: #{segment.to_s}"
+#        next
+#      end
+#
+#      file.write( "Segment: #{segment.upcase.to_s}\n" )
+#      file.write( "Frames: #{segment.frames.to_s}\n" )
+#      file.write( "Frame Time: #{segment.frameTime.to_s}\n" )
+#      
+#      # Construct Markernames
+#      #m = ""
+#      #segment.order 
+#
+#      #file.write( "#{segment.}\n" )
+#  
+#      #p segment.markers
+#      #p segment.order
+#
+#    end
+#
+#    file.close
+#
+#  end
+#
   # = processSegment takes a segment string and returns a segment object, but also sets the object.
   # @param string String is one segment ans one string incl. newlines etc.
   # @returns Returns a Segment object generated from the given string e.g. "Segment: RWFT...." -> @rwft = Segment.new...
@@ -242,6 +280,9 @@ if __FILE__ == $0
 
 #  adt     = ADT.new( "/home/br/universities/todai/data/DanceData/Aizu_Female.vpm" )
   
+
+  adt   = ADT.new( "../../../../../../data/DanceData/Aizu_Wakamatsu_Experiments/yamada_120.vpm" )
+  adt.write
 
 #  points  = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30")
 #  ret     = adt.writeCSV( "/tmp/results.csv", points )

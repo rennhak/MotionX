@@ -405,7 +405,7 @@ class Segment
   def getHeader
     header = []
 
-    delimiter = "\t"
+    delimiter = " "
     header << "Segment:#{delimiter}#{@name.upcase}"
     header << "Frames:#{delimiter}#{@frames}"
     header << "Frame Time:#{delimiter}#{@frameTime}"
@@ -459,7 +459,7 @@ class Segment
       @format = []
       @order.length.to_i.times { @format << "%4.6f" }
 
-      ( i == ( frames.to_i - 1 ) ) ? ( printf( @format.join(" ").to_s, *getData( i ) ) ) : ( printf( @format.join(" ").to_s + "\n", *getData( i ) ) )
+      ( i == ( frames.to_i - 1 ) ) ? ( printf( @format.join(" ").to_s + "\n", *getData( i ) ) ) : ( printf( @format.join(" ").to_s + "\n", *getData( i ) ) )
     end
   end
 
