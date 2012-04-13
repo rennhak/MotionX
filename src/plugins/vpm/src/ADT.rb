@@ -327,10 +327,19 @@ class ADT
   end # of def local_coordinate_system center = nil # }}}
 
 
-  def local_coordinate_system_undo segments = @segments
+  def local_coordinate_system_undo center = nil, segments = @segments
+
+    center_segment = instance_variable_get( "@#{center.to_s}_backup" )
+    raise ArgumentError, "center_segment variable must be of type segment" unless( center_segment.is_a?( Segment ) )
+
     segments.each do |segment|
-      old = instance_variable_get( "@#{segment.to_s}_backup" )
-      eval( "@#{segment.to_s} = old" )
+
+      old = instance_variable_get( "@"+segment.to_s )
+
+      raise ArgumentError, "old variable must be of type segment" unless( old.is_a?( Segment ) )
+
+      new = old + center_segment
+      eval( "@#{segment.to_s} = new" )
     end
   end
 
