@@ -484,7 +484,7 @@ class Segment
       # All markers are considered to be floats in the 4.6 format
 
       if( i == length )
-        result += sprintf( format, *getData( i ) )
+        result += sprintf( format + "\n", *getData( i ) )
       else
         result += sprintf( format + "\n", *getData( i ) )
       end
@@ -560,7 +560,7 @@ if __FILE__ == $0
 
   p s.ytran.length
   p s.ytran
-  p s.crop!( 0, 5 )
+  p s.crop!( 0, 40 )
   p s.ytran.length
   p s.ytran
   p s.frameTime

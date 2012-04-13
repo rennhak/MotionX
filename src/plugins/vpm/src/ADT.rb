@@ -118,9 +118,11 @@ class ADT
   # = crop function takes a range and crops the motions contained in self
   # Crop function takes a range and crops the motions contained in self accordingly and writes them to internal state.
   def crop from = 0, to = @pt24.frames.to_i, segments = @segments # {{{
-    segments.collect! do |segment|
-      self.instance_variable_set( "@#{segment.to_s}", eval( "@#{segment.to_s}.crop!( #{from}, #{to} )" ) )
+
+    segments.each do |segment|
+      eval( "@#{segment.to_s}.crop!( #{from}, #{to} )" )
     end
+
   end # of def crop from = 0, to = @pt24.frames.to_i, segments = @segments # }}}
 
 
@@ -272,7 +274,7 @@ class ADT
     # rendering of each segment is done in Segment.rb
     @segments.each { |segmentName| @result << eval( "@#{segmentName.to_s}" ).to_s }
 
-    # File.open( file, File::CREAT|File::TRUNC|File::RDWR, 0644) { |f| f.write( @result.join("\n") ) }
+    File.open( file, File::CREAT|File::TRUNC|File::RDWR, 0644) { |f| f.write( @result.join("") ) }
   end # end of write }}}
 
 
@@ -297,8 +299,21 @@ end # end of ADT class }}}
 # = Direct invocation, for manual testing besides rspec
 if __FILE__ == $0
 
-#  adt     = ADT.new( "/home/br/universities/todai/data/DanceData/Aizu_Female.vpm" )
-  
+  raise ArgumentError, "Needs a filename as input" if( ARGV.empty? )
+  filename        = ARGV.first.to_s
+
+  puts "Using #{filename.to_s}"
+  adt             = ADT.new( filename )
+
+  current_frames  = adt.instance_variable_get( "@#{adt.segments.first.to_s}" ).frames
+  puts "Currently the file has #{current_frames.to_s} frames"
+
+  puts "Cropping to 2-49"
+  adt.crop( 2, 49 )
+
+  # printout  = adt.instance_variable_get( "@#{adt.segments.first.to_s}" ).to_s
+  # puts printout
+  adt.write
 
 #  points  = adt.getTurningPoints( "p27", "relb", "p26", "lelb", "p30")
 #  ret     = adt.writeCSV( "/tmp/results.csv", points )
