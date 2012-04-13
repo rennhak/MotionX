@@ -316,6 +316,7 @@ class ADT
     segments.each do |segment|
 
       old = instance_variable_get( "@"+segment.to_s )
+      eval( "@#{segment.to_s}_backup = old" )         # make a backup for later undo
 
       raise ArgumentError, "old variable must be of type segment" unless( old.is_a?( Segment ) )
 
@@ -324,6 +325,14 @@ class ADT
     end
 
   end # of def local_coordinate_system center = nil # }}}
+
+
+  def local_coordinate_system_undo segments = @segments
+    segments.each do |segment|
+      old = instance_variable_get( "@#{segment.to_s}_backup" )
+      eval( "@#{segment.to_s} = old" )
+    end
+  end
 
 
   attr_accessor :segments, :file, :body
