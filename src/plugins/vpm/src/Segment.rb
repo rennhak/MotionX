@@ -470,6 +470,7 @@ class Segment
   # @todo Linux/Windows termination of strings??! Spec file?
   # @todo Write a sanity checker for VPMs
   def to_s # {{{
+    recount_frames
 
     order   = @order
     length  = order.length.to_i
@@ -483,10 +484,16 @@ class Segment
       # Construct the format string for printf (depending on how many marker names we have)
       # All markers are considered to be floats in the 4.6 format
 
+      values = getData(i)
+
+      if( values.include?(nil) )
+        values.collect! { |n| ( n.nil? ) ? ( 0.0 ) : ( n ) }
+      end
+
       if( i == length )
-        result += sprintf( format + "\n", *getData( i ) )
+        result += sprintf( format + "\n", *values )
       else
-        result += sprintf( format + "\n", *getData( i ) )
+        result += sprintf( format + "\n", *values )
       end
 
     end
@@ -497,6 +504,7 @@ class Segment
 
   # = crop!
   def crop! from = 0, to = (@frames - 1), markers = @markers, order = @order # {{{
+    recount_frames
 
     order.each do |o|
       result = []
@@ -506,16 +514,33 @@ class Segment
         result << current[i]
       end
 
-      self.instance_variable_set( "@#{o.to_s}", eval( "[ #{result.join(',')} ]" ) )
-      self.instance_variable_set( "@frames", eval( "#{result.length.to_s}" ) )
+
+      begin
+        result.compact! if( result.include?( nil ) )
+        res = result.join( "," )
+        self.instance_variable_set( "@#{o.to_s}", eval( "[ #{res} ]" ) )
+        self.instance_variable_set( "@frames", eval( "#{result.length.to_s}" ) )
+      rescue
+        p o
+        p result
+        p result.length
+      end
 
     end
 
   end # }}}
 
 
+  def recount_frames
+    length = eval( "@xtran" ).length.to_i
+    self.instance_variable_set( "@frames", eval( "#{length}" ) )
+  end
+
+
   # = combine takes all segments over time t and merges them by averaging them
   def combine!
+    recount_frames
+
     order   = @order
     length  = order.length.to_i
     frames  = @frames.to_i - 1
@@ -596,8 +621,13 @@ if __FILE__ == $0
   p s.ytran
   p s.frameTime
   puts "----"
+
+
+  s.recount_frames
+
   s.combine!
   puts s.to_s
+
 
 end
 

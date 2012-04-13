@@ -119,6 +119,7 @@ class ADT
   # Crop function takes a range and crops the motions contained in self accordingly and writes them to internal state.
   def crop from = 0, to = @pt24.frames.to_i, segments = @segments # {{{
 
+
     segments.each do |segment|
       eval( "@#{segment.to_s}.crop!( #{from}, #{to} )" )
     end
@@ -221,7 +222,10 @@ class ADT
   # = computeExtraPoints does exactly as the name suggests. See S. Kudoh Thesis (p. 109) for more info on this.
   def computeExtraPoints! # {{{
 
-    %w[pt24 pt25 pt26 pt27 pt28 pt29 pt30 pt31].each { |var| getNewSegment!( var.to_s, "" ) }         # Generate new segments
+    %w[pt24 pt25 pt26 pt27 pt28 pt29 pt30 pt31].each do |var| 
+      getNewSegment!( var.to_s, "" )
+      @segments << var.to_s
+    end 
 
     # Standard Points from S. Kudoh Thesis
     @pt24 = ( @lfhd + @lbhd + @rfhd + @rbhd ) / 4
@@ -301,6 +305,27 @@ class ADT
     end
   end # end of writeCSV }}}
 
+
+  # = local_coordinate_system takes a center marker and calculates the new position of all markers
+  # to that given marker, thus making all coorinates local to this marker.
+  def local_coordinate_system center = nil, segments = @segments # {{{
+
+    center_segment = instance_variable_get( "@"+center.to_s )
+    raise ArgumentError, "center_segment variable must be of type segment" unless( center_segment.is_a?( Segment ) )
+
+    segments.each do |segment|
+
+      old = instance_variable_get( "@"+segment.to_s )
+
+      raise ArgumentError, "old variable must be of type segment" unless( old.is_a?( Segment ) )
+
+      new = old - center_segment
+      eval( "@#{segment.to_s} = new" )
+    end
+
+  end # of def local_coordinate_system center = nil # }}}
+
+
   attr_accessor :segments, :file, :body
 end # end of ADT class }}}
 
@@ -320,7 +345,10 @@ if __FILE__ == $0
   puts "Cropping to 2-49"
   adt.crop( 2, 49 )
 
-  adt.combine
+  adt.local_coordinate_system( "pt30" )
+
+
+  #adt.combine
   # printout  = adt.instance_variable_get( "@#{adt.segments.first.to_s}" ).to_s
   # puts printout
   adt.write
