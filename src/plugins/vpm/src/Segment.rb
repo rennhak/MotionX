@@ -465,23 +465,33 @@ class Segment
 
 
   # = to_s is a pritable representation of this Segment
+  #
   # @note The formatting is probably by tabs, but we will only know this for sure if we have the spec
   # @todo Linux/Windows termination of strings??! Spec file?
+  # @todo Write a sanity checker for VPMs
   def to_s # {{{
-    puts "\n"
-    puts getHeader.join("\n")
 
-    # TODO: Write a sanity checker for VPMs
+    order   = @order
+    length  = order.length.to_i
+    frames  = @frames.to_i - 1
 
-    # frames.to_i starts with 1 we don't want that
-    0.upto( frames.to_i - 1 ) do |i|
+    format  = ( "%4.6f " * length ).rstrip
+
+    result  = getHeader.join("\n") + "\n"
+
+    0.upto( frames ) do |i|
       # Construct the format string for printf (depending on how many marker names we have)
       # All markers are considered to be floats in the 4.6 format
-      @format = []
-      @order.length.to_i.times { @format << "%4.6f" }
 
-      ( i == ( frames.to_i - 1 ) ) ? ( printf( @format.join(" ").to_s, *getData( i ) ) ) : ( printf( @format.join(" ").to_s + "\n", *getData( i ) ) )
+      if( i == length )
+        result += sprintf( format, *getData( i ) )
+      else
+        result += sprintf( format + "\n", *getData( i ) )
+      end
+
     end
+
+    result
   end # }}}
 
 
@@ -550,12 +560,12 @@ if __FILE__ == $0
 
   p s.ytran.length
   p s.ytran
-  p s.crop!( 1, 3 )
+  p s.crop!( 0, 5 )
   p s.ytran.length
   p s.ytran
   p s.frameTime
   puts "----"
-  s.to_s
+  puts s.to_s
 end
 
 
