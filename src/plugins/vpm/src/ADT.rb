@@ -115,13 +115,13 @@ class ADT
   end # end of read! }}}
 
 
-  def crop from = 0, to = @pt24.frames.to_i, segments = @segments
+  # = crop function takes a range and crops the motions contained in self
+  # Crop function takes a range and crops the motions contained in self accordingly and writes them to internal state.
+  def crop from = 0, to = @pt24.frames.to_i, segments = @segments # {{{
     segments.collect! do |segment|
-      #eval( "@#{segment.to_s}.crop!( #{from}, #{to} )" )
-
       self.instance_variable_set( "@#{segment.to_s}", eval( "@#{segment.to_s}.crop!( #{from}, #{to} )" ) )
     end
-  end 
+  end # of def crop from = 0, to = @pt24.frames.to_i, segments = @segments # }}}
 
 
   # = processSegment takes a segment string and returns a segment object, but also sets the object.
