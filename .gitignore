@@ -6,3 +6,6 @@ coverage
 doc/app/*
 *.swp
 *.vpm
+src/plugins/c3d/src/c3d2vpm
+src/plugins/c3d/src/c3d2vpm.o
+src/plugins/c3d/src/*.o
