@@ -52,7 +52,7 @@ class Segment
 
 
   # = + Operator expects another object of the type segment
-  def + ( other )
+  def + ( other ) # {{{
     ownCoordinates    = self.getCoordinates!
 
     if other.is_a?( Numeric )
@@ -90,10 +90,10 @@ class Segment
     end
 
     return newCoordinates
-  end
+  end # }}}
 
   # = - Operator expects another object of the type segment
-  def - ( other )
+  def - ( other ) # {{{
     ownCoordinates    = self.getCoordinates!
 
     if other.is_a?( Numeric )
@@ -128,10 +128,10 @@ class Segment
     end
 
     return newCoordinates
-  end
+  end # }}}
 
   # = * Operator expects another object of the type segment
-  def * ( other )
+  def * ( other ) # {{{
     ownCoordinates    = self.getCoordinates!
 
     if other.is_a?( Numeric )
@@ -188,10 +188,10 @@ class Segment
     end
 
     return newCoordinates
-  end
+  end # }}}
 
   # = / Operator expects another object of the type segment
-  def / ( other )
+  def / ( other ) # {{{
     ownCoordinates    = self.getCoordinates!
 
     if other.is_a?( Numeric )
@@ -227,7 +227,7 @@ class Segment
     end # end of other.is_a(Fixnum)
 
     return newCoordinates
-  end
+  end # }}}
 
   # = dot_product returns as the name suggest the dot product for two vectors (3D)
   # d(u,v) =  (u).x * (v).x + (u).y * (v).y + (u).z * (v).z
@@ -285,10 +285,9 @@ class Segment
     return new.norms
   end # of def distance }}}
 
-  
+
   # = Determinat
   # @param a scalar
-  # ...
   def determinant( a, b, c, d, e, f, g, h, i ) # {{{
     # http://en.wikipedia.org/wiki/Triangle#Using_coordinates
     # det (A) = aei + bfg + cdh - afh - bdi - ceg (rule of sarrus)
@@ -346,21 +345,21 @@ class Segment
 
   # = Forks self object and just cleans out data which is then used to push some results like "add"
   # @returns Segment object like self w/o data and new name
-  def fork( name, description = "" )
+  def fork( name, description = "" ) # {{{
     new = Segment.new( name, description )
     new.setMapping!( *self.getMapping! )
     new.frames      = self.frames
     new.frameTime   = self.frameTime
     return new
-  end
+  end # }}}
 
 
   # = The initialize_copy method is necessary when this object is cloned or dup'd for various
   # reasons. (e.g. Marshal)
-  def initialize_copy from
+  def initialize_copy from # {{{
     @name, @description = from.name, from.description
     @order, @markers    = from.order, from.markers
-  end
+  end # }}}
 
   # = setMapping! takes a segment hash and maps it internally
   # @param markers Markers is a key vector (array) which looks like this:
@@ -371,7 +370,7 @@ class Segment
   #             INCHES  INCHES  INCHES  DEGREES DEGREES DEGREES PERCENT PERCENT PERCENT
   #             Each value has NO newline or other special characters and is converted automatically
   #             to lower case.
-  def setMapping! markers, units
+  def setMapping! markers, units # {{{
     @order = markers
     @units = units
 
@@ -393,16 +392,17 @@ class Segment
 
       #learn( "#{marker.to_s.downcase} val = nil", "( val.nil? ) ? ( return @#{marker.to_s.downcase} ) : ( @#{marker.to_s.downcase} << val )"  )
     end
-  end
+  end # }}}
 
-  def getMapping!
+  # = getMapping!
+  def getMapping! # {{{
     return [@order, @units]
-  end
+  end # }}}
 
 
   # = GetHeader returns the content of a segment header
   # @returns Returns an array with the header lines, each slot is a new line
-  def getHeader
+  def getHeader # {{{
     header = []
 
     delimiter = "\t"
@@ -415,37 +415,37 @@ class Segment
     @order.each { |markerName| @output << @markers[ markerName ].to_s  }
     header << @output.collect { |i| i.upcase }.join("\t").to_s                 # e.g. "INCHES\tINCHES\tINCHES\tDEGREES\tDEGREES\tDEGREES\tPERCENT\tPERCENT\tPERCENT"
     header
-  end
+  end # }}}
 
 
   # = GetData returns the content of a frame at position index
   # @param index Index represenents one frame
   # @returns Returns an array with the desired values in the ORDER (@order) at INDEX (index)
-  def getData index
+  def getData index # {{{
     @order.dup.collect { |markerName| eval( "#{markerName.to_s}[#{index}]" ) } # e.g. ->  "#{xtran[index]} #{ytran[index]} #{ztran[index]} #{xrot[index]} #{yrot[index]} #{zrot[index]} #{xscale[index]} #{yscale[index]} #{zscale[index]}"
-  end
+  end # }}}
 
   # == Dynamical method creation at run-time
   # @param method Takes the method header definition
   # @param code Takes the body of the method
-  def learn method, code
+  def learn method, code # {{{
       eval <<-EOS
           class << self
               def #{method}; #{code}; end
           end
       EOS
-  end
+  end # }}}
 
 
   # = unit? Returns the unit this marker has in lowercase letters
   # @param markerName This variable needs a string representation of the marker you wish to know
-  def unit? markerName
+  def unit? markerName # {{{
     raise ArgumentError, "The class 'Segment' has not been properly initialized. You have to call the segemnts! function first." if @markers.empty?
     @markers[ markerName.to_s.downcase ]
-  end
+  end # }}}
 
 
-  def to_output
+  def to_output # {{{
     output = ""
     output += getHeader.join("\n")
 
@@ -461,13 +461,13 @@ class Segment
       ( i == ( frames.to_i - 1 ) ) ? ( output += sprintf( @format.join(" ").to_s, *getData( i ) ) ) : ( output += sprintf( @format.join(" ").to_s + "\n", *getData( i ) ) )
     end
     output
-  end
+  end # }}}
 
 
   # = to_s is a pritable representation of this Segment
   # @note The formatting is probably by tabs, but we will only know this for sure if we have the spec
   # @todo Linux/Windows termination of strings??! Spec file?
-  def to_s
+  def to_s # {{{
     puts "\n"
     puts getHeader.join("\n")
 
@@ -482,10 +482,11 @@ class Segment
 
       ( i == ( frames.to_i - 1 ) ) ? ( printf( @format.join(" ").to_s, *getData( i ) ) ) : ( printf( @format.join(" ").to_s + "\n", *getData( i ) ) )
     end
-  end
+  end # }}}
 
 
-  def crop! from = 0, to = (@frames - 1), markers = @markers, order = @order
+  # = crop!
+  def crop! from = 0, to = (@frames - 1), markers = @markers, order = @order # {{{
 
     order.each do |o|
       result = []
@@ -500,7 +501,8 @@ class Segment
 
     end
 
-  end
+  end # }}}
+
 
   # Meta magic for get/set
   attr_accessor :name, :description, :frames, :frameTime, :markers, :order

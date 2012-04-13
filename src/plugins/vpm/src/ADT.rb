@@ -207,8 +207,6 @@ class ADT
   end # }}}
 
 
-
-
   # = computeExtraPoints does exactly as the name suggests. See S. Kudoh Thesis (p. 109) for more info on this.
   def computeExtraPoints! # {{{
 
@@ -264,7 +262,6 @@ class ADT
 #  end # end of write }}}
 
 
-
   # = write dumps a given VPM data into a file
   # @param file Expects a string with a full URI as path/file combination
   # FIXME: This method is b1rked because the Segment.rb to_s function uses printf instead of returning proper strings.
@@ -277,7 +274,6 @@ class ADT
 
     # File.open( file, File::CREAT|File::TRUNC|File::RDWR, 0644) { |f| f.write( @result.join("\n") ) }
   end # end of write }}}
-
 
 
   # = writeCSV takes output from e.g. getTurningPoints form and dumps it into $file
