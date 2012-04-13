@@ -444,10 +444,31 @@ class Segment
     @markers[ markerName.to_s.downcase ]
   end
 
+
+  def to_output
+    output = ""
+    output += getHeader.join("\n")
+
+    # TODO: Write a sanity checker for VPMs
+
+    # frames.to_i starts with 1 we don't want that
+    0.upto( frames.to_i - 1 ) do |i|
+      # Construct the format string for printf (depending on how many marker names we have)
+      # All markers are considered to be floats in the 4.6 format
+      @format = []
+      @order.length.to_i.times { @format << "%4.6f" }
+
+      ( i == ( frames.to_i - 1 ) ) ? ( output += sprintf( @format.join(" ").to_s, *getData( i ) ) ) : ( output += sprintf( @format.join(" ").to_s + "\n", *getData( i ) ) )
+    end
+    output
+  end
+
+
   # = to_s is a pritable representation of this Segment
   # @note The formatting is probably by tabs, but we will only know this for sure if we have the spec
   # @todo Linux/Windows termination of strings??! Spec file?
   def to_s
+    puts "\n"
     puts getHeader.join("\n")
 
     # TODO: Write a sanity checker for VPMs
@@ -464,6 +485,23 @@ class Segment
   end
 
 
+  def crop! from = 0, to = (@frames - 1), markers = @markers, order = @order
+
+    order.each do |o|
+      result = []
+
+      current = eval( "@#{o.to_s}" )
+      from.upto( to.to_i ) do |i|
+        result << current[i]
+      end
+
+      self.instance_variable_set( "@#{o.to_s}", eval( "[ #{result.join(',')} ]" ) )
+      self.instance_variable_set( "@frames", eval( "#{result.length.to_s}" ) )
+
+    end
+
+  end
+
   # Meta magic for get/set
   attr_accessor :name, :description, :frames, :frameTime, :markers, :order
 end
@@ -472,8 +510,9 @@ end
 # Direct invocation, for manual testing beside rspec
 if __FILE__ == $0
 
-  # Simple test with one VPM segment
-  fn    = "../sample/OneSegment.vpm"
+  # Simple test witr one VPM segment
+  p ARGV.first
+  fn    = ARGV.first
   file  = File.open( fn ).readlines
   file.collect { |a| a.chomp! }
 
@@ -496,25 +535,25 @@ if __FILE__ == $0
   s.frames    = frames
   s.frameTime = frameTime
 
-  # p s.to_s
+  #p s.to_s
 
   # file contains now only data (one segment)
   file.each do |line|
     data = line.split(" ")
     m.each_with_index do |marker, index|
       # Basically stuff the data into the adt
-      eval( "s.#{marker.to_s} #{data[index]}" )
+      eval( "s.#{marker.to_s} << #{data[index]}" )
     end # markers
-
   end # file
 
-  p s.xtran
-  #s.xtran( [] )
-  #p "---"
-  #p s.xtran
-
-
-
+  p s.ytran.length
+  p s.ytran
+  p s.crop!( 1, 3 )
+  p s.ytran.length
+  p s.ytran
+  p s.frameTime
+  puts "----"
+  s.to_s
 end
 
 

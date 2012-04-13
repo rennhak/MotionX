@@ -115,6 +115,15 @@ class ADT
   end # end of read! }}}
 
 
+  def crop from = 0, to = @pt24.frames.to_i, segments = @segments
+    segments.collect! do |segment|
+      #eval( "@#{segment.to_s}.crop!( #{from}, #{to} )" )
+
+      self.instance_variable_set( "@#{segment.to_s}", eval( "@#{segment.to_s}.crop!( #{from}, #{to} )" ) )
+    end
+  end 
+
+
   # = processSegment takes a segment string and returns a segment object, but also sets the object.
   # @param string String is one segment ans one string incl. newlines etc.
   # @returns Returns a Segment object generated from the given string e.g. "Segment: RWFT...." -> @rwft = Segment.new...
@@ -123,9 +132,16 @@ class ADT
   def processSegment string # {{{
     data = string.split("\n")
 
+    # Very bad hack - fix this properly. why does the crop function not work as expected?
+    #from = 14159
+    #to   = 15002
+
     # Get meta information
     segment     = data.shift.to_s.split(":").last.strip
-    frames      = data.shift.to_s.split(":").last.strip
+    frames     = data.shift.to_s.split(":").last.strip
+    # Very bad hack - fix this properly. why does the crop function not work as expected?
+    #frames      = (to - from)
+
     frameTime   = data.shift.to_s.split(":").last.strip
 
     # Extract marker and unit names
@@ -138,7 +154,10 @@ class ADT
     eval( "@#{segment.downcase}" ).frameTime = frameTime
 
     # Only data (one segment!) left
-    data.each do |line|
+    data.each_with_index do |line, outer_index|
+      # Very bad hack - fix this properly. why does the crop function not work as expected?
+      # next if( (outer_index < from) or (outer_index > to) )
+
       d = line.split(" ")
       m.each_with_index do |marker, index|
         begin
@@ -224,6 +243,28 @@ class ADT
   end # end of valid? }}}
 
 
+#  # = write dumps a given VPM data into a file
+#  # @param file Expects a string with a full URI as path/file combination
+#  # FIXME: This method is b1rked because the Segment.rb to_s function uses printf instead of returning proper strings.
+#  # @returns Boolean, true if write succeeded and false if not.
+#  def write file = "/tmp/MotionX_Output.vpm" # {{{
+#    @result = []
+#
+#    original_stdout = $stdout.clone
+#    STDOUT.sync = true
+#    $stdout.reopen( File.new( file, File::CREAT|File::APPEND|File::RDWR, 0644 ) )
+#
+#    # rendering of each segment is done in Segment.rb
+#    @segments.each { |segmentName| @result << eval( "@#{segmentName.to_s}" ).to_s }
+#
+#    # File.open( file, File::CREAT|File::TRUNC|File::RDWR, 0644) { |f| f.write( @result.join("\n") ) }
+#
+#    $stdout.flush
+#    $stdout.reopen( original_stdout )
+#  end # end of write }}}
+
+
+
   # = write dumps a given VPM data into a file
   # @param file Expects a string with a full URI as path/file combination
   # FIXME: This method is b1rked because the Segment.rb to_s function uses printf instead of returning proper strings.
@@ -234,8 +275,9 @@ class ADT
     # rendering of each segment is done in Segment.rb
     @segments.each { |segmentName| @result << eval( "@#{segmentName.to_s}" ).to_s }
 
-    File.open( file, File::CREAT|File::TRUNC|File::RDWR, 0644) { |f| f.write( @result.join("\n") ) }
+    # File.open( file, File::CREAT|File::TRUNC|File::RDWR, 0644) { |f| f.write( @result.join("\n") ) }
   end # end of write }}}
+
 
 
   # = writeCSV takes output from e.g. getTurningPoints form and dumps it into $file
