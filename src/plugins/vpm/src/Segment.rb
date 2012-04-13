@@ -514,6 +514,37 @@ class Segment
   end # }}}
 
 
+  # = combine takes all segments over time t and merges them by averaging them
+  def combine!
+    order   = @order
+    length  = order.length.to_i
+    frames  = @frames.to_i - 1
+
+    # Create average over all frames
+    average = []  # 0..order.length
+
+    0.upto( frames ) do |i|
+
+        ( getData( i ) ).each_with_index do |value, index|
+
+          average[ index ] = 0.0 if( average[ index ].nil? ) 
+
+          # puts "#{index.to_s} #{value.to_s}"
+          average[ index ] += value.to_f
+        end
+    end
+
+    average.collect! { |v| v / (frames+1)}
+
+    # Write average over the current frames so that we have only 1 frame left
+    order.each_with_index do |o, i|
+      self.instance_variable_set( "@#{o.to_s}", [ average[i] ] )
+      self.instance_variable_set( "@frames", 1 )
+    end
+
+  end
+
+
   # Meta magic for get/set
   attr_accessor :name, :description, :frames, :frameTime, :markers, :order
 end
@@ -565,7 +596,9 @@ if __FILE__ == $0
   p s.ytran
   p s.frameTime
   puts "----"
+  s.combine!
   puts s.to_s
+
 end
 
 

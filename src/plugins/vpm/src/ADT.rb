@@ -126,6 +126,15 @@ class ADT
   end # of def crop from = 0, to = @pt24.frames.to_i, segments = @segments # }}}
 
 
+  # = combine function takes a range and combines all the motions into one average pose
+  def combine segments = @segments # {{{
+
+    segments.each do |segment|
+      eval( "@#{segment.to_s}.combine!" )
+    end
+  end # of def combine segments = @segments # }}}
+
+
   # = processSegment takes a segment string and returns a segment object, but also sets the object.
   # @param string String is one segment ans one string incl. newlines etc.
   # @returns Returns a Segment object generated from the given string e.g. "Segment: RWFT...." -> @rwft = Segment.new...
@@ -311,6 +320,7 @@ if __FILE__ == $0
   puts "Cropping to 2-49"
   adt.crop( 2, 49 )
 
+  adt.combine
   # printout  = adt.instance_variable_get( "@#{adt.segments.first.to_s}" ).to_s
   # puts printout
   adt.write
