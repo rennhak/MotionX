@@ -306,9 +306,9 @@ class ADT
   end # end of writeCSV }}}
 
 
-  # = local_coordinate_system takes a center marker and calculates the new position of all markers
+  # = local_coordinate_system center = nil, keep_original_marker_name = false, segments = @segments # {{{
   # to that given marker, thus making all coorinates local to this marker.
-  def local_coordinate_system center = nil, segments = @segments # {{{
+  def local_coordinate_system center = nil, keep_original_marker_name = false, segments = @segments # {{{
 
     center_segment = instance_variable_get( "@"+center.to_s )
     raise ArgumentError, "center_segment variable must be of type segment" unless( center_segment.is_a?( Segment ) )
@@ -321,13 +321,20 @@ class ADT
       raise ArgumentError, "old variable must be of type segment" unless( old.is_a?( Segment ) )
 
       new = old - center_segment
+
+      # Keep old segment name? (Important for writing vpm's later to disk)
+      if( keep_original_marker_name )
+        # true, that means we overwrite the current marker with the old one
+        new.name = old.name
+      end
+
       eval( "@#{segment.to_s} = new" )
     end
 
   end # of def local_coordinate_system center = nil # }}}
 
 
-  def local_coordinate_system_undo center = nil, segments = @segments
+  def local_coordinate_system_undo center = nil, keep_original_marker_name = false, segments = @segments
 
     center_segment = instance_variable_get( "@#{center.to_s}_backup" )
     raise ArgumentError, "center_segment variable must be of type segment" unless( center_segment.is_a?( Segment ) )
@@ -339,6 +346,13 @@ class ADT
       raise ArgumentError, "old variable must be of type segment" unless( old.is_a?( Segment ) )
 
       new = old + center_segment
+
+      # Keep old segment name? (Important for writing vpm's later to disk)
+      if( keep_original_marker_name )
+        # true, that means we overwrite the current marker with the old one
+        new.name = old.name
+      end
+
       eval( "@#{segment.to_s} = new" )
     end
   end
